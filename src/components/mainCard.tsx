@@ -9,4 +9,4 @@ const mainCard = () => {
   );
 };
 
-export default mainCard
+export default mainCard;
