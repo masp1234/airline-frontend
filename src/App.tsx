@@ -2,7 +2,7 @@ function App() {
 
   return (
       <div>
-        Test
+        Test Test 2
        </div>
 )}
 
