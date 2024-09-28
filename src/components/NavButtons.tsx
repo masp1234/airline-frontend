@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, HStack } from "@chakra-ui/react";
+import { Button, HStack } from "@chakra-ui/react";
 
 const NavButtons = () => {
   return (
