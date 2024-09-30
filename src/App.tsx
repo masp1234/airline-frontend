@@ -1,10 +1,12 @@
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Container from "./sections/Container";
 import { Grid, GridItem } from "@chakra-ui/react";
-import NavBar from "./components/NavBar";
-import MainCard from "./components/mainCard";
-import SearchBox from "./components/searchBox";
+import Header from "./sections/Header";
+import Home from './pages/Home';
 
 function App() {
   return (
+    <Router> 
     <Grid
     templateAreas={{
       base: `"nav"
@@ -14,16 +16,18 @@ function App() {
     }}
     >
       <GridItem pl="2" area={"nav"}>
-        <NavBar />
+        <Header />
       </GridItem>
       <GridItem pl="2" padding={"4x"} position={"relative"} area={"main"}>
-        <MainCard />
-        <SearchBox />
+        <Container>
+          <Routes>
+          <Route path='/' element={<Home/>}/>
+          </Routes>
+        </Container>
       </GridItem>
     </Grid>
+    </Router>
   );
 }
-
-{/* Test text delete later*/}
 
 export default App;
