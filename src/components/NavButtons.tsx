@@ -9,4 +9,6 @@ const NavButtons = () => {
   );
 };
 
+{/* Test text, delete later */}
+
 export default NavButtons;
