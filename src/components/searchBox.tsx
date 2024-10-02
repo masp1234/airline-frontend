@@ -3,10 +3,18 @@ import {
   Card,
   CardBody,
   CardFooter,
+  FormControl,
+  FormLabel,
   Heading,
+  HStack,
+  Input,
+  Select,
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { base } from "framer-motion/client";
+
+{/* This can definitely be more decoupled / split into more components */}
 
 const SearchBox = () => {
   return (
@@ -17,22 +25,49 @@ const SearchBox = () => {
       position="absolute"
       zIndex={1}
       display="flex"
+      top="50%"
+      left="50%"
+      transform="translate(-50%, -50%)"
     >
       <Stack>
         <CardBody>
-          <Heading size="md">The perfect latte</Heading>
-
-          <Text py="2">
-            Caffè latte is a coffee beverage of Italian origin made with
-            espresso and steamed milk.
-          </Text>
+          <HStack zIndex={2} spacing={8}>
+            <Stack>
+              <FormControl size={"lg"}>
+                <FormLabel>Departure</FormLabel>
+                <Select placeholder="Select airport">
+                  <option>Placeholder</option>
+                  <option>Nigeria</option>
+                </Select>
+              </FormControl>
+              <FormControl>
+                <FormLabel>Departure Date</FormLabel>
+                <Input type="date" />
+              </FormControl>
+            </Stack>
+            <Stack>
+              <FormControl>
+                <FormLabel>Arrival</FormLabel>
+                <Select placeholder="Select airport">
+                  <option>August's Airport</option>
+                  <option>Ur mom</option>
+                </Select>
+              </FormControl>
+              <FormControl>
+                <FormLabel>Arrival Date</FormLabel>
+                <Input type="date" />
+              </FormControl>
+            </Stack>
+          </HStack>
         </CardBody>
 
-        <CardFooter>
-          <Button variant="solid" colorScheme="blue">
-            Buy Latte
-          </Button>
-        </CardFooter>
+        <HStack>
+          <CardFooter>
+            <Button variant="solid" colorScheme="orange">
+              Search for Flights
+            </Button>
+          </CardFooter>
+        </HStack>
       </Stack>
     </Card>
   );
