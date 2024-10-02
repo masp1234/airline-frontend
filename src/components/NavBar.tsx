@@ -15,7 +15,6 @@ const NavBar = () => {
     <>
       <HStack justifyContent="space-between" padding="10px">
         {/* HStack is a horizontal stack, Use VStack for vertical. */}
-        {/* Normally you shouldn't give width, ml, etc. but it squished the logo-image otherwise. */}
         <Image src={logo} width="100px" ml="20px" mr="20px" />
         <NavButtons />
         <ColorModeSwitch />

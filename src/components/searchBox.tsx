@@ -29,7 +29,7 @@ const SearchBox = () => {
       <Stack>
         <CardBody>
           <HStack zIndex={2} spacing={8}>
-            <Stack>
+            <Stack spacing={8}>
               <FormControl size={"lg"}>
                 <FormLabel>Departure</FormLabel>
                 <Select placeholder="Select airport">
@@ -42,7 +42,7 @@ const SearchBox = () => {
                 <Input type="date" />
               </FormControl>
             </Stack>
-            <Stack>
+            <Stack spacing={8}>
               <FormControl>
                 <FormLabel>Arrival</FormLabel>
                 <Select placeholder="Select airport">
