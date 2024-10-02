@@ -11,9 +11,13 @@ import {
   Stack,
 } from "@chakra-ui/react";
 
-{/* This can definitely be more decoupled / split into more components */}
+{/* This can definitely be more decoupled / split into more components? */}
 
 const SearchBox = () => {
+  const airports = [
+    { name: "Copenhagen Airport", code: "CPH" },
+    { name: "Placeholder Airport", code: "PLH" },
+  ]
   return (
     <Card
       direction={{ base: "column", sm: "row" }}
@@ -33,8 +37,11 @@ const SearchBox = () => {
               <FormControl size={"lg"}>
                 <FormLabel>Departure</FormLabel>
                 <Select placeholder="Select airport">
-                  <option>Placeholder</option>
-                  <option>Nigeria</option>
+                {airports.map((option) => (
+                    <option key={option.code} value={option.code}>
+                      {option.name}
+                    </option>                   
+                  ))}
                 </Select>
               </FormControl>
               <FormControl>
@@ -46,8 +53,11 @@ const SearchBox = () => {
               <FormControl>
                 <FormLabel>Arrival</FormLabel>
                 <Select placeholder="Select airport">
-                  <option>August's Airport</option>
-                  <option>Ur mom</option>
+                  {airports.map((option) => (
+                    <option key={option.code} value={option.code}>
+                      {option.name}
+                    </option>                   
+                  ))}
                 </Select>
               </FormControl>
               <FormControl>
