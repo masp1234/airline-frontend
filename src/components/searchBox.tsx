@@ -5,14 +5,11 @@ import {
   CardFooter,
   FormControl,
   FormLabel,
-  Heading,
   HStack,
   Input,
   Select,
   Stack,
-  Text,
 } from "@chakra-ui/react";
-import { base } from "framer-motion/client";
 
 {/* This can definitely be more decoupled / split into more components */}
 
