@@ -61,7 +61,7 @@ const SearchBox = () => {
                 </Select>
               </FormControl>
               <FormControl>
-                <FormLabel>Arrival Date</FormLabel>
+                <FormLabel>Return Date</FormLabel>
                 <Input type="date" />
               </FormControl>
             </Stack>
