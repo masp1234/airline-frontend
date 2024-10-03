@@ -1,6 +1,6 @@
 
-import MainCard from "../components/mainCard";
-import SearchBox from "../components/searchBox";
+import MainCard from "../components/MainCard";
+import SearchBox from "../components/SearchBox";
 const Home = () => {
   return (
     <>
