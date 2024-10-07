@@ -1,9 +1,18 @@
+import { GridItem } from "@chakra-ui/react"
+import FlightCard from "../components/FlightCard"
+
 
 const MyBookings = () => {
   return (
-    <div>
-      MyBookings
-    </div>
+    <GridItem
+      gridArea="main"
+      bg="blackAlpha.200"
+      padding="4"
+      boxShadow="lg"
+      >
+
+    <FlightCard  />
+    </GridItem>
   )
 }
 
