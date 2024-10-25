@@ -1,7 +1,6 @@
 [
     {
-        "Date": "2021-01-01",
-        "FlightCode": "LH1234",
+        "date": "2021-01-01",
         "departurePort": "Copenhagen Airport, KBH",
         "arrivalPort": "Heathrow Airport, LHR",
         "travelTime": 2,

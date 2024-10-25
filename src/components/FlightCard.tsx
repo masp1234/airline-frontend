@@ -13,8 +13,7 @@ import { useEffect, useState } from "react";
 
 // TS doesn't like it if the json data doesn't have type-definition.
 interface FlightData {
-  Date: string;
-  FlightCode: string;
+  date: string;
   departurePort: string;
   arrivalPort: string;
   travelTime: number;
@@ -64,15 +63,15 @@ const FlightCard = () => {
             </Text>
           </Box>
           <Box mb={4}>
-            <Heading size="2">Flight Code</Heading>
+            <Heading size="2">Confirmation Number</Heading>
             <Text py="1">
-              {flightData.FlightCode}
+              {flightData.confirmationNumber}
             </Text>
           </Box>
           <Box mb={4}>
             <Heading size="2">Date</Heading>
             <Text py="1">
-              {flightData.Date}
+              {flightData.date}
             </Text>
           </Box>
           <Box mb={4}>
