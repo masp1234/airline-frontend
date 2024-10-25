@@ -1,4 +1,3 @@
-
 import HomeBackgroundCard from "../components/HomeBackgroundCard";
 import FlightSearchBox from "../components/FlightSearchBox";
 

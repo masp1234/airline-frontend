@@ -3,7 +3,6 @@ import FlightCard from '../components/FlightCard';
 
 const MyBookings = () => {
   return (
-
     <GridItem
       gridArea="main"
       bg="blackAlpha.200"
