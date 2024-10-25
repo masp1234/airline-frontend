@@ -5,41 +5,84 @@ import {
   CardBody,
   Heading,
   Text,
-  CardFooter,
-  Button,
+  VStack,
+  Box
 } from "@chakra-ui/react";
 import cardPicture from "../assets/flight-pic.webp";
+import { useEffect, useState } from "react";
+
+// TS doesn't like it if the json data doesn't have type-definition.
+interface FlightData {
+  Date: string;
+  FlightCode: string;
+  departurePort: string;
+  arrivalPort: string;
+  travelTime: number;
+  confirmationNumber: string;
+}
 
 const FlightCard = () => {
+  const [flightData, setFlightData] = useState<FlightData | null>(null);
+
+  useEffect(() => {
+    fetch("example-data.json")
+      .then((response) => response.json())
+      .then((data) => setFlightData(data[0]));
+  }, []);
+
+  if (!flightData) {
+    return <div>Missing flight data.</div>
+  }
+
   return (
     <Card
       direction={{ base: "column", sm: "row" }}
       overflow="hidden"
       variant="outline"
-      width="50%"
+    //  width="50%"
     >
       <Image
         objectFit="cover"
         maxW={{ base: "100%", sm: "200px" }}
         src={cardPicture}
-        alt="Flight Destination"
+        alt={flightData.arrivalPort}
       />
 
       <Stack>
-        <CardBody>
-          <Heading size="md">The perfect latte</Heading>
-
-          <Text py="2">
-            Caffè latte is a coffee beverage of Italian origin made with
-            espresso and steamed milk.
-          </Text>
-        </CardBody>
-
-        <CardFooter>
-          <Button variant="solid" colorScheme="blue">
-            Buy Latte
-          </Button>
-        </CardFooter>
+        <VStack>
+          <CardBody>
+          <Box mb={4}>
+            <Heading size="2">Destination</Heading>
+            <Text py="1">
+              {flightData.arrivalPort}
+            </Text>
+          </Box>
+          <Box mb={4}>
+            <Heading size="2">Departure</Heading>
+            <Text py="1">
+              {flightData.departurePort}
+            </Text>
+          </Box>
+          <Box mb={4}>
+            <Heading size="2">Flight Code</Heading>
+            <Text py="1">
+              {flightData.FlightCode}
+            </Text>
+          </Box>
+          <Box mb={4}>
+            <Heading size="2">Date</Heading>
+            <Text py="1">
+              {flightData.Date}
+            </Text>
+          </Box>
+          <Box mb={4}>
+            <Heading size="2">Travel Time</Heading>
+            <Text py="1">
+              {flightData.travelTime} hours
+            </Text>
+          </Box>
+          </CardBody>
+        </VStack>
       </Stack>
     </Card>
   );
