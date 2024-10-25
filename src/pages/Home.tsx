@@ -1,11 +1,11 @@
+import HomeBackgroundCard from "../components/HomeBackgroundCard";
+import FlightSearchBox from "../components/FlightSearchBox";
 
-import MainCard from "../components/mainCard";
-import SearchBox from "../components/searchBox";
 const Home = () => {
   return (
     <>
-    <MainCard />
-    <SearchBox />
+    <HomeBackgroundCard />
+    <FlightSearchBox />
     </>
   )
 }

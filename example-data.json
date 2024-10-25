@@ -1,0 +1,9 @@
+[
+    {
+        "date": "2021-01-01",
+        "departurePort": "Copenhagen Airport, KBH",
+        "arrivalPort": "Heathrow Airport, LHR",
+        "travelTime": 2,
+        "confirmationNumber": "123456789"
+    }
+]

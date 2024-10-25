@@ -13,7 +13,7 @@ import {
 
 {/* This can definitely be more decoupled / split into more components? */}
 
-const SearchBox = () => {
+const FlightSearchBox = () => {
   const airports = [
     { name: "Copenhagen Airport", code: "CPH" },
     { name: "Placeholder Airport", code: "PLH" },
@@ -80,4 +80,4 @@ const SearchBox = () => {
   );
 };
 
-export default SearchBox;
+export default FlightSearchBox;
