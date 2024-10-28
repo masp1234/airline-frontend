@@ -4,6 +4,7 @@ import { Grid, GridItem } from "@chakra-ui/react";
 import Header from "./sections/Header";
 import Home from './pages/Home';
 import MyBookings from './pages/MyBookings';
+import SignUp from './pages/SignUp';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/my-bookings' element={<MyBookings/>}/>
+          <Route path='/SignUp' element={<SignUp/>}/>
           </Routes>
         </Container>
       </GridItem>
