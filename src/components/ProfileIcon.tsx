@@ -1,4 +1,12 @@
-import { Box, Menu, MenuButton, MenuList, MenuItem, Image, useColorMode } from "@chakra-ui/react";
+import {
+  Box,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Image,
+  useColorMode,
+} from "@chakra-ui/react";
 import profileIconDark from "../assets/profile-dark.webp";
 import profileIconLight from "../assets/profile-bright.webp";
 import { Link } from "react-router-dom";
@@ -6,6 +14,8 @@ import { Link } from "react-router-dom";
 const ProfileIcon = () => {
   const { colorMode } = useColorMode();
   const profileIcon = colorMode === "dark" ? profileIconDark : profileIconLight;
+  const dropDownColor = colorMode === "dark" ? "#1A202C" : "#F7FAFC";
+  const dropDownHoverColor = colorMode === "dark" ? "#181D29" : "#EDF2F7";
 
   return (
     <Menu>
@@ -13,10 +23,7 @@ const ProfileIcon = () => {
         as={Box}
         cursor="pointer"
         _hover={{ backgroundColor: "blackAlpha.200" }} // TODO: Figure out how to make the highlight cover the whole vertical grid-space. Or maybe just delete it.
-        height="100%"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
+       // height="100%"
       >
         <Image
           src={profileIcon}
@@ -28,22 +35,31 @@ const ProfileIcon = () => {
           transform="scale(1.1)" // Increases size of icon without affecting its grid.
         />
       </MenuButton>
-      <MenuList backgroundColor="#1A202C" color="white">
+      <MenuList backgroundColor={dropDownColor}>
         <Link to="/signup">
-            <MenuItem backgroundColor="#1A202C" _hover={{ backgroundColor: "#181D29" }}>
-              <Box>
-                <p>User Signup</p>
-              </Box>
-            </MenuItem>
+          <MenuItem
+            backgroundColor={dropDownColor}
+            _hover={{ backgroundColor: dropDownHoverColor }}
+          >
+            <Box>
+              <p>User Signup</p>
+            </Box>
+          </MenuItem>
         </Link>
         <Link to="/login"> {/* Add login page route when completed */}
-            <MenuItem backgroundColor="#1A202C" _hover={{ backgroundColor: "#181D29" }}>
-              <Box>
-                <p>User Login</p>
-              </Box>
-            </MenuItem>
+          <MenuItem
+            backgroundColor={dropDownColor}
+            _hover={{ backgroundColor: dropDownHoverColor }}
+          >
+            <Box>
+              <p>User Login</p>
+            </Box>
+          </MenuItem>
         </Link>
-        <MenuItem backgroundColor="#1A202C" _hover={{ backgroundColor: "#181D29" }}>
+        <MenuItem
+          backgroundColor={dropDownColor}
+          _hover={{ backgroundColor: dropDownHoverColor }}
+        >
           <Box>
             <p>My Profile</p> {/* Purely to add a bit more content to the dropdown */}
           </Box>
