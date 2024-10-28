@@ -25,7 +25,7 @@ function App() {
           <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/my-bookings' element={<MyBookings/>}/>
-          <Route path='/SignUp' element={<SignUp/>}/>
+          <Route path='/signup' element={<SignUp/>}/>
           </Routes>
         </Container>
       </GridItem>
