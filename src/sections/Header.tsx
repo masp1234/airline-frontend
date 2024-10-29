@@ -16,6 +16,7 @@ import ColorModeSwitch from "../components/ColorModeSwitch";
 import NavButtons from "../components/NavButtons";
 import ProfileIcon from "../components/ProfileIcon";
 import { FiMenu } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 
 const Header = () => {
@@ -28,10 +29,6 @@ const Header = () => {
     <HStack justifyContent="space-between" padding="10px">
       {/* HStack is a horizontal stack, Use VStack for vertical. */}
       {/* Normally you shouldn't give width, ml, etc. but it squished the logo-image otherwise. */}
-      <Image src={logo} width="150px" ml="20px" mr="20px" />
-      <NavButtons />
-      <ColorModeSwitch />
-      <ProfileIcon />
       <Image src={logo} width="100px" ml="20px" mr="20px" />
       <Show above="lg">
         <HStack spacing={50} justifyContent="flex-start" width="70%">
@@ -39,7 +36,7 @@ const Header = () => {
         </HStack>
         
         <ColorModeSwitch />
-        <Image src={profileIcon} width="40px" ml="20px" mr="20px" />
+        <ProfileIcon />
 
       </Show>
       {/* TODO: Replace image with button? */}
@@ -60,7 +57,8 @@ const Header = () => {
             <VStack spacing={25} width="70%">
               <NavButtons />
               <ColorModeSwitch />
-              <Image src={profileIcon} width="40px" ml="20px" mr="20px" />
+              <Link to="/signup" >Signup</Link>
+              <Link to="/login" >login</Link>
             </VStack>
           </DrawerBody>
         </DrawerContent>
