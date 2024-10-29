@@ -38,15 +38,15 @@ const Header = () => {
         </HStack>
         
         <ColorModeSwitch />
-        
+        <Image src={profileIcon} width="40px" ml="20px" mr="20px" />
+
       </Show>
       {/* TODO: Replace image with button? */}
-      <Image src={profileIcon} width="40px" ml="20px" mr="20px" />
       <Hide above="lg">
         <FiMenu onClick={onOpen} size={35}/>
       </Hide>
 
-      *<Drawer
+      <Drawer
         isOpen={isOpen}
         placement='right'
         onClose={onClose}      >
@@ -59,6 +59,7 @@ const Header = () => {
             <VStack spacing={25} width="70%">
               <NavButtons />
               <ColorModeSwitch />
+              <Image src={profileIcon} width="40px" ml="20px" mr="20px" />
             </VStack>
           </DrawerBody>
         </DrawerContent>
