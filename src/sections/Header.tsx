@@ -55,10 +55,10 @@ const Header = () => {
           <DrawerHeader></DrawerHeader>
           <DrawerBody>
             <VStack spacing={25} width="70%">
-              <NavButtons />
               <ColorModeSwitch />
+              <NavButtons />
               <Link to="/signup" >Signup</Link>
-              <Link to="/login" >login</Link>
+              <Link to="/login" >Login</Link>
             </VStack>
           </DrawerBody>
         </DrawerContent>

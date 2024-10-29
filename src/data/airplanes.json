@@ -1,0 +1,15 @@
+{
+    "airplanes": [
+      { "id": 1, "name": "Boeing 737", "airline_id": 1 },
+      { "id": 2, "name": "Airbus A320", "airline_id": 2 },
+      { "id": 3, "name": "Boeing 777", "airline_id": 3 },
+      { "id": 4, "name": "Embraer E175", "airline_id": 4 },
+      { "id": 5, "name": "Airbus A321", "airline_id": 5 },
+      { "id": 6, "name": "Boeing 767", "airline_id": 6 },
+      { "id": 7, "name": "Airbus A319", "airline_id": 7 },
+      { "id": 8, "name": "Boeing 757", "airline_id": 8 },
+      { "id": 9, "name": "Boeing 787", "airline_id": 9 },
+      { "id": 10, "name": "Airbus A380", "airline_id": 10 }
+    ]
+  }
+  

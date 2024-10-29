@@ -1,0 +1,15 @@
+{
+    "airlines": [
+      { "id": 1, "name": "Delta Airlines" },
+      { "id": 2, "name": "United Airlines" },
+      { "id": 3, "name": "American Airlines" },
+      { "id": 4, "name": "Southwest Airlines" },
+      { "id": 5, "name": "JetBlue Airways" },
+      { "id": 6, "name": "Alaska Airlines" },
+      { "id": 7, "name": "Spirit Airlines" },
+      { "id": 8, "name": "Frontier Airlines" },
+      { "id": 9, "name": "Hawaiian Airlines" },
+      { "id": 10, "name": "Allegiant Air" }
+    ]
+  }
+  
