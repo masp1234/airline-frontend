@@ -4,7 +4,7 @@ import bg from "../assets/homeBG.webp";
 const HomeBackgroundCard = () => {
   return (
     <Stack height="100vh" width="100%" position="relative" zIndex={0}>
-      <Image src={bg} height="100%" width="100%" objectFit="cover" />
+      <Image src={bg} height="100vh" width="100vw" objectFit="cover" />
     </Stack>
   );
 };

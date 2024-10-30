@@ -1,9 +1,16 @@
+import { HStack } from "@chakra-ui/react";
+import HomeBackgroundCard from "../components/HomeBackgroundCard";
+import SignupCard from "../components/SignupCard";
+
 const SignUp = () => {
-    return (
-        <div>
-        <h1>SignUp Page</h1>
-        </div>
-    );
-}
+  return (
+    <>
+      <HStack>
+        <SignupCard />
+        <HomeBackgroundCard />
+      </HStack>
+    </>
+  );
+};
 
 export default SignUp;
