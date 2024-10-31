@@ -1,6 +1,7 @@
 import "react-datepicker/dist/react-datepicker.css";
 import BASE_URL from "../util/baseUrl.ts";
 import { useResourceCreatedToast } from "../toasts/resourceCreated.ts";
+import { useResourceCreatedErrorToast } from "../toasts/resourceCreatedError.ts";
 
 import { 
     Container,
@@ -26,6 +27,7 @@ const CreateFlight = () => {
     const marginTop = 4;
     const { fetchData } = useFetchData();
     const { showResourceCreatedToast } = useResourceCreatedToast();
+    const { showResourceCreatedErrorToast } = useResourceCreatedErrorToast();
     
     const [selectedAirline, setSelectedAirline] = useState<number | null>(null);
     const [selectedAirplane, setSelectedAirplane] = useState<number | null>(null);
@@ -48,20 +50,25 @@ const CreateFlight = () => {
                 arrivalAirport: selectedDepartureAirport,
                 departureTime: departureDateTime,
             }
-            const response = await fetch(`${BASE_URL}/flights`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(newFlightInformation),
-                credentials: "include"
-            });
-
-            if (response.status === 201) {
-                showResourceCreatedToast("flight");
+            try {
+                const response = await fetch(`${BASE_URL}/flights`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(newFlightInformation),
+                    credentials: "include"
+                });
+    
+                if (response.status === 201) {
+                    showResourceCreatedToast("flight");
+                }
+                else if (response.status === 500) {
+                    showResourceCreatedErrorToast("flight");
+                }
             }
-            else if (response.status === 500) {
-                // showResourceCreatedError("flight");
+            catch {
+                showResourceCreatedErrorToast("flight");
             }
         }        
     }
