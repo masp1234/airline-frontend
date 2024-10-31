@@ -17,10 +17,10 @@ function App() {
            "main"`,
     }}
     >
-      <GridItem pl="2" area={"nav"}>
+      <GridItem area={"nav"}>
         <Header />
       </GridItem>
-      <GridItem pl="2" padding={"4x"} position={"relative"} area={"main"}>
+      <GridItem padding={"4x"} position={"relative"} area={"main"}>
         <Container>
           <Routes>
           <Route path='/' element={<Home/>}/>

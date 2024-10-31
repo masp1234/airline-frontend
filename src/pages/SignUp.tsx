@@ -1,11 +1,11 @@
-import { HStack } from "@chakra-ui/react";
+import { Grid, HStack } from "@chakra-ui/react";
 import HomeBackgroundCard from "../components/HomeBackgroundCard";
 import SignupCard from "../components/SignupCard";
 
 const SignUp = () => {
   return (
     <>
-      <HStack>
+      <HStack spacing="0">
         <SignupCard />
         <HomeBackgroundCard />
       </HStack>
