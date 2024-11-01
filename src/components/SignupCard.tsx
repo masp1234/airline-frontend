@@ -14,19 +14,18 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+// import { toast, ToastContainer } from "react-toastify";
 import { Navigate } from "react-router-dom";
 
 const SignupCard = () => {
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
-//  const toast = useToast();
-    const [redirect, setRedirect] = useState(false);
+  const toast = useToast();
+  const [redirect, setRedirect] = useState(false);
 
-      if (redirect) {
-      return <Navigate to="/" />; // Change to your desired path
-    }
-
+  if (redirect) {
+    return <Navigate to="/" />; // Change to your desired path
+  }
 
   return (
     <Grid height="100%" width="60vw" bg="blackAlpha.200">
@@ -78,31 +77,42 @@ const SignupCard = () => {
             width="50%"
             onClick={() => {
               // Placeholder promise to simulate our API call.
-              /*const examplePromise = new Promise((resolve) => {
-                  setTimeout(() => resolve(200), 2000);
-                });
-  
-                // Will display the loading toast until the promise is either resolved
-                // or rejected.
-                toast.promise(examplePromise, {
-                  success: {
+              const examplePromise = new Promise((resolve, reject) => {
+                setTimeout(() => resolve(200), 2000);
+              });
+
+              // Will display the loading toast until the promise is either resolved
+              // or rejected.
+              toast({
+                title: "Pending...",
+                description: "Please wait",
+                status: "loading",
+                duration: 2000,
+                isClosable: true,
+              });
+
+              examplePromise
+                .then(() => {
+                  toast({
                     title: "Account created",
                     description: "Your account has been successfully created",
-                  },
-                  error: {
+                    status: "success",
+                    duration: 2000,
+                    isClosable: true,
+                  });
+                  setRedirect(true);
+                })
+                .catch((error) => {
+                  toast({
                     title: "Account creation failed",
                     description: "Something went wrong",
-                  },
-                  loading: {
-                    title: "Pending...",
-                    description: "Please wait",
-                  },
-                }).then(() => {
-                  console.log("Promise resolved");
+                    status: "error",
+                    duration: 2000,
+                    isClosable: true,
+                  });
+                });
 
-              });*/
-
-              const myPromise = new Promise((resolve) => {
+              /*  const myPromise = new Promise((resolve) => {
                 setTimeout(() => resolve(200), 2000);
               });
 
@@ -118,12 +128,11 @@ const SignupCard = () => {
                 })
                 .catch(() => {
                   console.log("Toast encountered an error.");
-                });
+                });*/
             }}
           >
             Sign Up
           </Button>
-          <ToastContainer />
         </Stack>
       </Box>
     </Grid>
