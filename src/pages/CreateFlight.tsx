@@ -36,6 +36,15 @@ const CreateFlight = () => {
     const [selectedDepartureDate, setSelectedDepartureDate] = useState<Date>(new Date());
     const [selectedDepartureTime, setSelectedDepartureTime] = useState<string | null>(null);
 
+    const resetForm = () => {
+        setSelectedAirline(null);
+        setSelectedAirplane(null);
+        setSelectedDepartureAirport(null);
+        setSelectedArrivalAirport(null);
+        setSelectedDepartureDate(new Date());
+        setSelectedDepartureTime(null);
+    };
+
     const handleSubmitFlight = async (event: React.SyntheticEvent) => {
         event.preventDefault();
         if (selectedDepartureTime) {
@@ -50,6 +59,7 @@ const CreateFlight = () => {
                 arrivalAirport: selectedDepartureAirport,
                 departureTime: departureDateTime,
             }
+
             try {
                 const response = await fetch(`${BASE_URL}/flights`, {
                     method: "POST",
@@ -61,7 +71,9 @@ const CreateFlight = () => {
                 });
     
                 if (response.status === 201) {
+                    resetForm();
                     showResourceCreatedToast("flight");
+
                 }
                 else if (response.status === 500) {
                     showResourceCreatedErrorToast("flight");
@@ -126,14 +138,14 @@ const CreateFlight = () => {
             <form onSubmit={handleSubmitFlight}>
                 <FormControl isRequired mt={marginTop}>
                     <FormLabel>Airline</FormLabel>
-                    <Select placeholder='Select airline' onChange={handleAirlineChange}>
+                    <Select placeholder='Select airline' value={selectedAirline || ""} onChange={handleAirlineChange}>
                         {airlines.map(airline => <option key={airline.id} value={airline.id}>{airline.name}</option>)}
                     </Select>
                 </FormControl>
                 
                 <FormControl isRequired mt={marginTop}>
                     <FormLabel>Airplane</FormLabel>
-                    <Select placeholder='Select airplane' onChange={handleAirplaneChange}>
+                    <Select placeholder='Select airplane' value={selectedAirplane || ""} onChange={handleAirplaneChange}>
                         {airplanes.map(airplane => <option key={airplane.id} value={airplane.id}>{airplane.name}</option>)}
                         
                     </Select>
@@ -141,7 +153,8 @@ const CreateFlight = () => {
 
                 <FormControl isRequired mt={marginTop}>
                     <FormLabel>Departure airport</FormLabel>
-                    <Select placeholder='Select departure airport' onChange={handleDepartureChange} value={selectedDepartureAirport || undefined}>
+                    <Select placeholder='Select departure airport'
+                    value={selectedDepartureAirport || ""} onChange={handleDepartureChange}>
                         {filteredDepartureAirports.map(airport => (
                             <option key={airport.id} value={airport.id}>{airport.name}</option>
                         ))}
@@ -150,7 +163,7 @@ const CreateFlight = () => {
 
                 <FormControl isRequired mt={marginTop}>
                     <FormLabel>Destination airport</FormLabel>
-                    <Select placeholder='Select arrival airport' onChange={handleArrivalChange} value={selectedArrivalAirport || undefined}>
+                    <Select placeholder='Select arrival airport' value={selectedArrivalAirport || ""} onChange={handleArrivalChange}>
                         {filteredArrivalAirports.map(airport => (
                         <option key={airport.id} value={airport.id}>{airport.name}</option>
                         ))}
@@ -163,7 +176,7 @@ const CreateFlight = () => {
                 </FormControl>
                 <FormControl isRequired mt={marginTop}>
                     <FormLabel>Pick a departure time</FormLabel>
-                    <input aria-label="Time" type="time" onChange={handleDepartureTimeChange} />  
+                    <input aria-label="Time" value={selectedDepartureTime || ""} type="time" onChange={handleDepartureTimeChange} />  
                 </FormControl>
                 <Button
                 isDisabled=
