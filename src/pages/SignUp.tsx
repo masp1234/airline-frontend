@@ -1,4 +1,4 @@
-import { Grid, HStack } from "@chakra-ui/react";
+import { HStack } from "@chakra-ui/react";
 import HomeBackgroundCard from "../components/HomeBackgroundCard";
 import SignupCard from "../components/SignupCard";
 
