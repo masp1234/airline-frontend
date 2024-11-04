@@ -16,8 +16,6 @@ import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
 
 const LoginCard = () => {
-  // https://react.dev/reference/react/useState
-  // Necessairy to change the state of variables in React.
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
   const toast = useToast();
@@ -72,6 +70,8 @@ const LoginCard = () => {
                 setTimeout(() => resolve(200), 2000);
               });
 
+              // Insert API call to compare email and password with database...
+
               // Will display the loading toast until the promise is either resolved
               // or rejected.
               toast({
@@ -85,8 +85,8 @@ const LoginCard = () => {
               examplePromise
                 .then(() => {
                   toast({
-                    title: "Account created",
-                    description: "Your account has been successfully created",
+                    title: "Logged in",
+                    description: "You have successfully logged in",
                     status: "success",
                     duration: 2000,
                     isClosable: true,
@@ -95,7 +95,7 @@ const LoginCard = () => {
                 })
                 .catch(() => {
                   toast({
-                    title: "Account creation failed",
+                    title: "Login failed",
                     description: "Something went wrong",
                     status: "error",
                     duration: 2000,
