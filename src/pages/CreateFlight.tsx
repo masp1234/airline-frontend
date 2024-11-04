@@ -18,6 +18,8 @@ import { useFetchData } from "../hooks/useFetchData.ts"
 import DatePicker from "react-datepicker";
 
 const CreateFlight = () => {
+
+    const [idempotencyKey, setIdempotencyKey] = useState<string>("");
     
     const [airlines, setAirlines] = useState<Airline[]>([]);
     const [airplanes, setAirplanes] = useState<Airplane[]>([]);
@@ -47,6 +49,11 @@ const CreateFlight = () => {
 
     const handleSubmitFlight = async (event: React.SyntheticEvent) => {
         event.preventDefault();
+
+        if (!idempotencyKey) {
+            setIdempotencyKey(crypto.randomUUID());
+        }
+
         if (selectedDepartureTime) {
             const [hours, minutes] = selectedDepartureTime.split(":").map(Number);
             const departureDateTime = new Date(selectedDepartureDate);
@@ -55,16 +62,17 @@ const CreateFlight = () => {
             const newFlightInformation = {
                 airlineId: selectedAirline,
                 airplaneId: selectedAirplane,
-                departureAirport: selectedDepartureAirport,
-                arrivalAirport: selectedDepartureAirport,
-                departureTime: departureDateTime,
+                departureAirportId: selectedDepartureAirport,
+                arrivalAirportId: selectedArrivalAirport,
+                departureDateTime,
+                idempotencyKey
             }
 
             try {
                 const response = await fetch(`${BASE_URL}/flights`, {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json",
+                        "Content-Type": "application/json"
                     },
                     body: JSON.stringify(newFlightInformation),
                     credentials: "include"
