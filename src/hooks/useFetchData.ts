@@ -1,6 +1,8 @@
 const useFetchData = () => {
     async function fetchData(url: string) {
-        const response = await fetch(url);
+        const response = await fetch(url, {
+            credentials: 'include'
+        });
         if (!response.ok) {
             throw new Error("Network response was not ok.");
         }

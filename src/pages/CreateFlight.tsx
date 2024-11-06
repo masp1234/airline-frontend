@@ -1,5 +1,9 @@
 import "react-datepicker/dist/react-datepicker.css";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient
+} from "@tanstack/react-query";
 import BASE_URL from "../util/baseUrl.ts";
 import { useResourceCreatedToast } from "../toasts/resourceCreated.ts";
 import { useResourceCreatedErrorToast } from "../toasts/resourceCreatedError.ts";
@@ -22,10 +26,39 @@ import DatePicker from "react-datepicker";
 const CreateFlight = () => {
     const marginTop = 4;
 
-    const airlineQuery = useQuery({
-      queryKey: ['test'],
+    const queryClient = useQueryClient();
+    const { fetchData } = useFetchData();
+    const { showResourceCreatedToast } = useResourceCreatedToast();
+    const { showResourceCreatedErrorToast } = useResourceCreatedErrorToast();
+    const { showGetErrorToast } = useGetErrorToast();
+
+    const [idempotencyKey, setIdempotencyKey] = useState<string>("");
+    
+    const [selectedAirline, setSelectedAirline] = useState<number | null>(null);
+    const [selectedAirplane, setSelectedAirplane] = useState<number | null>(null);
+    const [selectedDepartureAirport, setSelectedDepartureAirport] = useState<number | null>(null);
+    const [selectedArrivalAirport, setSelectedArrivalAirport] = useState<number | null>(null);
+    const [selectedDepartureDate, setSelectedDepartureDate] = useState<Date>(new Date());
+    const [selectedDepartureTime, setSelectedDepartureTime] = useState<string | null>(null);
+
+    const airlinesQuery = useQuery({
+      queryKey: ['airlines'],
       queryFn: async () => {
         return await fetchData(`./src/data/airlines.json`)
+      }
+    });
+
+    const airplanesQuery = useQuery({
+      queryKey: ['airplanes'],
+      queryFn: async () => {
+        return await fetchData('./src/data/airplanes.json');
+      }
+    });
+
+    const airportsQuery = useQuery({
+      queryKey: ['airports'],
+      queryFn: async () => {
+        return await fetchData('./src/data/airports.json');
       }
     })
 
@@ -49,37 +82,32 @@ const CreateFlight = () => {
       onSuccess: () => {
         showResourceCreatedToast("flight");
         resetForm();
+        queryClient.invalidateQueries({ queryKey: ['airlines'] });
       },
       onError: () => {
         showResourceCreatedErrorToast("flight");
       } 
     })
 
-    const { fetchData } = useFetchData();
-    const { showResourceCreatedToast } = useResourceCreatedToast();
-    const { showResourceCreatedErrorToast } = useResourceCreatedErrorToast();
-    const { showGetErrorToast } = useGetErrorToast();
-
     useEffect(() => {
-      if (airlineQuery
+      if (airlinesQuery
         .isError) {
         showGetErrorToast("airlines");
       }
-
-    }, [airlineQuery.isError, showGetErrorToast]);
-
-    const [idempotencyKey, setIdempotencyKey] = useState<string>("");
-    
-    const [airplanes, setAirplanes] = useState<Airplane[]>([]);
-    const [departureAirports, setDepartureAirports] = useState<Airport[]>([]);
-    const [arrivalAirports, setArrivalAirports] = useState<Airport[]>([]);
-    
-    const [selectedAirline, setSelectedAirline] = useState<number | null>(null);
-    const [selectedAirplane, setSelectedAirplane] = useState<number | null>(null);
-    const [selectedDepartureAirport, setSelectedDepartureAirport] = useState<number | null>(null);
-    const [selectedArrivalAirport, setSelectedArrivalAirport] = useState<number | null>(null);
-    const [selectedDepartureDate, setSelectedDepartureDate] = useState<Date>(new Date());
-    const [selectedDepartureTime, setSelectedDepartureTime] = useState<string | null>(null);
+      if (airplanesQuery
+        .isError) {
+        showGetErrorToast("airplanes");
+      }
+      if (airportsQuery
+        .isError) {
+        showGetErrorToast("airports");
+      }
+    }, [
+      airlinesQuery.isError,
+      airplanesQuery.isError,
+      airportsQuery.isError,
+      showGetErrorToast,
+    ]);
 
     const resetForm = () => {
         setSelectedAirline(null);
@@ -146,24 +174,18 @@ const CreateFlight = () => {
         const departureTime = event.target.value;
         setSelectedDepartureTime(departureTime);
     }
-     
-    useEffect(() => {
-        async function fetchAll() {
-            const data = await Promise.all([
-              fetchData("./src/data/airplanes.json"),
-              fetchData("./src/data/airports.json",)
-            ])
-            setAirplanes(data[0].airplanes);
-            setDepartureAirports(data[1].airports);
-            setArrivalAirports(data[1].airports);
-            }
-
-            fetchAll();
-    }, [])
 
     // Filter out selected airports from the other list
-    const filteredDepartureAirports = departureAirports.filter(airport => airport.id !== selectedArrivalAirport);
-    const filteredArrivalAirports = arrivalAirports.filter(airport => airport.id !== selectedDepartureAirport);
+    const filteredDepartureAirports: Airport[] = airportsQuery.data?.airports?.filter((airport: Airport) => airport.id !== selectedArrivalAirport);
+    const filteredArrivalAirports: Airport[] = airportsQuery.data?.airports?.filter((airport: Airport) => airport.id !== selectedDepartureAirport);
+
+    const formIsValid = 
+    !selectedAirline ||
+    !selectedAirplane ||
+    !selectedDepartureAirport ||
+    !selectedArrivalAirport ||
+    !selectedDepartureDate ||
+    !selectedDepartureTime
 
   return (
     <>
@@ -172,7 +194,7 @@ const CreateFlight = () => {
                 <FormControl isRequired mt={marginTop}>
                     <FormLabel>Airline</FormLabel>
                     <Select placeholder='Select airline' value={selectedAirline || ""} onChange={handleAirlineChange}>
-                    {airlineQuery.data?.airlines?.map((airline: Airline) => (
+                    {airlinesQuery.data?.airlines?.map((airline: Airline) => (
                       <option key={airline.id} value={airline.id}>{airline.name}</option>
                     ))}
                     </Select>
@@ -181,7 +203,7 @@ const CreateFlight = () => {
                 <FormControl isRequired mt={marginTop}>
                     <FormLabel>Airplane</FormLabel>
                     <Select placeholder='Select airplane' value={selectedAirplane || ""} onChange={handleAirplaneChange}>
-                        {airplanes.map(airplane => <option key={airplane.id} value={airplane.id}>{airplane.name}</option>)}
+                        {airplanesQuery.data?.airplanes?.map((airplane: Airplane) => <option key={airplane.id} value={airplane.id}>{airplane.name}</option>)}
                         
                     </Select>
                 </FormControl>
@@ -190,7 +212,7 @@ const CreateFlight = () => {
                     <FormLabel>Departure airport</FormLabel>
                     <Select placeholder='Select departure airport'
                     value={selectedDepartureAirport || ""} onChange={handleDepartureChange}>
-                        {filteredDepartureAirports.map(airport => (
+                        {filteredDepartureAirports?.map(airport => (
                             <option key={airport.id} value={airport.id}>{airport.name}</option>
                         ))}
                     </Select>
@@ -199,7 +221,7 @@ const CreateFlight = () => {
                 <FormControl isRequired mt={marginTop}>
                     <FormLabel>Destination airport</FormLabel>
                     <Select placeholder='Select arrival airport' value={selectedArrivalAirport || ""} onChange={handleArrivalChange}>
-                        {filteredArrivalAirports.map(airport => (
+                        {filteredArrivalAirports?.map(airport => (
                         <option key={airport.id} value={airport.id}>{airport.name}</option>
                         ))}
                     </Select>
@@ -214,15 +236,8 @@ const CreateFlight = () => {
                     <input aria-label="Time" value={selectedDepartureTime || ""} type="time" onChange={handleDepartureTimeChange} />  
                 </FormControl>
                 <Button
-                isDisabled=
-                {
-                    !selectedAirline ||
-                    !selectedAirplane ||
-                    !selectedDepartureAirport ||
-                    !selectedArrivalAirport ||
-                    !selectedDepartureDate ||
-                    !selectedDepartureTime
-                }
+                isDisabled={formIsValid}
+                isLoading={mutation.isPending}
                 mt={4}
                 colorScheme='teal'
                 type='submit'>
