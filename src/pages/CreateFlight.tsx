@@ -1,14 +1,15 @@
 import "react-datepicker/dist/react-datepicker.css";
-import { useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import BASE_URL from "../util/baseUrl.ts";
 import { useResourceCreatedToast } from "../toasts/resourceCreated.ts";
 import { useResourceCreatedErrorToast } from "../toasts/resourceCreatedError.ts";
+import { useGetErrorToast } from "../toasts/getError.ts";
 import { 
     Container,
     Select,
     FormControl,
     FormLabel,
-    Button
+    Button,
 } from '@chakra-ui/react'
 import React, { useEffect, useState } from "react";
 import Airline from "../types/airline.ts"
@@ -20,6 +21,13 @@ import DatePicker from "react-datepicker";
 
 const CreateFlight = () => {
     const marginTop = 4;
+
+    const airlineQuery = useQuery({
+      queryKey: ['test'],
+      queryFn: async () => {
+        return await fetchData(`./src/data/airlines.json`)
+      }
+    })
 
     const mutation = useMutation({
       mutationFn: async (newFlight: NewFlightInformation) => {
@@ -50,10 +58,18 @@ const CreateFlight = () => {
     const { fetchData } = useFetchData();
     const { showResourceCreatedToast } = useResourceCreatedToast();
     const { showResourceCreatedErrorToast } = useResourceCreatedErrorToast();
+    const { showGetErrorToast } = useGetErrorToast();
+
+    useEffect(() => {
+      if (airlineQuery
+        .isError) {
+        showGetErrorToast("airlines");
+      }
+
+    }, [airlineQuery.isError, showGetErrorToast]);
 
     const [idempotencyKey, setIdempotencyKey] = useState<string>("");
     
-    const [airlines, setAirlines] = useState<Airline[]>([]);
     const [airplanes, setAirplanes] = useState<Airplane[]>([]);
     const [departureAirports, setDepartureAirports] = useState<Airport[]>([]);
     const [arrivalAirports, setArrivalAirports] = useState<Airport[]>([]);
@@ -134,11 +150,12 @@ const CreateFlight = () => {
     useEffect(() => {
         async function fetchAll() {
             const data = await Promise.all([
-              fetchData<Airline>("./src/data/airlines.json", setAirlines, "airlines"),
-              fetchData<Airplane>("./src/data/airplanes.json", setAirplanes, "airplanes"),
-              fetchData<Airport>("./src/data/airports.json", setDepartureAirports, "airports")
+              fetchData("./src/data/airplanes.json"),
+              fetchData("./src/data/airports.json",)
             ])
-            setArrivalAirports(data[2]);
+            setAirplanes(data[0].airplanes);
+            setDepartureAirports(data[1].airports);
+            setArrivalAirports(data[1].airports);
             }
 
             fetchAll();
@@ -155,7 +172,9 @@ const CreateFlight = () => {
                 <FormControl isRequired mt={marginTop}>
                     <FormLabel>Airline</FormLabel>
                     <Select placeholder='Select airline' value={selectedAirline || ""} onChange={handleAirlineChange}>
-                        {airlines.map(airline => <option key={airline.id} value={airline.id}>{airline.name}</option>)}
+                    {airlineQuery.data?.airlines?.map((airline: Airline) => (
+                      <option key={airline.id} value={airline.id}>{airline.name}</option>
+                    ))}
                     </Select>
                 </FormControl>
                 

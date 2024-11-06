@@ -1,18 +1,11 @@
-import { useErrorToast } from "../toasts/fetchError.ts";
-
 const useFetchData = () => {
-    const { showErrorToast } = useErrorToast();
-
-    async function fetchData<T>(url: string, setData: (data: T[]) => void, resourceName: string) {
-        let data = null;
-        try {
-            const response = await fetch(url);
-            data = await response.json();
-            setData(data[resourceName]);
-        } catch {
-            showErrorToast(resourceName);
+    async function fetchData(url: string) {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error("Network response was not ok.");
         }
-        return data[resourceName];
+        const data = await response.json();
+        return data;
     }
 
     return { fetchData };
