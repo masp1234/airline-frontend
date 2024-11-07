@@ -5,6 +5,7 @@ import Header from "./sections/Header";
 import Home from './pages/Home';
 import MyBookings from './pages/MyBookings';
 import SignUp from './pages/SignUp';
+import Login from './pages/Login';
 
 function App() {
   return (
@@ -17,15 +18,16 @@ function App() {
            "main"`,
     }}
     >
-      <GridItem pl="2" area={"nav"}>
+      <GridItem area={"nav"}>
         <Header />
       </GridItem>
-      <GridItem pl="2" padding={"4x"} position={"relative"} area={"main"}>
+      <GridItem padding={"4x"} position={"relative"} area={"main"}>
         <Container>
           <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/my-bookings' element={<MyBookings/>}/>
           <Route path='/signup' element={<SignUp/>}/>
+          <Route path='/login' element={<Login/>}/>
           </Routes>
         </Container>
       </GridItem>
