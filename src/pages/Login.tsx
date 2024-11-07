@@ -1,16 +1,16 @@
 import { HStack } from "@chakra-ui/react";
+import LoginCard from "../components/LoginCard";
 import HomeBackgroundCard from "../components/HomeBackgroundCard";
-import SignupCard from "../components/SignupCard";
 
-const SignUp = () => {
+const Login = () => {
   return (
     <>
-      <HStack spacing="0">
-        <SignupCard />
+      <HStack>
+        <LoginCard />
         <HomeBackgroundCard />
       </HStack>
     </>
   );
 };
 
-export default SignUp;
+export default Login;
