@@ -9,6 +9,7 @@ import Header from "./sections/Header";
 import Home from './pages/Home';
 import MyBookings from './pages/MyBookings';
 import SignUp from './pages/SignUp';
+import Login from './pages/Login';
 import CreateFlight from './pages/CreateFlight';
 
 const queryClient = new QueryClient();
@@ -35,12 +36,14 @@ function App() {
             <Route path='/my-bookings' element={<MyBookings/>}/>
             <Route path='/signup' element={<SignUp/>}/>
             <Route path='/create-flight' element={<CreateFlight/>}/>
+              <Route path='/login' element={<Login/>}/>
             </Routes>
           </Container>
         </GridItem>
       </Grid>
       </Router>
     </QueryClientProvider>
+
   );
 }
 
