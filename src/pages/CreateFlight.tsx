@@ -2,7 +2,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import {
   useQuery,
   useMutation,
-  useQueryClient
 } from "@tanstack/react-query";
 import BASE_URL from "../util/baseUrl.ts";
 import { useResourceCreatedToast } from "../toasts/resourceCreated.ts";
@@ -26,7 +25,6 @@ import DatePicker from "react-datepicker";
 const CreateFlight = () => {
     const marginTop = 4;
 
-    const queryClient = useQueryClient();
     const { fetchData } = useFetchData();
     const { showResourceCreatedToast } = useResourceCreatedToast();
     const { showResourceCreatedErrorToast } = useResourceCreatedErrorToast();
@@ -82,7 +80,6 @@ const CreateFlight = () => {
       onSuccess: () => {
         showResourceCreatedToast("flight");
         resetForm();
-        queryClient.invalidateQueries({ queryKey: ['airlines'] });
       },
       onError: () => {
         showResourceCreatedErrorToast("flight");
