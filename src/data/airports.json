@@ -1,0 +1,15 @@
+{
+    "airports": [
+      { "id": 1, "name": "Los Angeles International Airport", "code": "LAX", "city_id": 1 },
+      { "id": 2, "name": "John F. Kennedy International Airport", "code": "JFK", "city_id": 2 },
+      { "id": 3, "name": "George Bush Intercontinental Airport", "code": "IAH", "city_id": 3 },
+      { "id": 4, "name": "Miami International Airport", "code": "MIA", "city_id": 4 },
+      { "id": 5, "name": "O'Hare International Airport", "code": "ORD", "city_id": 5 },
+      { "id": 6, "name": "McCarran International Airport", "code": "LAS", "city_id": 6 },
+      { "id": 7, "name": "Denver International Airport", "code": "DEN", "city_id": 7 },
+      { "id": 8, "name": "Seattle-Tacoma International Airport", "code": "SEA", "city_id": 8 },
+      { "id": 9, "name": "Logan International Airport", "code": "BOS", "city_id": 9 },
+      { "id": 10, "name": "Phoenix Sky Harbor International Airport", "code": "PHX", "city_id": 10 }
+    ]
+  }
+  
