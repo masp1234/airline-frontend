@@ -21,6 +21,51 @@ const LoginCard = () => {
   const toast = useToast();
   const [redirect, setRedirect] = useState(false);
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    try {
+      const response = await fetch("http://localhost:5224/api/mysql/Users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Logged in",
+          description: "You have successfully logged in",
+          status: "success",
+          duration: 4000,
+          isClosable: true,
+        });
+        setRedirect(true);
+      } else if (response.status === 401) {
+        toast({
+          title: "Login failed",
+          description: "Invalid email or password",
+          status: "error",
+          duration: 4000,
+          isClosable: true,
+        });
+      } else {
+        throw new Error("Login failed"); // Add backend logic for other errors
+      }
+    } catch (error) {
+      console.log("Error logging in as: ", email, ": ", error);
+      toast({
+        title: "Login failed",
+        description: "Something went wrong",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+      })
+    }
+  }
+
   // Redirect to our home page after successful sign up.
   if (redirect) {
     return <Navigate to="/" />;
@@ -41,6 +86,8 @@ const LoginCard = () => {
               placeholder="Enter e-mail"
               borderColor="gray.500"
               focusBorderColor="orange.500"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </FormControl>
           <FormControl size={"lg"}>
@@ -52,6 +99,8 @@ const LoginCard = () => {
                 placeholder="Enter password"
                 borderColor="gray.500"
                 focusBorderColor="orange.500"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <InputRightElement width="4.5rem">
                 <Button h="1.75rem" size="sm" onClick={handleClick}>
@@ -65,12 +114,7 @@ const LoginCard = () => {
             colorScheme="orange"
             width="50%"
             onClick={() => {
-              // Placeholder promise to simulate our API call.
-              const examplePromise = new Promise((resolve) => {
-                setTimeout(() => resolve(200), 2000);
-              });
-
-              // Insert API call to compare email and password with database...
+              
 
               // Will display the loading toast until the promise is either resolved
               // or rejected.
@@ -82,26 +126,7 @@ const LoginCard = () => {
                 isClosable: true,
               });
 
-              examplePromise
-                .then(() => {
-                  toast({
-                    title: "Logged in",
-                    description: "You have successfully logged in",
-                    status: "success",
-                    duration: 2000,
-                    isClosable: true,
-                  });
-                  setRedirect(true);
-                })
-                .catch(() => {
-                  toast({
-                    title: "Login failed",
-                    description: "Something went wrong",
-                    status: "error",
-                    duration: 2000,
-                    isClosable: true,
-                  });
-                });
+              handleLogin();
             }}
           >
             Log in

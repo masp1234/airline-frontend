@@ -90,6 +90,7 @@ const SignupCard = () => {
         });
       }
     } catch (error) {
+      console.error("Account creation failed:", error);
       toast({
         title: "Account creation failed",
         description: "Something went wrong",
