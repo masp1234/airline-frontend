@@ -26,7 +26,7 @@ const LoginCard = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch("http://localhost:5224/api/mysql/Users/login", {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/mysql/Users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
