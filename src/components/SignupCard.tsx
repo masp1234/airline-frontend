@@ -62,7 +62,7 @@ const SignupCard = () => {
 
   const createUser = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/mysql/Users`, {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/Users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

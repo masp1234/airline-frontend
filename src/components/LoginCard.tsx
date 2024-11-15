@@ -26,15 +26,17 @@ const LoginCard = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/mysql/Users/login`, {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/Users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, password }),
+        credentials: "include",
       });
 
       if (response.ok) {
+
         toast({
           title: "Logged in",
           description: "You have successfully logged in",
