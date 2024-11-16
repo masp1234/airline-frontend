@@ -1,12 +1,11 @@
 import "react-datepicker/dist/react-datepicker.css";
 import {
-  useQuery,
   useMutation,
 } from "@tanstack/react-query";
 import BASE_URL from "../util/baseUrl.ts";
 import { useResourceCreatedToast } from "../toasts/resourceCreated.ts";
 import { useResourceCreatedErrorToast } from "../toasts/resourceCreatedError.ts";
-import { useGetErrorToast } from "../toasts/getError.ts";
+
 import { 
     Container,
     Select,
@@ -14,21 +13,25 @@ import {
     FormLabel,
     Button,
 } from '@chakra-ui/react'
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Airline from "../types/airline.ts"
 import Airplane from '../types/airplane.ts';
 import Airport from '../types/airport.ts';
 import NewFlightInformation from "../types/newFlightInformation.ts";
-import { useFetchData } from "../hooks/useFetchData.ts"
 import DatePicker from "react-datepicker";
+import useAirlines from "../hooks/useAirlines.ts";
+import useAirplanes from "../hooks/useAirplanes.ts";
+import useAirports from "../hooks/useAirports.ts";
 
 const CreateFlight = () => {
     const marginTop = 4;
 
-    const { fetchData } = useFetchData();
+    const { airlinesQuery } = useAirlines();
+    const { airplanesQuery } = useAirplanes();
+    const { airportsQuery } = useAirports();
+
     const { showResourceCreatedToast } = useResourceCreatedToast();
     const { showResourceCreatedErrorToast } = useResourceCreatedErrorToast();
-    const { showGetErrorToast } = useGetErrorToast();
 
     const [idempotencyKey, setIdempotencyKey] = useState<string>("");
     
@@ -38,27 +41,6 @@ const CreateFlight = () => {
     const [selectedArrivalAirport, setSelectedArrivalAirport] = useState<number | null>(null);
     const [selectedDepartureDate, setSelectedDepartureDate] = useState<Date>(new Date());
     const [selectedDepartureTime, setSelectedDepartureTime] = useState<string | null>(null);
-
-    const airlinesQuery = useQuery({
-      queryKey: ['airlines'],
-      queryFn: async () => {
-        return await fetchData(`./src/data/airlines.json`)
-      }
-    });
-
-    const airplanesQuery = useQuery({
-      queryKey: ['airplanes'],
-      queryFn: async () => {
-        return await fetchData('./src/data/airplanes.json');
-      }
-    });
-
-    const airportsQuery = useQuery({
-      queryKey: ['airports'],
-      queryFn: async () => {
-        return await fetchData('./src/data/airports.json');
-      }
-    })
 
     const mutation = useMutation({
       mutationFn: async (newFlight: NewFlightInformation) => {
@@ -85,26 +67,6 @@ const CreateFlight = () => {
         showResourceCreatedErrorToast("flight");
       } 
     })
-
-    useEffect(() => {
-      if (airlinesQuery
-        .isError) {
-        showGetErrorToast("airlines");
-      }
-      if (airplanesQuery
-        .isError) {
-        showGetErrorToast("airplanes");
-      }
-      if (airportsQuery
-        .isError) {
-        showGetErrorToast("airports");
-      }
-    }, [
-      airlinesQuery.isError,
-      airplanesQuery.isError,
-      airportsQuery.isError,
-      showGetErrorToast,
-    ]);
 
     const resetForm = () => {
         setSelectedAirline(null);
