@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { 
-    Select,
     FormControl,
     FormLabel,
     Button,
 } from '@chakra-ui/react'
 import DatePicker from "react-datepicker";
+import FormSelect from "./FormSelect";
 import useNewFlightMutation from "../hooks/useNewFlightMutation.ts";
 import Airline from "../types/airline.ts"
 import Airplane from '../types/airplane.ts';
@@ -40,22 +40,17 @@ const CreateFlightForm = (props: CreateFlightFormProps) => {
     const [selectedArrivalAirport, setSelectedArrivalAirport] = useState<number | null>(null);
     const [selectedDepartureDate, setSelectedDepartureDate] = useState<Date>(new Date());
     const [selectedDepartureTime, setSelectedDepartureTime] = useState<string | null>(null);
-
-    const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>, setter: (value: number) => void) => {
-        const value = Number(event.target.value);
-        setter(value);
-      }
+    
+    const handleDepartureDateChange = (date: Date | null) => {
+        if (date) {
+            setSelectedDepartureDate(date);
+        }    
+    }
   
-      const handleDepartureDateChange = (date: Date | null) => {
-          if (date) {
-              setSelectedDepartureDate(date);
-          }    
-      }
-  
-      const handleDepartureTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-          const departureTime = event.target.value;
-          setSelectedDepartureTime(departureTime);
-      }
+    const handleDepartureTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const departureTime = event.target.value;
+        setSelectedDepartureTime(departureTime);
+    }
 
     const formIsValid = 
       !selectedAirline ||
@@ -97,40 +92,33 @@ const CreateFlightForm = (props: CreateFlightFormProps) => {
 
     return (
         <form onSubmit={handleSubmit}>
-                <FormControl isRequired mt={marginTop}>
-                    <FormLabel>Airline</FormLabel>
-                    <Select placeholder='Select airline' value={selectedAirline || ""} onChange={(event) => handleSelectChange(event, setSelectedAirline)}>
-                    {props.airlines?.map((airline: Airline) => (
-                      <option key={airline.id} value={airline.id}>{airline.name}</option>
-                    ))}
-                    </Select>
-                </FormControl>
-                
-                <FormControl isRequired mt={marginTop}>
-                    <FormLabel>Airplane</FormLabel>
-                    <Select placeholder='Select airplane' value={selectedAirplane || ""} onChange={(event) => handleSelectChange(event, setSelectedAirplane)}>
-                        {props.airplanes?.map((airplane: Airplane) => <option key={airplane.id} value={airplane.id}>{airplane.name}</option>)}
-                    </Select>
-                </FormControl>
+                <FormSelect
+                items={props.airlines}
+                label="Select airline"
+                value={selectedAirline}
+                setter={setSelectedAirline}
+                marginTop={marginTop}/>
 
-                <FormControl isRequired mt={marginTop}>
-                    <FormLabel>Departure airport</FormLabel>
-                    <Select placeholder='Select departure airport'
-                    value={selectedDepartureAirport || ""} onChange={(event) => handleSelectChange(event, setSelectedDepartureAirport)}>
-                        {filteredDepartureAirports?.map(airport => (
-                            <option key={airport.id} value={airport.id}>{airport.name}</option>
-                        ))}
-                    </Select>
-                </FormControl>
+                <FormSelect
+                items={props.airplanes}
+                label="Select airplane"
+                value={selectedAirplane}
+                setter={setSelectedAirplane}
+                marginTop={marginTop}/>
 
-                <FormControl isRequired mt={marginTop}>
-                    <FormLabel>Destination airport</FormLabel>
-                    <Select placeholder='Select arrival airport' value={selectedArrivalAirport || ""} onChange={(event) => handleSelectChange(event, setSelectedArrivalAirport)}>
-                        {filteredArrivalAirports?.map(airport => (
-                        <option key={airport.id} value={airport.id}>{airport.name}</option>
-                        ))}
-                    </Select>
-                </FormControl>
+                <FormSelect
+                items={filteredDepartureAirports}
+                label="Select departure airport"
+                value={selectedDepartureAirport}
+                setter={setSelectedDepartureAirport}
+                marginTop={marginTop}/>
+
+                <FormSelect
+                items={filteredArrivalAirports}
+                label="Select destination airport"
+                value={selectedArrivalAirport}
+                setter={setSelectedArrivalAirport}
+                marginTop={marginTop}/>
 
                 <FormControl isRequired mt={marginTop}>
                     <FormLabel>Pick a departure date</FormLabel>
