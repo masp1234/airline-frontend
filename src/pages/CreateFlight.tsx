@@ -1,11 +1,4 @@
 import "react-datepicker/dist/react-datepicker.css";
-import {
-  useMutation,
-} from "@tanstack/react-query";
-import BASE_URL from "../util/baseUrl.ts";
-import { useResourceCreatedToast } from "../toasts/resourceCreated.ts";
-import { useResourceCreatedErrorToast } from "../toasts/resourceCreatedError.ts";
-
 import { 
     Container,
     Select,
@@ -17,11 +10,11 @@ import React, { useState } from "react";
 import Airline from "../types/airline.ts"
 import Airplane from '../types/airplane.ts';
 import Airport from '../types/airport.ts';
-import NewFlightInformation from "../types/newFlightInformation.ts";
 import DatePicker from "react-datepicker";
 import useAirlines from "../hooks/useAirlines.ts";
 import useAirplanes from "../hooks/useAirplanes.ts";
 import useAirports from "../hooks/useAirports.ts";
+import useNewFlightMutation from "../hooks/useNewFlightMutation.ts";
 
 const CreateFlight = () => {
     const marginTop = 4;
@@ -30,8 +23,17 @@ const CreateFlight = () => {
     const { airplanesQuery } = useAirplanes();
     const { airportsQuery } = useAirports();
 
-    const { showResourceCreatedToast } = useResourceCreatedToast();
-    const { showResourceCreatedErrorToast } = useResourceCreatedErrorToast();
+    const resetForm = () => {
+      setSelectedAirline(null);
+      setSelectedAirplane(null);
+      setSelectedDepartureAirport(null);
+      setSelectedArrivalAirport(null);
+      setSelectedDepartureDate(new Date());
+      setSelectedDepartureTime(null);
+      setIdempotencyKey("");
+  };
+
+    const { newFlightMutation } = useNewFlightMutation(resetForm);
 
     const [idempotencyKey, setIdempotencyKey] = useState<string>("");
     
@@ -41,42 +43,6 @@ const CreateFlight = () => {
     const [selectedArrivalAirport, setSelectedArrivalAirport] = useState<number | null>(null);
     const [selectedDepartureDate, setSelectedDepartureDate] = useState<Date>(new Date());
     const [selectedDepartureTime, setSelectedDepartureTime] = useState<string | null>(null);
-
-    const mutation = useMutation({
-      mutationFn: async (newFlight: NewFlightInformation) => {
-        const response = await fetch(`${BASE_URL}/flights`, {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json"
-          },
-          body: JSON.stringify(newFlight),
-          credentials: "include"
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok.')
-      }
-      return response.json();
-      }
-      ,
-      onSuccess: () => {
-        showResourceCreatedToast("flight");
-        resetForm();
-      },
-      onError: () => {
-        showResourceCreatedErrorToast("flight");
-      } 
-    })
-
-    const resetForm = () => {
-        setSelectedAirline(null);
-        setSelectedAirplane(null);
-        setSelectedDepartureAirport(null);
-        setSelectedArrivalAirport(null);
-        setSelectedDepartureDate(new Date());
-        setSelectedDepartureTime(null);
-        setIdempotencyKey("");
-    };
 
     const handleSubmitFlight = async (event: React.SyntheticEvent) => {
         event.preventDefault();
@@ -100,35 +66,21 @@ const CreateFlight = () => {
                 idempotencyKey: key
             }
 
-            mutation.mutate(newFlightInformation);
+            newFlightMutation.mutate(newFlightInformation);
     }
   }
 
-    const handleAirlineChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const airlineId = Number(event.target.value);
-        setSelectedAirline(airlineId);
+    const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>, setter: (value: number) => void) => {
+      const value = Number(event.target.value);
+      setter(value);
     }
-
-    const handleAirplaneChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const airplaneId = Number(event.target.value);
-        setSelectedAirplane(airplaneId);
-    }
-
-    const handleDepartureChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const departureAiportId = Number(event.target.value);
-        setSelectedDepartureAirport(departureAiportId);
-    };
-    
-    const handleArrivalChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const arrivalAirportId = Number(event.target.value);
-        setSelectedArrivalAirport(arrivalAirportId);
-    };
 
     const handleDepartureDateChange = (date: Date | null) => {
         if (date) {
             setSelectedDepartureDate(date);
         }    
     }
+    
     const handleDepartureTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const departureTime = event.target.value;
         setSelectedDepartureTime(departureTime);
@@ -152,7 +104,7 @@ const CreateFlight = () => {
             <form onSubmit={handleSubmitFlight}>
                 <FormControl isRequired mt={marginTop}>
                     <FormLabel>Airline</FormLabel>
-                    <Select placeholder='Select airline' value={selectedAirline || ""} onChange={handleAirlineChange}>
+                    <Select placeholder='Select airline' value={selectedAirline || ""} onChange={(event) => handleSelectChange(event, setSelectedAirline)}>
                     {airlinesQuery.data?.airlines?.map((airline: Airline) => (
                       <option key={airline.id} value={airline.id}>{airline.name}</option>
                     ))}
@@ -161,16 +113,15 @@ const CreateFlight = () => {
                 
                 <FormControl isRequired mt={marginTop}>
                     <FormLabel>Airplane</FormLabel>
-                    <Select placeholder='Select airplane' value={selectedAirplane || ""} onChange={handleAirplaneChange}>
+                    <Select placeholder='Select airplane' value={selectedAirplane || ""} onChange={(event) => handleSelectChange(event, setSelectedAirplane)}>
                         {airplanesQuery.data?.airplanes?.map((airplane: Airplane) => <option key={airplane.id} value={airplane.id}>{airplane.name}</option>)}
-                        
                     </Select>
                 </FormControl>
 
                 <FormControl isRequired mt={marginTop}>
                     <FormLabel>Departure airport</FormLabel>
                     <Select placeholder='Select departure airport'
-                    value={selectedDepartureAirport || ""} onChange={handleDepartureChange}>
+                    value={selectedDepartureAirport || ""} onChange={(event) => handleSelectChange(event, setSelectedDepartureAirport)}>
                         {filteredDepartureAirports?.map(airport => (
                             <option key={airport.id} value={airport.id}>{airport.name}</option>
                         ))}
@@ -179,7 +130,7 @@ const CreateFlight = () => {
 
                 <FormControl isRequired mt={marginTop}>
                     <FormLabel>Destination airport</FormLabel>
-                    <Select placeholder='Select arrival airport' value={selectedArrivalAirport || ""} onChange={handleArrivalChange}>
+                    <Select placeholder='Select arrival airport' value={selectedArrivalAirport || ""} onChange={(event) => handleSelectChange(event, setSelectedArrivalAirport)}>
                         {filteredArrivalAirports?.map(airport => (
                         <option key={airport.id} value={airport.id}>{airport.name}</option>
                         ))}
@@ -196,7 +147,7 @@ const CreateFlight = () => {
                 </FormControl>
                 <Button
                 isDisabled={formIsValid}
-                isLoading={mutation.isPending}
+                isLoading={newFlightMutation.isPending}
                 mt={4}
                 colorScheme='teal'
                 type='submit'>
