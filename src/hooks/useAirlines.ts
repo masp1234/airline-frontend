@@ -9,7 +9,7 @@ const useAirlines = () => {
     const airlinesQuery = useQuery({
         queryKey: ['airlines'],
         queryFn: async () => {
-          return await fetchData(`./src/data/airlines.json`)
+          return await fetchData("/airlines")
         }
       });
     
