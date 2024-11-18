@@ -11,11 +11,14 @@ import MyBookings from './pages/MyBookings';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 import CreateFlight from './pages/CreateFlight';
+import { AuthProvider } from './auth/AuthContext';
+import { RoleProtectedRoute } from './auth/RoleGuard';
 
 const queryClient = new QueryClient();
 
 function App() {
   return (
+    <AuthProvider>
     <QueryClientProvider client={queryClient}>
       <Router> 
       <Grid
@@ -35,7 +38,11 @@ function App() {
             <Route path='/' element={<Home/>}/>
             <Route path='/my-bookings' element={<MyBookings/>}/>
             <Route path='/signup' element={<SignUp/>}/>
-            <Route path='/create-flight' element={<CreateFlight/>}/>
+            <Route path='/create-flight' element={
+              <RoleProtectedRoute allowedRoles={["Admin"]}>
+                <CreateFlight/>
+              </RoleProtectedRoute>
+              }/>
               <Route path='/login' element={<Login/>}/>
             </Routes>
           </Container>
@@ -43,7 +50,7 @@ function App() {
       </Grid>
       </Router>
     </QueryClientProvider>
-
+    </AuthProvider>
   );
 }
 
