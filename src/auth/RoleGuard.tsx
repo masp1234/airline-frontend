@@ -2,6 +2,7 @@ import { Navigate } from 'react-router-dom';
 import { useRole } from './AuthContext';
 import React from 'react';
 
+
 interface RoleGuardProps {
     allowedRoles: string[];
     children: React.ReactNode;
@@ -9,6 +10,10 @@ interface RoleGuardProps {
 
   interface RoleProtectedRouteProps {
     allowedRoles: string[];
+    children: React.ReactNode;
+  }
+
+  interface NoRoleProps {
     children: React.ReactNode;
   }
   
@@ -31,3 +36,13 @@ interface RoleGuardProps {
   
     return <>{children}</>;
   };
+
+  export const NoRole: React.FC<NoRoleProps> = ({ children }) => {
+    const { role } = useRole();
+  
+    if (role) {
+      return null; // User already has a role; Don't render children
+    }
+  
+    return <>{children}</>;
+};

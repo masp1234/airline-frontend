@@ -6,10 +6,13 @@ import {
   MenuItem,
   Image,
   useColorMode,
+  Button,
 } from "@chakra-ui/react";
 import profileIconDark from "../assets/profile-dark.webp";
 import profileIconLight from "../assets/profile-bright.webp";
 import { Link } from "react-router-dom";
+import { NoRole, RoleGuard } from "../auth/RoleGuard";
+import Logout from "../hooks/handleLogout"
 
 const ProfileIcon = () => {
   const { colorMode } = useColorMode();
@@ -36,6 +39,7 @@ const ProfileIcon = () => {
         />
       </MenuButton>
       <MenuList backgroundColor={dropDownColor}>
+      <NoRole>
         <Link to="/signup">
           <MenuItem
             backgroundColor={dropDownColor}
@@ -46,7 +50,9 @@ const ProfileIcon = () => {
             </Box>
           </MenuItem>
         </Link>
-        <Link to="/login"> {/* Add login page route when completed */}
+      </NoRole>
+      <NoRole>
+        <Link to="/login">
           <MenuItem
             backgroundColor={dropDownColor}
             _hover={{ backgroundColor: dropDownHoverColor }}
@@ -56,6 +62,8 @@ const ProfileIcon = () => {
             </Box>
           </MenuItem>
         </Link>
+      </NoRole>
+      <RoleGuard allowedRoles={["Admin", "Customer"]}>
         <MenuItem
           backgroundColor={dropDownColor}
           _hover={{ backgroundColor: dropDownHoverColor }}
@@ -64,6 +72,21 @@ const ProfileIcon = () => {
             <p>My Profile</p> {/* Purely to add a bit more content to the dropdown */}
           </Box>
         </MenuItem>
+      </RoleGuard>
+      <RoleGuard allowedRoles={["Admin", "Customer"]}>
+        <Link to="/" onClick={
+          Logout
+        }>
+        <MenuItem
+          backgroundColor={dropDownColor}
+          _hover={{ backgroundColor: dropDownHoverColor }}
+        >
+          <Box>
+            <p>User logout</p>
+          </Box>
+        </MenuItem>
+        </Link>
+      </RoleGuard>
       </MenuList>
     </Menu>
   );
