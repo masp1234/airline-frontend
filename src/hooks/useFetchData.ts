@@ -1,6 +1,8 @@
+import BASE_URL from "../util/baseUrl";
+
 const useFetchData = () => {
-    async function fetchData(url: string) {
-        const response = await fetch(url, {
+    async function fetchData(endpoint: string) {
+        const response = await fetch(BASE_URL + endpoint, {
             credentials: 'include'
         });
         if (!response.ok) {
