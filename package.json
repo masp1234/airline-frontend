@@ -28,7 +28,9 @@
     "react-router-dom": "^6.26.2",
     "react-time-picker": "^7.0.0",
     "react-toastify": "^10.0.6",
-    "start-server-and-test": "^2.0.8"
+    "simple-zustand-devtools": "^1.1.0",
+    "start-server-and-test": "^2.0.8",
+    "zustand": "^5.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

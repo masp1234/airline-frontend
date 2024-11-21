@@ -9,13 +9,12 @@ import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import CreateFlight from "./pages/CreateFlight";
 import { AuthProvider } from "./auth/AuthContext";
-import { NoRole, RoleProtectedRoute } from "./auth/RoleGuard";
+import { NoRoleProtectedRoute, RoleProtectedRoute } from "./auth/RoleGuard";
 
 const queryClient = new QueryClient();
 
 function App() {
   return (
-    <AuthProvider>
       <QueryClientProvider client={queryClient}>
         <Router>
           <Grid
@@ -37,9 +36,9 @@ function App() {
                   <Route
                     path="/signup"
                     element={
-                      <NoRole>
+                      <NoRoleProtectedRoute>
                         <SignUp />
-                      </NoRole>
+                      </NoRoleProtectedRoute>
                     }
                   />
                   <Route
@@ -53,9 +52,9 @@ function App() {
                   <Route
                     path="/login"
                     element={
-                      <NoRole>
+                      <NoRoleProtectedRoute>
                         <Login />
-                      </NoRole>
+                      </NoRoleProtectedRoute>
                     }
                   />
                 </Routes>
@@ -64,7 +63,6 @@ function App() {
           </Grid>
         </Router>
       </QueryClientProvider>
-    </AuthProvider>
   );
 }
 

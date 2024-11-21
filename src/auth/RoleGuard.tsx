@@ -1,14 +1,9 @@
 import { Navigate } from 'react-router-dom';
-import { useRole } from './AuthContext';
 import React from 'react';
+import useRoleStore from '../store';
 
 
 interface RoleGuardProps {
-    allowedRoles: string[];
-    children: React.ReactNode;
-  }
-
-  interface RoleProtectedRouteProps {
     allowedRoles: string[];
     children: React.ReactNode;
   }
@@ -18,8 +13,8 @@ interface RoleGuardProps {
   }
   
   export const RoleGuard: React.FC<RoleGuardProps> = ({ allowedRoles, children }) => {
-    const { role } = useRole(); // Fetch the role from the context
-  
+    const role = useRoleStore((state) => state.role);
+
     if (!role || !allowedRoles.includes(role)) {
       return null; // Role not allowed; Don't render children
     }
@@ -27,9 +22,9 @@ interface RoleGuardProps {
     return <>{children}</>;
   };
 
-  export const RoleProtectedRoute: React.FC<RoleProtectedRouteProps> = ({ allowedRoles, children }) => {
-    const { role } = useRole();
-  
+  export const RoleProtectedRoute: React.FC<RoleGuardProps> = ({ allowedRoles, children }) => {
+    const role = useRoleStore((state) => state.role);
+
     if (!role || !allowedRoles.includes(role)) {
       return <Navigate to="/" />; // Redirect back to home if role is not allowed
     }
@@ -38,11 +33,21 @@ interface RoleGuardProps {
   };
 
   export const NoRole: React.FC<NoRoleProps> = ({ children }) => {
-    const { role } = useRole();
-  
+    const role = useRoleStore((state) => state.role);
+
     if (role) {
       return null; // User already has a role; Don't render children
     }
   
     return <>{children}</>;
-};
+  };
+
+  export const NoRoleProtectedRoute: React.FC<NoRoleProps> = ({ children }) => {
+    const role = useRoleStore((state) => state.role);
+  
+    if (role) {
+      return <Navigate to="/" />;
+    }
+  
+    return <>{children}</>;
+  };

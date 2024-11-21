@@ -14,6 +14,8 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
+import { handleLogin } from "../auth/handleLogin";
+import useRoleStore from "../store";
 
 const LoginCard = () => {
   const [show, setShow] = React.useState(false);
@@ -24,49 +26,7 @@ const LoginCard = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async () => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/Users/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-        credentials: "include",
-      });
-
-      if (response.ok) {
-
-        toast({
-          title: "Logged in",
-          description: "You have successfully logged in",
-          status: "success",
-          duration: 4000,
-          isClosable: true,
-        });
-        setRedirect(true);
-      } else if (response.status === 401) {
-        toast({
-          title: "Login failed",
-          description: "Invalid email or password",
-          status: "error",
-          duration: 4000,
-          isClosable: true,
-        });
-      } else {
-        throw new Error("Login failed"); // Add backend logic for other errors
-      }
-    } catch (error) {
-      console.log("Error logging in as: ", email, ": ", error);
-      toast({
-        title: "Login failed",
-        description: "Something went wrong",
-        status: "error",
-        duration: 4000,
-        isClosable: true,
-      })
-    }
-  }
+  const setRole = useRoleStore((state) => state.setRole);
 
   // Redirect to our home page after successful sign up.
   if (redirect) {
@@ -116,8 +76,6 @@ const LoginCard = () => {
             colorScheme="orange"
             width="50%"
             onClick={() => {
-              
-
               // Will display the loading toast until the promise is either resolved
               // or rejected.
               toast({
@@ -127,8 +85,7 @@ const LoginCard = () => {
                 duration: 2000,
                 isClosable: true,
               });
-
-              handleLogin();
+              handleLogin(email, password, setRedirect, toast).then((role) => setRole(role));
             }}
           >
             Log in

@@ -17,7 +17,6 @@ import NavButtons from "../components/NavButtons";
 import ProfileIcon from "../components/ProfileIcon";
 import { FiMenu } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import { RoleGuard } from "../auth/RoleGuard";
 
 
 const Header = () => {

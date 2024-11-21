@@ -6,13 +6,12 @@ import {
   MenuItem,
   Image,
   useColorMode,
-  Button,
 } from "@chakra-ui/react";
 import profileIconDark from "../assets/profile-dark.webp";
 import profileIconLight from "../assets/profile-bright.webp";
 import { Link } from "react-router-dom";
 import { NoRole, RoleGuard } from "../auth/RoleGuard";
-import Logout from "../hooks/handleLogout"
+import Logout from "../auth/handleLogout"
 
 const ProfileIcon = () => {
   const { colorMode } = useColorMode();
