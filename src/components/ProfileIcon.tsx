@@ -6,18 +6,59 @@ import {
   MenuItem,
   Image,
   useColorMode,
+  useToast,
 } from "@chakra-ui/react";
 import profileIconDark from "../assets/profile-dark.webp";
 import profileIconLight from "../assets/profile-bright.webp";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { NoRole, RoleGuard } from "../auth/RoleGuard";
-import Logout from "../auth/handleLogout"
+import useRoleStore from "../store";
+import BASE_URL from "../util/baseUrl";
+import { useState } from "react";
 
 const ProfileIcon = () => {
   const { colorMode } = useColorMode();
   const profileIcon = colorMode === "dark" ? profileIconDark : profileIconLight;
   const dropDownColor = colorMode === "dark" ? "#1A202C" : "#F7FAFC";
   const dropDownHoverColor = colorMode === "dark" ? "#181D29" : "#EDF2F7";
+
+  const toast = useToast();
+  const [redirect, setRedirect] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/Users/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+  
+      if (response.ok) {
+        useRoleStore.getState().setRole(null);
+        setRedirect(true);
+        toast({
+          title: "Logged out",
+          description: "You have successfully logged out",
+          status: "success",
+          duration: 4000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: "Logout failed",
+          description: "Something went wrong",
+          status: "error",
+          duration: 4000,
+          isClosable: true,
+        })
+      }
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
+  };
+
+  if (redirect) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <Menu>
@@ -74,8 +115,8 @@ const ProfileIcon = () => {
       </RoleGuard>
       <RoleGuard allowedRoles={["Admin", "Customer"]}>
         <Link to="/" onClick={
-          Logout
-        }>
+          handleLogout
+          }>
         <MenuItem
           backgroundColor={dropDownColor}
           _hover={{ backgroundColor: dropDownHoverColor }}

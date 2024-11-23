@@ -8,7 +8,6 @@ import MyBookings from "./pages/MyBookings";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import CreateFlight from "./pages/CreateFlight";
-import { AuthProvider } from "./auth/AuthContext";
 import { NoRoleProtectedRoute, RoleProtectedRoute } from "./auth/RoleGuard";
 
 const queryClient = new QueryClient();
