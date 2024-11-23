@@ -16,6 +16,8 @@ import {
   SimpleGrid,
   Box,
 } from "@chakra-ui/react";
+import { useNavigate } from 'react-router-dom';
+
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 
@@ -29,6 +31,7 @@ import { useFetchData } from "../hooks/useFetchData.ts"
 import { useGetErrorToast } from "../toasts/getError.ts";
 
 const FlightSearchBox = () => {
+  const navigate = useNavigate();
   const [isRoundTrip, setIsRoundTrip] = useState<boolean>(true);
   const [selectedDepartureAirport, setSelectedDepartureAirport] = useState<number | null>(null);
   const [inputedPassengerAmount, setInputedPassengerAmount] = useState<number>(1);
@@ -68,6 +71,7 @@ const FlightSearchBox = () => {
     setSelectedArrivalAirport(arrivalAirportId);
   };
   const handleDepartureDateChange = (date: Date | null) => {
+    console.log(date)
     if (date) {
         setSelectedDepartureDate(date);
     }    
@@ -88,13 +92,14 @@ const FlightSearchBox = () => {
     dispatch(
       setSearchFlightData({
         isRoundTrip,
-        departureAirport: selectedDepartureAirport,
-        arrivalAirport: selectedArrivalAirport,
-        departureDate: selectedDepartureDate.toISOString(),
-        returnDate: isRoundTrip ? selectedReturnDate.toISOString(): null ,
+        departureAirportId: selectedDepartureAirport,
+        destinationAirportId: selectedArrivalAirport,
+        departureDate: selectedDepartureDate.toISOString().split('T')[0],
+        returnDate: isRoundTrip ? selectedReturnDate.toISOString().split('T')[0]: null ,
         passenger: inputedPassengerAmount,
       })
     );
+    navigate('find-ticket/departure');
   };
   return (
     <Card

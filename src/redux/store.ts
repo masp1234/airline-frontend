@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer, FLUSH, PAUSE, REGISTER, PURGE, PERSIST, REHYDRATE } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; 
 import { searchFlightDataSlice } from '../redux/searchFlightReduser.ts';
+import { ticketDataSlice } from '../redux/ticketReduser.ts';
 import { combineReducers } from 'redux';
 
 const persistConfig = {
@@ -11,6 +12,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   searchFlightData: searchFlightDataSlice.reducer,
+  ticketData: ticketDataSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

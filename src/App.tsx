@@ -3,14 +3,15 @@ import {
   QueryClient,
   QueryClientProvider
 } from "@tanstack/react-query"
-import Container from "./sections/Container";
+import Container from "./sections/Container.tsx";
 import { Grid, GridItem } from "@chakra-ui/react";
-import Header from "./sections/Header";
-import Home from './pages/Home';
-import MyBookings from './pages/MyBookings';
-import SignUp from './pages/SignUp';
-import Login from './pages/Login';
-import CreateFlight from './pages/CreateFlight';
+import Header from "./sections/Header.tsx";
+import Home from './pages/Home.tsx';
+import MyBookings from './pages/MyBookings.tsx';
+import SignUp from './pages/SignUp.tsx';
+import Login from './pages/Login.tsx';
+import CreateFlight from './pages/CreateFlight.tsx';
+import FindTicket from './pages/FindTicket.tsx';
 
 const queryClient = new QueryClient();
 
@@ -34,9 +35,11 @@ function App() {
             <Routes>
             <Route path='/' element={<Home/>}/>
             <Route path='/my-bookings' element={<MyBookings/>}/>
+            <Route path='/find-ticket/departure' element={<FindTicket/>}/>
+            <Route path='/find-ticket/return' element={<FindTicket/>}/>
             <Route path='/signup' element={<SignUp/>}/>
             <Route path='/create-flight' element={<CreateFlight/>}/>
-              <Route path='/login' element={<Login/>}/>
+            <Route path='/login' element={<Login/>}/>
             </Routes>
           </Container>
         </GridItem>
