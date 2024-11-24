@@ -14,12 +14,19 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
+import { handleLogin } from "../auth/handleLogin";
+import useRoleStore from "../store";
 
 const LoginCard = () => {
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
   const toast = useToast();
   const [redirect, setRedirect] = useState(false);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const setRole = useRoleStore((state) => state.setRole);
 
   // Redirect to our home page after successful sign up.
   if (redirect) {
@@ -41,6 +48,8 @@ const LoginCard = () => {
               placeholder="Enter e-mail"
               borderColor="gray.500"
               focusBorderColor="orange.500"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </FormControl>
           <FormControl size={"lg"}>
@@ -52,6 +61,8 @@ const LoginCard = () => {
                 placeholder="Enter password"
                 borderColor="gray.500"
                 focusBorderColor="orange.500"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <InputRightElement width="4.5rem">
                 <Button h="1.75rem" size="sm" onClick={handleClick}>
@@ -65,13 +76,6 @@ const LoginCard = () => {
             colorScheme="orange"
             width="50%"
             onClick={() => {
-              // Placeholder promise to simulate our API call.
-              const examplePromise = new Promise((resolve) => {
-                setTimeout(() => resolve(200), 2000);
-              });
-
-              // Insert API call to compare email and password with database...
-
               // Will display the loading toast until the promise is either resolved
               // or rejected.
               toast({
@@ -81,27 +85,7 @@ const LoginCard = () => {
                 duration: 2000,
                 isClosable: true,
               });
-
-              examplePromise
-                .then(() => {
-                  toast({
-                    title: "Logged in",
-                    description: "You have successfully logged in",
-                    status: "success",
-                    duration: 2000,
-                    isClosable: true,
-                  });
-                  setRedirect(true);
-                })
-                .catch(() => {
-                  toast({
-                    title: "Login failed",
-                    description: "Something went wrong",
-                    status: "error",
-                    duration: 2000,
-                    isClosable: true,
-                  });
-                });
+              handleLogin(email, password, setRedirect, toast).then((role) => setRole(role));
             }}
           >
             Log in
