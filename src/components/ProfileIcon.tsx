@@ -51,7 +51,7 @@ const ProfileIcon: React.FC = () => {
               _hover={{ backgroundColor: dropDownHoverColor }}
             >
               <Box>
-                <p>User Signup</p>
+                <p>Sign up</p>
               </Box>
             </MenuItem>
           </Link>
@@ -63,7 +63,7 @@ const ProfileIcon: React.FC = () => {
               _hover={{ backgroundColor: dropDownHoverColor }}
             >
               <Box>
-                <p>User Login</p>
+                <p>Log in</p>
               </Box>
             </MenuItem>
           </Link>
@@ -85,7 +85,7 @@ const ProfileIcon: React.FC = () => {
             onClick={() => handleLogout(setRole, toast, navigate)}
           >
             <Box>
-              <p>User logout</p>
+              <p>Log out</p>
             </Box>
           </MenuItem>
         </RoleGuard>

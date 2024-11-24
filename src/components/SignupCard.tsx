@@ -109,7 +109,7 @@ const SignupCard = () => {
     <Grid height="100%" width="60vw" bg="blackAlpha.200">
       <Box width="100%" maxWidth="450px" height="100vh" pl="10" pt="10">
         <Heading size="xl" mb="4">
-          Sign Up
+          Sign up
         </Heading>
         <Divider orientation="horizontal" mb="4" w="32vw" />
         <Stack spacing={10} pl="5">
