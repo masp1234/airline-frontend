@@ -26,8 +26,8 @@ import useRoleStore from "../store";
 
 const Header = () => {
   const { colorMode } = useColorMode();
-  const dropDownColor = colorMode === "dark" ? "#EFEFF1" : "#2F343F";
-  const dropDownHoverColor = colorMode === "dark" ? "#EFEFF1" : "#2F343F"; // Necessairy to retain the color on hover.
+  const buttonColor = colorMode === "dark" ? "#EFEFF1" : "#2F343F";
+  const buttonHoverColor = colorMode === "dark" ? "#EFEFF1" : "#2F343F"; // Necessairy to retain the color on hover.
   const { isOpen, onOpen, onClose} = useDisclosure()
 
   const navigate = useNavigate();
@@ -73,13 +73,13 @@ const Header = () => {
                 <Link to="/login" >Login</Link>
               </NoRole>
               <RoleGuard allowedRoles={["Admin", "Customer"]}>
-                <Link to="/profile" >Profile</Link>
+                <Link to="/" >Profile</Link> {/* Fluff addition */}
               </RoleGuard>
               <RoleGuard allowedRoles={["Admin", "Customer"]}>
                 <Button
                   variant="link"
-                  color={dropDownColor}
-                  _hover={{ color: dropDownHoverColor }}
+                  color={buttonColor}
+                  _hover={{ color: buttonHoverColor }}
                   width="100%"
                   mb="4"
                   fontWeight="normal"
