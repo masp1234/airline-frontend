@@ -5,6 +5,15 @@ export  interface Ticket {
     flightId: number | null,
     flightClassId: number | null,
     passenger: number | null;
+    price: number | null;
+    departureTime: string | null;
+    arrivalTime: string | null;
+    duration: string | null;
+    flightsAirplane: string | null;
+    flightsAirline: string | null;
+    departurePortNavigation: string | null;
+    arrivalPortNavigation: string | null;
+
 
 };
 export  interface Tickets {
@@ -50,9 +59,14 @@ export const ticketDataSlice = createSlice({
           state.data.returnTicket = null; // Clear return ticket
       }
       },
+      clearTicketData: (state) => {
+        if (state.data) {
+          state.data = {} as Tickets; // Clear return ticket
+      }
+      },
   },
 })
 
-export const { setDepartureTicket, setReturnTicketData, clearDepartureTicket, clearReturnTicketData } = ticketDataSlice.actions;
+export const { setDepartureTicket, setReturnTicketData, clearDepartureTicket, clearReturnTicketData, clearTicketData } = ticketDataSlice.actions;
 
 export default ticketDataSlice.reducer

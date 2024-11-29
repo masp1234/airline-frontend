@@ -3,7 +3,6 @@ import { Flight } from "../hooks/useFindFlight";
 import { useAppSelector, useAppDispatch } from '../hooks/useRedux';
 import { clearDepartureTicket, clearReturnTicketData, setDepartureTicket, setReturnTicketData } from '../redux/ticketReduser';
 import { useState } from 'react';
-//import SeatClassButton from './seatClassButton';
 
 interface Props {
     flight: Flight;
@@ -17,12 +16,12 @@ const FindTicketCard = ({ flight , flightTrip}: Props) => {
     arrivalTime.setMinutes(departureTime.getMinutes() + flight.travelTime);
     const durationHours = Math.floor(flight.travelTime / 60);
     const durationMinutes = flight.travelTime % 60;
+    const durationTime = durationHours.toString + "h" + durationMinutes?.toString && durationMinutes?.toString + "m"
 
     const ticketInfo = useAppSelector((state) => state.ticketData.data);
-    console.log(ticketInfo?.departureTicket)
     const findFlightQuery = useAppSelector((state) => state.searchFlightData.data);
     const dispatch = useAppDispatch();
-    const handleSelectedDepartureTicket = (flightClassId: number, flightId: number) => {
+    const handleSelectedDepartureTicket = (flightClassId: number, flightId: number, price: number) => {
         if(ticketInfo?.departureTicket !== null) {
             dispatch(clearDepartureTicket());
         };
@@ -31,12 +30,21 @@ const FindTicketCard = ({ flight , flightTrip}: Props) => {
                 flightId: flightId ,
                 flightClassId: flightClassId ,
                 passenger: findFlightQuery?.passenger ?? 1,
+                price: price,
+                departureTime: departureTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+                arrivalTime: arrivalTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+                duration: durationTime ,
+                flightsAirplane: flight.flightsAirline.name,
+                flightsAirline: flight.flightsAirline.name,
+                departurePortNavigation: flight.departurePortNavigation.code,
+                arrivalPortNavigation: flight.arrivalPortNavigation.code,
+
             })
         );
         setSelectedSeat(flightClassId)
 
     };
-    const handleSelectedReturnTicket = (flightClassId: number, flightId: number) => {
+    const handleSelectedReturnTicket = (flightClassId: number, flightId: number, price: number) => {
         if(ticketInfo?.returnTicket !== null) {
             dispatch(clearReturnTicketData());
         };
@@ -45,16 +53,25 @@ const FindTicketCard = ({ flight , flightTrip}: Props) => {
                 flightId: flightId ,
                 flightClassId: flightClassId ,
                 passenger: findFlightQuery?.passenger ?? 1,
+                price: price,
+                departureTime: departureTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+                arrivalTime: arrivalTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+                duration: durationTime ,
+                flightsAirplane: flight.flightsAirline.name,
+                flightsAirline: flight.flightsAirline.name,
+                departurePortNavigation: flight.departurePortNavigation.code,
+                arrivalPortNavigation: flight.arrivalPortNavigation.code,
+
             })
         );
         setSelectedSeat(flightClassId)
 
     };
-    const handleSelectedTicket = (flightClassId: number, flightId: number) => {
+    const handleSelectedTicket = (flightClassId: number, flightId: number, price: number) => {
         if(flightTrip=== '/find-ticket/return'){
-            handleSelectedReturnTicket(flightClassId, flightId )
+            handleSelectedReturnTicket(flightClassId, flightId, price )
         }else{
-            handleSelectedDepartureTicket(flightClassId, flightId )
+            handleSelectedDepartureTicket(flightClassId, flightId, price )
         }
         
     };
@@ -94,7 +111,7 @@ const FindTicketCard = ({ flight , flightTrip}: Props) => {
                     <Text>{flight.price} €</Text>
                     <Text>{flight.economyClassSeatsAvailable} Seats Availabe </Text>
                     
-                    <Button colorScheme='teal' variant={selectedSeat==1? 'solid': 'outline'} onClick={() => handleSelectedTicket(1, flight.id)}>Select</Button>
+                    <Button colorScheme='teal' variant={selectedSeat==1? 'solid': 'outline'} onClick={() => handleSelectedTicket(1, flight.id, flight.price )}>Select</Button>
                     
 
                     
@@ -106,7 +123,7 @@ const FindTicketCard = ({ flight , flightTrip}: Props) => {
                     <Text fontSize='2xl'>Business</Text>
                     <Text>{flight.price + 99} €</Text>
                     <Text>{flight.businessClassSeatsAvailable} Seats Availabe </Text>
-                    <Button colorScheme='teal' variant={selectedSeat==2? 'solid': 'outline'} onClick={() => handleSelectedTicket(2, flight.id)}>Select</Button>
+                    <Button colorScheme='teal' variant={selectedSeat==2? 'solid': 'outline'} onClick={() => handleSelectedTicket(2, flight.id, flight.price + 99)}>Select</Button>
                     
 
                 </VStack>
@@ -116,7 +133,7 @@ const FindTicketCard = ({ flight , flightTrip}: Props) => {
                     <Text fontSize='2xl'>First Class</Text>
                     <Text>{flight.price + 149} €</Text>
                     <Text>{flight.firstClassSeatsAvailable} Seats Availabe </Text>
-                    <Button colorScheme='teal' variant={selectedSeat==3? 'solid': 'outline'} onClick={() => handleSelectedTicket(3, flight.id)}>Select</Button>
+                    <Button colorScheme='teal' variant={selectedSeat==3? 'solid': 'outline'} onClick={() => handleSelectedTicket(3, flight.id, flight.price + 149)}>Select</Button>
                     
 
                     

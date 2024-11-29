@@ -24,7 +24,8 @@ import DatePicker from "react-datepicker";
 import { Checkbox } from '@chakra-ui/react';
 import  { useState, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from '../hooks/useRedux';
-import { setSearchFlightData, clearSearchFlightData } from "../redux/searchFlightReduser.ts"; 
+import { setSearchFlightData, clearSearchFlightData } from "../redux/searchFlightReduser.ts";
+import { clearTicketData } from '../redux/ticketReduser';
 import Airport from '../types/airport.ts';
 import {useQuery} from "@tanstack/react-query";
 import { useFetchData } from "../hooks/useFetchData.ts"
@@ -71,7 +72,6 @@ const FlightSearchBox = () => {
     setSelectedArrivalAirport(arrivalAirportId);
   };
   const handleDepartureDateChange = (date: Date | null) => {
-    console.log(date)
     if (date) {
         setSelectedDepartureDate(date);
     }    
@@ -89,6 +89,7 @@ const FlightSearchBox = () => {
     if(searchFlight !== null){
       dispatch(clearSearchFlightData())
     };
+    
     dispatch(
       setSearchFlightData({
         isRoundTrip,
@@ -99,6 +100,7 @@ const FlightSearchBox = () => {
         passenger: inputedPassengerAmount,
       })
     );
+    dispatch(clearTicketData())
     navigate('find-ticket/departure');
   };
   return (

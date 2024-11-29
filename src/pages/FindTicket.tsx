@@ -31,8 +31,8 @@ const FindTicket = () => {
 
     const handleNextOnClick = () => {
         const nextPath = searchFlight?.isRoundTrip 
-        ? (flightTrip === '/find-ticket/departure' ? '/find-ticket/return' : '/')
-        : '/';
+        ? (flightTrip === '/find-ticket/departure' ? '/find-ticket/return' : '/booking')
+        : '/booking';
 
     navigate(nextPath);
         
@@ -41,7 +41,9 @@ const FindTicket = () => {
   return (
     <VStack>
         <Text fontSize='5xl'>Please select your {flightTrip === '/find-ticket/return'? 'Return': 'Departure'}</Text>
-        <Text fontSize='3xl'>{flights[0].departurePortNavigation.name} to {flights[0].arrivalPortNavigation.name}</Text>
+        <Text fontSize='3xl'>
+            {flights[0].departurePortNavigation.name} to {flights[0].arrivalPortNavigation.name}
+        </Text>
         {flights?.map((flight) =>(
             <FindTicketCard key={flight.id} flight={flight} flightTrip= {flightTrip}/> 
         ))}
