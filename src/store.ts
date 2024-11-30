@@ -2,9 +2,10 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { mountStoreDevtool } from "simple-zustand-devtools";
 
-interface RoleStore {
+interface UserStore {
   role: string | null;
-  setRole: (role: string | null) => void;
+  email: string | null;
+  setUser: (role: string | null, email: string | null ) => void;
 }
 
 // Adapter to make localStorage conform to PersistStorage
@@ -21,21 +22,22 @@ const localStorageAdapter = {
   },
 };
 
-const useRoleStore = create<RoleStore>()(
+const useUserStore = create<UserStore>()(
   persist(
     (set) => ({
       role: null,
-      setRole: (role) => set({ role }),
+      email: null,
+      setUser: (role, email) => set({ role, email}),
     }),
     {
-      name: "role-storage", // Unique name for storage
+      name: "user-storage", // Unique name for storage
       storage: localStorageAdapter, // Use the custom adapter
     }
   )
 );
 
 if (process.env.NODE_ENV === "development") {
-  mountStoreDevtool("Role Store", useRoleStore);
+  mountStoreDevtool("User Store", useUserStore);
 }
 
-export default useRoleStore;
+export default useUserStore;

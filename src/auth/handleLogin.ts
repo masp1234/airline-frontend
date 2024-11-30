@@ -8,6 +8,7 @@ export const handleLogin = async (
 ) => {
 
   try {
+    console.log("url")
     const response = await fetch(`${BASE_URL}/Users/login`, {
       method: "POST",
       headers: {
@@ -18,7 +19,7 @@ export const handleLogin = async (
     });
 
     const data = await response.json();
-
+    console.log(data)
     if (response.ok) {
       toast({
         title: "Logged in",
@@ -28,7 +29,7 @@ export const handleLogin = async (
         isClosable: true,
       });
       setRedirect(true);
-      return data.role;
+      return data;
     } else if (response.status === 401) {
       toast({
         title: "Login failed",

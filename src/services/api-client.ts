@@ -1,13 +1,14 @@
 import axios, { AxiosRequestConfig } from "axios";
+import BASE_URL from "../util/baseUrl";
+
 
 export interface FlightResponse<T> {
   flights: T[];
 }
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:5224/api/mysql/",
+  baseURL: BASE_URL,
   params: {
-    key: import.meta.env.VITE_API_KEY,
   },
 });
 

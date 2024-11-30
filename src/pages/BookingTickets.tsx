@@ -4,26 +4,28 @@ import Passenger from "../types/passenger";
 import { SimpleGrid, Box, Card,Text, VStack, Button, } from "@chakra-ui/react";
 import { useAppDispatch, useAppSelector } from "../hooks/useRedux";
 import TicketInfo from "../components/TicketInfo";
-import {useMutation} from "@tanstack/react-query";
-import { Booking } from "../types/Booking";
-//import BASE_URL from "../util/baseUrl";
-import { useResourceCreatedToast } from "../toasts/resourceCreated.ts";
-import { useResourceCreatedErrorToast } from "../toasts/resourceCreatedError.ts";
 import { Ticket } from "../types/Ticket.ts";
+import useUserStore from "../store.ts";
 import { clearSearchFlightData } from "../redux/searchFlightReduser.ts";
 import { clearTicketData } from "../redux/ticketReduser.ts";
+import { useCreateMutation } from "../hooks/useCreateMutation.ts";
+import { Booking } from "../types/Booking.ts";
 
 
 const BookingTickets = () => {
-    const { showResourceCreatedToast } = useResourceCreatedToast();
-    const { showResourceCreatedErrorToast } = useResourceCreatedErrorToast();
-    const dispatch = useAppDispatch();
-
-    //const [passengers, setPassengers] = useState<Passenger[]>([]);
     const [tickets, setTickets] = useState<Ticket[]>([]);
     const [passenger, setPassenger] = useState<Passenger>();
     const ticketInfo = useAppSelector((state) => state.ticketData.data);
+    const dispatch = useAppDispatch();
+    const userEmail = useUserStore((state) => state.email);
+    
 
+    const resetTickets = () =>{
+        setTickets([]);
+        dispatch(clearSearchFlightData(), clearTicketData());
+    }
+    const { mutate} = useCreateMutation<Booking>({endpoint: "bookings",onSuccess: resetTickets});
+    
     useEffect(() => {
         if (passenger && ticketInfo?.departureTicket) {
             const flightId = ticketInfo?.departureTicket?.flightId;
@@ -38,41 +40,15 @@ const BookingTickets = () => {
     }, [passenger, ticketInfo]);
 
     
-    const createTicketMutation = useMutation({
-        mutationFn: async (newBooking: Booking) => {
-          const response = await fetch(`http://localhost:5224/api/mysql/bookings`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(newBooking),
-            credentials: "include"
-        });
-        if (!response.ok) {
-          throw new Error('Network response was not ok.')
-        }
-        
-        return response.json();
-        },
-        onSuccess: () => {
-            setTickets([]);
-            dispatch(clearSearchFlightData(), clearTicketData());
-          showResourceCreatedToast("booking");
-        },
-        onError: () => {
-          showResourceCreatedErrorToast("booking");
-          console.log()
-        } 
-      })
     
       const handleSubmitBooking = async (event: React.SyntheticEvent)=>{
         event.preventDefault();
         
         const newBooking = {
-            email: "john.doe1@example.com",
+            email: userEmail,
             tickets: tickets
         }
-        createTicketMutation.mutate(newBooking);
+        mutate(newBooking);
     }
   return (
     <>

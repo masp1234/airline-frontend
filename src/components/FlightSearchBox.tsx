@@ -27,11 +27,12 @@ import { useAppSelector, useAppDispatch } from '../hooks/useRedux';
 import { setSearchFlightData, clearSearchFlightData } from "../redux/searchFlightReduser.ts";
 import { clearTicketData } from '../redux/ticketReduser';
 import Airport from '../types/airport.ts';
-import {useQuery} from "@tanstack/react-query";
-import { useFetchData } from "../hooks/useFetchData.ts"
 import { useGetErrorToast } from "../toasts/getError.ts";
+import useAirports from "../hooks/useAirports.ts";
 
 const FlightSearchBox = () => {
+
+  const { airportsQuery } = useAirports();
   const navigate = useNavigate();
   const [isRoundTrip, setIsRoundTrip] = useState<boolean>(true);
   const [selectedDepartureAirport, setSelectedDepartureAirport] = useState<number | null>(null);
@@ -39,15 +40,7 @@ const FlightSearchBox = () => {
   const [selectedArrivalAirport, setSelectedArrivalAirport] = useState<number | null>(null);
   const [selectedDepartureDate, setSelectedDepartureDate] = useState<Date>(new Date());
   const [selectedReturnDate, setSelectedReturnDate] = useState<Date>(new Date());
-  const { fetchData } = useFetchData();
   const { showGetErrorToast } = useGetErrorToast();
-
-
-  const airportsQuery = useQuery({
-    queryKey: ['airports'],
-    queryFn: async () => {
-      return await fetchData('./src/data/airports.json');
-    }});
 
   useEffect(() => {
     if (airportsQuery

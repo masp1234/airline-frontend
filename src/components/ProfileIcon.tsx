@@ -13,7 +13,7 @@ import profileIconDark from "../assets/profile-dark.webp";
 import profileIconLight from "../assets/profile-bright.webp";
 import { Link, useNavigate } from "react-router-dom";
 import { NoRole, RoleGuard } from "../auth/RoleGuard";
-import useRoleStore from "../store";
+import useUserStore from "../store";
 import { handleLogout } from "../auth/handleLogout";
 
 const ProfileIcon: React.FC = () => {
@@ -24,7 +24,7 @@ const ProfileIcon: React.FC = () => {
 
   const toast = useToast();
   const navigate = useNavigate();
-  const setRole = useRoleStore((state) => state.setRole);
+  const setUser = useUserStore((state) => state.setUser);
 
   return (
     <Menu>
@@ -82,7 +82,7 @@ const ProfileIcon: React.FC = () => {
           <MenuItem
             backgroundColor={dropDownColor}
             _hover={{ backgroundColor: dropDownHoverColor }}
-            onClick={() => handleLogout(setRole, toast, navigate)}
+            onClick={() => handleLogout(setUser, toast, navigate)}
           >
             <Box>
               <p>Log out</p>
