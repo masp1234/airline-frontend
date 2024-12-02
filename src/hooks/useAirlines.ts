@@ -1,7 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { useFetchData } from "./useFetchData";
 import { useEffect } from "react";
-import { useGetErrorToast } from "../toasts/getError";
+import { useGetErrorToast } from "../toasts/getError"; 
+
+
 
 const useAirlines = () => {
     const { fetchData } = useFetchData();

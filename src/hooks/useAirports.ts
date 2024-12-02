@@ -3,6 +3,8 @@ import { useFetchData } from "./useFetchData";
 import { useEffect } from "react";
 import { useGetErrorToast } from "../toasts/getError";
 
+
+
 const useAirports = () => {
     const { fetchData } = useFetchData();
     const { showGetErrorToast } = useGetErrorToast();

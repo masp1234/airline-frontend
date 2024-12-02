@@ -2,8 +2,8 @@ import axios, { AxiosRequestConfig } from "axios";
 import BASE_URL from "../util/baseUrl";
 
 
-export interface FlightResponse<T> {
-  flights: T[];
+export interface Response<T> {
+  data: T[];
 }
 
 const axiosInstance = axios.create({
@@ -19,9 +19,9 @@ class ApiClient<T> {
     this.endpoint = endpoint;
   }
 
-  getAllFlightsBySearchData = (config?: AxiosRequestConfig) =>
+  get = (config?: AxiosRequestConfig) =>
     axiosInstance
-      .get<FlightResponse<T>>(this.endpoint, config)
+      .get<Response<T>>(this.endpoint, config)
       .then((response) => response.data);
 }
 

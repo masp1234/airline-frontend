@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import ApiClient, { FlightResponse } from "../services/api-client";
+import ApiClient, { Response } from "../services/api-client";
 import ms from "ms";
 import { useAppSelector } from "./useRedux";
 
@@ -54,14 +54,14 @@ export const useFindFlight = (flightTrip: string | null) =>{
         ? findFlightQuery?.returnDate ?? "2024-12-01"
         : findFlightQuery?.departureDate ?? "2024-11-21";
 
-    return useQuery<FlightResponse<Flight>, Error>({
+    return useQuery<Response<Flight>, Error>({
         queryKey: ["flights", flightTrip, findFlightQuery],
         queryFn: () =>
-        apiClient.getAllFlightsBySearchData({
+        apiClient.get({
             params: {
-            departureAirportId: findFlightQuery?.departureAirportId,
-            destinationAirportId: findFlightQuery?.destinationAirportId,
-            departureDate: findFlightQuery?.departureDate, 
+            departureAirportId: departureAirportId,
+            destinationAirportId: destinationAirportId,
+            departureDate: departureDate,
 
             },
         }),

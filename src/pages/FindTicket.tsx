@@ -27,7 +27,7 @@ const FindTicket = () => {
 
     if (error) return <Text>Error fetching flights: {error.message}</Text>;
 
-    const flights = data?.flights || [];
+    const flights = data?.data || [];
 
     const handleNextOnClick = () => {
         const nextPath = searchFlight?.isRoundTrip 
