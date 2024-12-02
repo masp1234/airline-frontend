@@ -15,7 +15,7 @@ import {
 import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { handleLogin } from "../auth/handleLogin";
-import useRoleStore from "../store";
+import useUserStore from "../store";
 
 const LoginCard = () => {
   const [show, setShow] = React.useState(false);
@@ -26,7 +26,7 @@ const LoginCard = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const setRole = useRoleStore((state) => state.setRole);
+  const setUser = useUserStore((state) => state.setUser);
 
   // Redirect to our home page after successful sign up.
   if (redirect) {
@@ -85,7 +85,7 @@ const LoginCard = () => {
                 duration: 2000,
                 isClosable: true,
               });
-              handleLogin(email, password, setRedirect, toast).then((role) => setRole(role));
+              handleLogin(email, password, setRedirect, toast).then( (user) => setUser(user.role, user.email));
             }}
           >
             Log in

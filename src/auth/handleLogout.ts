@@ -3,7 +3,7 @@ import { UseToastOptions } from "@chakra-ui/react";
 import { NavigateFunction } from "react-router-dom";
 
 export const handleLogout = async (
-  setRole: (role: null) => void,
+  setUser: (role: null, email: null) => void,
   toast: (options: UseToastOptions) => void,
   navigate: NavigateFunction
 ): Promise<void> => {
@@ -14,7 +14,7 @@ export const handleLogout = async (
     });
 
     if (response.ok) {
-      setRole(null);
+      setUser(null, null);
       toast({
         title: "Logged out",
         description: "You have successfully logged out",
