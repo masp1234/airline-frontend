@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCreateMutation } from "../hooks/useCreateMutation";
 import React, { useState, useEffect } from "react";
@@ -20,6 +20,7 @@ import {
 import DatePicker from "react-datepicker";
 const ManageFlight = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const navigate = useNavigate();
 
     
     const queryClient = useQueryClient();
@@ -40,6 +41,10 @@ const ManageFlight = () => {
         await queryClient.invalidateQueries({
             queryKey: ['flight', flightId]
         })
+    } });
+
+    const deleteMutation = useCreateMutation<null>({ endpoint: `flights/${flightId}`, method: "DELETE", onSuccess: async() => {
+        navigate("/manage-flights");
     } });
 
     const combineDateAndTime = (date: Date, time: string): Date => {
@@ -77,6 +82,7 @@ const ManageFlight = () => {
 
     const handleDeleteFlight = () => {
         console.log("hello");
+        deleteMutation.mutate(null);
     }
 
     const formIsValid = () => {
