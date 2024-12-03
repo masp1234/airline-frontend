@@ -4,17 +4,18 @@ import { useResourceCreatedToast } from "../toasts/resourceCreated";
 import { useResourceCreatedErrorToast } from "../toasts/resourceCreatedError";
 interface UseCreateMutationOptions<T> {
   endpoint: string;
+  method: string;
   onSuccess: () => void;
 }
 
-export const useCreateMutation = <T>({ endpoint, onSuccess }: UseCreateMutationOptions<T>) => {
+export const useCreateMutation = <T>({ endpoint, method, onSuccess }: UseCreateMutationOptions<T>) => {
     const { showResourceCreatedToast } = useResourceCreatedToast();
     const { showResourceCreatedErrorToast } = useResourceCreatedErrorToast();
 
   return useMutation({
     mutationFn: async (newObject: T) => {
       const response = await fetch(`${BASE_URL}/${endpoint}`, {
-        method: "POST",
+        method: method,
         headers: {
           "Content-Type": "application/json",
         },

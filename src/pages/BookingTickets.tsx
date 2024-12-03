@@ -24,7 +24,7 @@ const BookingTickets = () => {
         setTickets([]);
         dispatch(clearSearchFlightData(), clearTicketData());
     }
-    const { mutate} = useCreateMutation<Booking>({endpoint: "bookings",onSuccess: resetTickets});
+    const { mutate} = useCreateMutation<Booking>({endpoint: "bookings", method: "POST", onSuccess: resetTickets});
     
     useEffect(() => {
         if (passenger && ticketInfo?.departureTicket) {
