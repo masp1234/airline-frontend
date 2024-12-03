@@ -83,8 +83,8 @@ const BookingTickets = () => {
                 </Card>
             )}
             <Text mb="4" fontSize='xl'>
-                Total Amount:  {(ticketInfo?.departureTicket?.price ?? 0) +
-                 (ticketInfo?.returnTicket?.price ?? 0)} €
+                Total Amount:  {((ticketInfo?.departureTicket?.price ?? 0) +
+                 (ticketInfo?.returnTicket?.price ?? 0)) * (ticketInfo?.departureTicket?.passenger ?? 1)} €
             </Text>
             
         </Box>
