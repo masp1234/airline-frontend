@@ -1,5 +1,5 @@
 import { VStack, Text, Button} from '@chakra-ui/react';
-import useFindFlight from '../hooks/useFindFlight';
+import useFindFlight, { Flight } from '../hooks/useFindFlight';
 import FindTicketCard from '../components/FindTicketCard';
 import { useNavigate, useLocation } from 'react-router-dom';
 import  { useState, useEffect } from "react";
@@ -27,7 +27,7 @@ const FindTicket = () => {
 
     if (error) return <Text>Error fetching flights: {error.message}</Text>;
 
-    const flights = data?.data || [];
+    const flights = data?.flights || [];
 
     const handleNextOnClick = () => {
         const nextPath = searchFlight?.isRoundTrip 
@@ -44,7 +44,7 @@ const FindTicket = () => {
         <Text fontSize='3xl'>
             {flights[0].departurePortNavigation.name} to {flights[0].arrivalPortNavigation.name}
         </Text>
-        {flights?.map((flight) =>(
+        {flights?.map((flight: Flight) =>(
             <FindTicketCard key={flight.id} flight={flight} flightTrip= {flightTrip}/> 
         ))}
         <Button colorScheme='teal' onClick={handleNextOnClick}>Next</Button>
