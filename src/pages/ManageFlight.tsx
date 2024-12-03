@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import useFlight from "../hooks/useFlights";
-import { FormControl, FormLabel } from "@chakra-ui/react";
+import { FormControl, FormLabel, Input, Button } from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
 
 const ManageFlight = () => {
@@ -19,8 +19,7 @@ const ManageFlight = () => {
     useEffect(() => {
         if (flightQuery?.data?.data?.departureTime) {
             const { departureTime } = flightQuery.data.data
-            setSelectedDepartureDate(departureTime);
-            console.log(getTimeFromDateTime(departureTime));
+            setSelectedDepartureDate(new Date(departureTime));
             setSelectedDepartureTime(getTimeFromDateTime(departureTime))
         }
     }, [flightQuery?.data?.data]);
@@ -33,6 +32,16 @@ const ManageFlight = () => {
         if (date) setSelectedDepartureDate(date);
     };
 
+    const handleSubmit = (event: React.SyntheticEvent) => {
+        event.preventDefault();
+        console.log("hello");
+    }
+
+    const formIsValid = () => {
+        // Checks that the date and time values do not match the original values. If either value is different, the form is valid.
+        return selectedDepartureTime !== flightQuery?.data?.data?.departureTime.substring(11) || selectedDepartureDate?.toISOString().substring(0, 10) !== flightQuery?.data?.data?.departureTime.substring(0, 10);
+    }
+
     if (flightQuery.isLoading) {
         return <div>Loading...</div>;
     }
@@ -43,7 +52,23 @@ const ManageFlight = () => {
 
     return (
         <div>
-            <div>
+            <form onSubmit={handleSubmit}>
+                <FormControl mt={marginTop}>
+                    <FormLabel>Flight code</FormLabel>
+                    <Input type='text' value={flightQuery?.data?.data?.flightCode} readOnly={true}/>
+                </FormControl>
+                <FormControl mt={marginTop}>
+                    <FormLabel>Destination airport</FormLabel>
+                    <Input type='text' value={flightQuery?.data?.data?.arrivalPortNavigation.name} readOnly={true}/>
+                </FormControl>
+                <FormControl mt={marginTop}>
+                    <FormLabel>Departure airport</FormLabel>
+                    <Input type='text' value={flightQuery?.data?.data?.departurePortNavigation.name} readOnly={true}/>
+                </FormControl>
+                <FormControl mt={marginTop}>
+                    <FormLabel>Completion time</FormLabel>
+                    <Input type='text' value={flightQuery?.data?.data?.completionTime.replace("T", " ")} readOnly={true}/>
+                </FormControl>
                 <FormControl mt={marginTop}>
                     <FormLabel>Pick a departure date</FormLabel>
                     <DatePicker selected={selectedDepartureDate} onChange={handleDepartureDateChange} />
@@ -57,7 +82,17 @@ const ManageFlight = () => {
                         onChange={handleDepartureTimeChange}
                     />
                 </FormControl>
-            </div>
+
+                <Button
+                // REMEMBER THESE
+                isDisabled={!formIsValid()}
+                isLoading={false}
+                mt={4}
+                colorScheme='yellow'
+                type='submit'>
+                Submit
+                </Button>
+            </form>
         </div>
     );
 };
