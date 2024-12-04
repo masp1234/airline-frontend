@@ -1,21 +1,16 @@
 import {
+    Flex,
     Button,
     FormControl,
     FormLabel,
     Input,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton,
-    useDisclosure,
+    useDisclosure
 } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import Flight from "../types/flight";
 import UpdateFlight from "../types/updateFlight";
 import DatePicker from "react-datepicker";
+import ConfirmDialogBox from "./ConfirmDialogBox";
 
 interface ManageFlightFormProps {
     flight: Flight
@@ -26,9 +21,8 @@ interface ManageFlightFormProps {
 }
 
 const ManageFlightForm = (props: ManageFlightFormProps) => {
-    const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const marginTop = 4;
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const [selectedDepartureDate, setSelectedDepartureDate] = useState<Date | null>(null);
     const [selectedDepartureTime, setSelectedDepartureTime] = useState<string | null>(null);
 
@@ -48,7 +42,6 @@ const ManageFlightForm = (props: ManageFlightFormProps) => {
     }
 
     const handleDeleteFlight = () => {
-        console.log("hello");
         props.deleteMutation();
     }
 
@@ -78,79 +71,110 @@ const ManageFlightForm = (props: ManageFlightFormProps) => {
 
     return (
         <>
-        <form>
-        <FormControl mt={marginTop}>
-            <FormLabel>Flight code</FormLabel>
-            <Input type='text' value={props.flight?.flightCode} readOnly={true}/>
-        </FormControl>
-        <FormControl mt={marginTop}>
-            <FormLabel>Destination airport</FormLabel>
-            <Input type='text' value={props.flight?.arrivalPortNavigation.name} readOnly={true}/>
-        </FormControl>
-        <FormControl mt={marginTop}>
-            <FormLabel>Departure airport</FormLabel>
-            <Input type='text' value={props.flight?.departurePortNavigation.name} readOnly={true}/>
-        </FormControl>
-        <FormControl mt={marginTop}>
-            <FormLabel>Completion time</FormLabel>
-            <Input type='text' value={props.flight?.completionTime.replace("T", " ")} readOnly={true}/>
-        </FormControl>
-        <FormControl mt={marginTop}>
-            <FormLabel>Pick a departure date</FormLabel>
-            <DatePicker selected={selectedDepartureDate} onChange={handleDepartureDateChange} />
-        </FormControl>
-        <FormControl mt={marginTop}>
-            <FormLabel>Pick a departure time</FormLabel>
-            <input
-                aria-label="Time"
-                value={selectedDepartureTime || ""}
-                type="time"
-                onChange={handleDepartureTimeChange}
-            />
-        </FormControl>
-        <div>
-           
-           <Button
-               // REMEMBER THESE
-               onClick={handleUpdateFlight}
-               isDisabled={!formIsValid()}
-               isLoading={props.updateIsPending}
-               mt={4}
-               colorScheme='yellow'
-               type='button'>
-               Update flight
-               </Button>
-               <Button
-               // REMEMBER THESE
-               onClick={onOpen}
-               isLoading={props.deleteIsPending}
-               mt={4}
-               colorScheme='red'
-               type='button'>
-               Delete flight
-               </Button>
-       </div>
-    </form>
+        <Flex flexDirection={"column"}>
+                <Flex flexDirection={"row"} gap={6} justifyContent={"space-around"}>
+                    <FormControl >
+                        <FormLabel>Flight code</FormLabel>
+                        <Input type='text' value={props.flight.flightCode} readOnly={true}/>
+                    </FormControl>
+                    <FormControl>
+                        <FormLabel>Destination airport</FormLabel>
+                        <Input type='text' value={props.flight.arrivalPortNavigation.name} readOnly={true}/>
+                    </FormControl>
+                    <FormControl>
+                        <FormLabel>Departure airport</FormLabel>
+                        <Input type='text' value={props.flight.departurePortNavigation.name} readOnly={true}/>
+                    </FormControl>
+                    <FormControl>
+                        <FormLabel>Completion time</FormLabel>
+                        <Input type='text' value={props.flight.completionTime.replace("T", " ")} readOnly={true}/>
+                    </FormControl>
+                    <FormControl>
+                        <FormLabel>Pick a departure date</FormLabel>
+                        <DatePicker selected={selectedDepartureDate} onChange={handleDepartureDateChange} />
+                    </FormControl>
+                </Flex>
+                
+                <Flex flexDirection={"row"} gap={6} justifyContent={"space-around"}>
+                    <FormControl>
+                        <FormLabel>Pick a departure time</FormLabel>
+                        <input
+                            aria-label="Time"
+                            value={selectedDepartureTime || ""}
+                            type="time"
+                            onChange={handleDepartureTimeChange}
+                        />
+                    </FormControl>
+                    <FormControl>
+                        <FormLabel>Flight time</FormLabel>
+                        <Input type='text' value={props.flight.travelTime} readOnly={true}/>
+                    </FormControl>
+                    <FormControl>
+                        <FormLabel>Flight distance in kilometers</FormLabel>
+                        <Input type='text' value={props.flight.kilometers} readOnly={true}/>
+                    </FormControl>
+                    <FormControl>
+                        <FormLabel>Base price per ticket</FormLabel>
+                        <Input type='text' value={props.flight.price} readOnly={true}/>
+                    </FormControl>
+                    <FormControl>
+                        <FormLabel>Economy class seats available</FormLabel>
+                        <Input type='text' value={props.flight.economyClassSeatsAvailable} readOnly={true}/>
+                    </FormControl>
+                    <FormControl>
+                        <FormLabel>Business class seats available</FormLabel>
+                        <Input type='text' value={props.flight.businessClassSeatsAvailable} readOnly={true}/>
+                    </FormControl>
+                    <FormControl>
+                        <FormLabel>First class seats available</FormLabel>
+                        <Input type='text' value={props.flight.firstClassSeatsAvailable} readOnly={true}/>
+                    </FormControl>
+                    <FormControl>
+                        <FormLabel>Airplane name</FormLabel>
+                        <Input type='text' value={props.flight.flightsAirplane.name} readOnly={true}/>
+                    </FormControl>
+                    <FormControl>
+                        <FormLabel>Airline name</FormLabel>
+                        <Input type='text' value={props.flight.flightsAirline.name} readOnly={true}/>
+                    </FormControl>
+                </Flex>
 
-        <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-        <ModalHeader>Warning</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
-        Are you sure you want to delete this flight?
-        </ModalBody>
-        <ModalFooter>
-            <Button colorScheme="red" mr={3} onClick={handleDeleteFlight} isLoading={props.deleteIsPending}>
-            Delete
+             
+
+
+            
+        </Flex>
+
+        <Flex>
+            <Button
+                onClick={handleUpdateFlight}
+                isDisabled={!formIsValid()}
+                isLoading={props.updateIsPending}
+                mt={4}
+                colorScheme='yellow'
+                type='button'>
+                Update flight
             </Button>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-            Close
+            <Button
+                onClick={onOpen}
+                isLoading={props.deleteIsPending}
+                mt={4}
+                colorScheme='red'
+                type='button'>
+                Delete flight
             </Button>
-        </ModalFooter>
-        </ModalContent>
-        </Modal>
-        </>
+        </Flex>
+
+        <ConfirmDialogBox 
+                header="Warning" 
+                description="Are you sure you want to delete this flight?" 
+                confirmButtonText="Delete"
+                confirmIsLoading={props.deleteIsPending}
+                isOpen={isOpen}
+                handleConfirmClick={handleDeleteFlight}
+                onClose={onClose}
+            ></ConfirmDialogBox>
+            </>
     )
 }
 

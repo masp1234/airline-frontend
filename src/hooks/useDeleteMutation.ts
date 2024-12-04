@@ -12,6 +12,7 @@ export const useDeleteMutation = ({ endpoint, onSuccess, onError }: UseDeleteMut
   return useMutation({
     mutationFn: async () => {
       const response = await fetch(`${BASE_URL}/${endpoint}`, {
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },

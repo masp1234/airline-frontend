@@ -26,7 +26,7 @@ const ManageFlight = () => {
     const deleteMutation = useDeleteMutation(
         { 
             endpoint: `flights/${flightId}` , 
-            onSuccess: async() =>  navigate("/manage-flights"), 
+            onSuccess: async() => navigate("/manage-flights"), 
             onError: () => showResourceCreatedErrorToast("flight")
         });
 

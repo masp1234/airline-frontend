@@ -15,5 +15,5 @@ export default interface Flight {
     arrivalPortNavigation: Airport;
     departurePortNavigation: Airport;
     flightsAirline: Airline;
-    flightAirplane: Airplane;
+    flightsAirplane: Airplane;
 }
