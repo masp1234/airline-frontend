@@ -2,17 +2,14 @@ import axios, { AxiosRequestConfig } from "axios";
 import BASE_URL from "../util/baseUrl";
 
 
-export interface Response<T> {
-  data: T[];
-}
-
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
   params: {
   },
 });
 
-class ApiClient<T> {
+class ApiClient<T, R = T> {
+
   endpoint: string;
 
   constructor(endpoint: string) {
@@ -21,7 +18,8 @@ class ApiClient<T> {
 
   get = (config?: AxiosRequestConfig) =>
     axiosInstance
-      .get<Response<T>>(this.endpoint, config)
+      .get<R>(this.endpoint, config)
+
       .then((response) => response.data);
 }
 

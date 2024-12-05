@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import ApiClient, { Response } from "../services/api-client";
+import ApiClient from "../services/api-client";
+
 import ms from "ms";
 import { useAppSelector } from "./useRedux";
 
@@ -32,10 +33,14 @@ export interface Flight {
   arrivalPortNavigation: PortNavigation;
   flightsAirline: FlightsAirline;
 }
+export interface FlightsResposne {
+  flights: Flight[]
+}
 
 
 // Instantiate the API client with the base path
-const apiClient = new ApiClient<Flight>("/flights/search");
+const apiClient = new ApiClient<Flight, FlightsResposne>("/flights/search");
+
 
 
 
@@ -54,7 +59,8 @@ export const useFindFlight = (flightTrip: string | null) =>{
         ? findFlightQuery?.returnDate ?? "2024-12-01"
         : findFlightQuery?.departureDate ?? "2024-11-21";
 
-    return useQuery<Response<Flight>, Error>({
+    return useQuery<FlightsResposne, Error>({
+
         queryKey: ["flights", flightTrip, findFlightQuery],
         queryFn: () =>
         apiClient.get({
