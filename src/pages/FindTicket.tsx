@@ -6,10 +6,14 @@ import  { useState, useEffect } from "react";
 import { useAppSelector } from '../hooks/useRedux';
 
 
-  
+export interface SelectedTicket {
+    flightId: number | null,
+    selectedSeat: number | null
+}
 
 const FindTicket = () => {
     const [flightTrip, setFlightTrip] = useState<string | null >("");
+    const [selectedTicket, setSelectedTicket] = useState<SelectedTicket | null >();
 
     
     const navigate = useNavigate();
@@ -17,7 +21,7 @@ const FindTicket = () => {
 
     useEffect(() => {
         setFlightTrip( location.pathname);
-        
+        window.scrollTo({ top: 0, behavior: "smooth" });
     },[location.pathname]);
 
     const { data, isLoading, error } = useFindFlight(flightTrip);
@@ -45,9 +49,9 @@ const FindTicket = () => {
             {flights[0].departurePortNavigation.name} to {flights[0].arrivalPortNavigation.name}
         </Text>
         {flights?.map((flight: Flight) =>(
-            <FindTicketCard key={flight.id} flight={flight} flightTrip= {flightTrip}/> 
+            <FindTicketCard key={flight.id} flight={flight} flightTrip= {flightTrip} selectedTicket={selectedTicket || { flightId: null, selectedSeat: null }} onSendData={setSelectedTicket}/> 
         ))}
-        <Button colorScheme='teal' onClick={handleNextOnClick}>Next</Button>
+        <Button colorScheme='teal' m='5px' w={40} onClick={handleNextOnClick}>Next</Button>
     </VStack>
   )
 }

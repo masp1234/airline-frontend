@@ -24,7 +24,6 @@ const PassengerCard = ({ onSendData, passengerNumber }: Props) => {
         }
     }, [firstName, lastName, email]);
 
-    
     useEffect(() => {
         if (passenger) {
             onSendData(passenger);

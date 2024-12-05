@@ -2,27 +2,29 @@ import {Card, Divider, Grid, GridItem, HStack, VStack, Text, Button,} from '@cha
 import { Flight } from "../hooks/useFindFlight";
 import { useAppSelector, useAppDispatch } from '../hooks/useRedux';
 import { clearDepartureTicket, clearReturnTicketData, setDepartureTicket, setReturnTicketData } from '../redux/ticketReduser';
-import { useState } from 'react';
+//import { useState } from 'react';
+import { SelectedTicket } from '../pages/FindTicket';
 
 interface Props {
     flight: Flight;
     flightTrip: string| null;
+    selectedTicket: SelectedTicket | null;
+    onSendData: (data: SelectedTicket) => void;
   }
-interface SelectedTicket {
-    flightId: number | null,
-    selectedSeat: number | null
-}
 
-const FindTicketCard = ({ flight , flightTrip}: Props) => {
+
+
+const FindTicketCard = ({onSendData, selectedTicket, flight , flightTrip}: Props) => {
     //const [selectedSeat, setSelectedSeat] = useState<number | null >(0);
-    const [selectedTicket, setSelectedTicket] = useState<SelectedTicket | null >();
+   // const [selectedTicket, setSelectedTicket] = useState<SelectedTicket | null >();
     const departureTime = new Date(flight.departureTime);
     const arrivalTime = new Date(departureTime);
     arrivalTime.setMinutes(departureTime.getMinutes() + flight.travelTime);
     const durationHours = Math.floor(flight.travelTime / 60);
     const durationMinutes = flight.travelTime % 60;
-    const durationTime = durationHours.toString + "h" + durationMinutes?.toString && durationMinutes?.toString + "m"
+    const durationTime = durationHours + " h. " + durationMinutes + durationMinutes + " m. ";
 
+    console.log(durationTime)
     const ticketInfo = useAppSelector((state) => state.ticketData.data);
     const findFlightQuery = useAppSelector((state) => state.searchFlightData.data);
     const dispatch = useAppDispatch();
@@ -46,7 +48,7 @@ const FindTicketCard = ({ flight , flightTrip}: Props) => {
 
             })
         );
-        setSelectedTicket({flightId: flightId, selectedSeat: flightClassId })
+        onSendData({flightId: flightId, selectedSeat: flightClassId })
 
     };
     const handleSelectedReturnTicket = (flightClassId: number, flightId: number, price: number) => {
@@ -69,7 +71,7 @@ const FindTicketCard = ({ flight , flightTrip}: Props) => {
 
             })
         );
-        setSelectedTicket({flightId: flightId, selectedSeat: flightClassId })
+        onSendData({flightId: flightId, selectedSeat: flightClassId })
 
     };
     const handleSelectedTicket = (flightClassId: number, flightId: number, price: number) => {

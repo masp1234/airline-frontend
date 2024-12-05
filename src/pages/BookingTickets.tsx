@@ -40,9 +40,9 @@ const BookingTickets = () => {
     }, [passenger, ticketInfo]);
 
     
-    
       const handleSubmitBooking = async (event: React.SyntheticEvent)=>{
         event.preventDefault();
+        console.log(tickets)
         
         const newBooking = {
             email: userEmail,
@@ -50,6 +50,7 @@ const BookingTickets = () => {
         }
         mutate(newBooking);
     }
+    console.log(ticketInfo?.departureTicket)
   return (
     <>
     <SimpleGrid columns={2} spacing={10}>
