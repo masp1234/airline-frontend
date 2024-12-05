@@ -40,9 +40,10 @@ const BookingTickets = () => {
     }, [passenger, ticketInfo]);
 
     
+
+    
       const handleSubmitBooking = async (event: React.SyntheticEvent)=>{
         event.preventDefault();
-        console.log(tickets)
         
         const newBooking = {
             email: userEmail,
@@ -50,7 +51,7 @@ const BookingTickets = () => {
         }
         mutate(newBooking);
     }
-    console.log(ticketInfo?.departureTicket)
+
   return (
     <>
     <SimpleGrid columns={2} spacing={10}>
@@ -86,6 +87,7 @@ const BookingTickets = () => {
             <Text mb="4" fontSize='xl'>
                 Total Amount:  {((ticketInfo?.departureTicket?.price ?? 0) +
                  (ticketInfo?.returnTicket?.price ?? 0)) * (ticketInfo?.departureTicket?.passenger ?? 1)} €
+
             </Text>
             
         </Box>

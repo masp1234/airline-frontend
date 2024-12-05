@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 import BASE_URL from "../util/baseUrl";
 
+
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
   params: {
@@ -8,6 +9,7 @@ const axiosInstance = axios.create({
 });
 
 class ApiClient<T, R = T> {
+
   endpoint: string;
 
   constructor(endpoint: string) {
@@ -17,6 +19,7 @@ class ApiClient<T, R = T> {
   get = (config?: AxiosRequestConfig) =>
     axiosInstance
       .get<R>(this.endpoint, config)
+
       .then((response) => response.data);
 }
 

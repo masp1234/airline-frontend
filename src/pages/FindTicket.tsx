@@ -1,5 +1,6 @@
 import { VStack, Text, Button} from '@chakra-ui/react';
 import useFindFlight, { Flight } from '../hooks/useFindFlight';
+
 import FindTicketCard from '../components/FindTicketCard';
 import { useNavigate, useLocation } from 'react-router-dom';
 import  { useState, useEffect } from "react";
@@ -15,6 +16,7 @@ const FindTicket = () => {
     const [flightTrip, setFlightTrip] = useState<string | null >("");
     const [selectedTicket, setSelectedTicket] = useState<SelectedTicket | null >();
 
+
     
     const navigate = useNavigate();
     const location = useLocation();
@@ -22,6 +24,7 @@ const FindTicket = () => {
     useEffect(() => {
         setFlightTrip( location.pathname);
         window.scrollTo({ top: 0, behavior: "smooth" });
+
     },[location.pathname]);
 
     const { data, isLoading, error } = useFindFlight(flightTrip);
@@ -32,6 +35,7 @@ const FindTicket = () => {
     if (error) return <Text>Error fetching flights: {error.message}</Text>;
 
     const flights = data?.flights || [];
+
 
     const handleNextOnClick = () => {
         const nextPath = searchFlight?.isRoundTrip 
@@ -52,6 +56,7 @@ const FindTicket = () => {
             <FindTicketCard key={flight.id} flight={flight} flightTrip= {flightTrip} selectedTicket={selectedTicket || { flightId: null, selectedSeat: null }} onSendData={setSelectedTicket}/> 
         ))}
         <Button colorScheme='teal' m='5px' w={40} onClick={handleNextOnClick}>Next</Button>
+
     </VStack>
   )
 }

@@ -6,7 +6,7 @@ interface Props {
 
   }
 const TicketInfo = ({ticketInfo}: Props) => {
-  console.log(ticketInfo.duration)
+
   return (
     <>
     <HStack  padding="10px">
