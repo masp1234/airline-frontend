@@ -2,13 +2,14 @@ import { useMutation } from "@tanstack/react-query";
 import BASE_URL from "../util/baseUrl";
 import { useResourceCreatedToast } from "../toasts/resourceCreated";
 import { useResourceCreatedErrorToast } from "../toasts/resourceCreatedError";
-interface UseCreateMutationOptions<T> {
+interface UseCreateMutationOptions {
   endpoint: string;
   method: string;
   onSuccess: () => void;
 }
 
-export const useCreateMutation = <T>({ endpoint, method, onSuccess }: UseCreateMutationOptions<T>) => {
+
+export const useCreateMutation = <T>({ endpoint, onSuccess }: UseCreateMutationOptions) => {
     const { showResourceCreatedToast } = useResourceCreatedToast();
     const { showResourceCreatedErrorToast } = useResourceCreatedErrorToast();
 

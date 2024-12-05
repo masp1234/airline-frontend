@@ -1,15 +1,21 @@
 import { VStack, Text, Button} from '@chakra-ui/react';
-import useFindFlight from '../hooks/useFindFlight';
+import useFindFlight, { Flight } from '../hooks/useFindFlight';
+
 import FindTicketCard from '../components/FindTicketCard';
 import { useNavigate, useLocation } from 'react-router-dom';
 import  { useState, useEffect } from "react";
 import { useAppSelector } from '../hooks/useRedux';
 
 
-  
+export interface SelectedTicket {
+    flightId: number | null,
+    selectedSeat: number | null
+}
 
 const FindTicket = () => {
     const [flightTrip, setFlightTrip] = useState<string | null >("");
+    const [selectedTicket, setSelectedTicket] = useState<SelectedTicket | null >();
+
 
     
     const navigate = useNavigate();
@@ -17,7 +23,8 @@ const FindTicket = () => {
 
     useEffect(() => {
         setFlightTrip( location.pathname);
-        
+        window.scrollTo({ top: 0, behavior: "smooth" });
+
     },[location.pathname]);
 
     const { data, isLoading, error } = useFindFlight(flightTrip);
@@ -27,7 +34,8 @@ const FindTicket = () => {
 
     if (error) return <Text>Error fetching flights: {error.message}</Text>;
 
-    const flights = data?.data || [];
+    const flights = data?.flights || [];
+
 
     const handleNextOnClick = () => {
         const nextPath = searchFlight?.isRoundTrip 
@@ -44,10 +52,11 @@ const FindTicket = () => {
         <Text fontSize='3xl'>
             {flights[0].departurePortNavigation.name} to {flights[0].arrivalPortNavigation.name}
         </Text>
-        {flights?.map((flight) =>(
-            <FindTicketCard key={flight.id} flight={flight} flightTrip= {flightTrip}/> 
+        {flights?.map((flight: Flight) =>(
+            <FindTicketCard key={flight.id} flight={flight} flightTrip= {flightTrip} selectedTicket={selectedTicket || { flightId: null, selectedSeat: null }} onSendData={setSelectedTicket}/> 
         ))}
-        <Button colorScheme='teal' onClick={handleNextOnClick}>Next</Button>
+        <Button colorScheme='teal' m='5px' w={40} onClick={handleNextOnClick}>Next</Button>
+
     </VStack>
   )
 }

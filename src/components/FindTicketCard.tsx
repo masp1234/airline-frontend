@@ -2,21 +2,29 @@ import {Card, Divider, Grid, GridItem, HStack, VStack, Text, Button,} from '@cha
 import { Flight } from "../hooks/useFindFlight";
 import { useAppSelector, useAppDispatch } from '../hooks/useRedux';
 import { clearDepartureTicket, clearReturnTicketData, setDepartureTicket, setReturnTicketData } from '../redux/ticketReduser';
-import { useState } from 'react';
+//import { useState } from 'react';
+import { SelectedTicket } from '../pages/FindTicket';
 
 interface Props {
     flight: Flight;
     flightTrip: string| null;
+    selectedTicket: SelectedTicket | null;
+    onSendData: (data: SelectedTicket) => void;
   }
 
-const FindTicketCard = ({ flight , flightTrip}: Props) => {
-    const [selectedSeat, setSelectedSeat] = useState<number | null >(0);
+
+
+const FindTicketCard = ({onSendData, selectedTicket, flight , flightTrip}: Props) => {
+
+  
+
     const departureTime = new Date(flight.departureTime);
     const arrivalTime = new Date(departureTime);
     arrivalTime.setMinutes(departureTime.getMinutes() + flight.travelTime);
     const durationHours = Math.floor(flight.travelTime / 60);
     const durationMinutes = flight.travelTime % 60;
-    const durationTime = durationHours.toString + "h" + durationMinutes?.toString && durationMinutes?.toString + "m"
+    const durationTime = durationHours + " h. " + durationMinutes + durationMinutes + " m. ";
+
 
     const ticketInfo = useAppSelector((state) => state.ticketData.data);
     const findFlightQuery = useAppSelector((state) => state.searchFlightData.data);
@@ -41,7 +49,7 @@ const FindTicketCard = ({ flight , flightTrip}: Props) => {
 
             })
         );
-        setSelectedSeat(flightClassId)
+        onSendData({flightId: flightId, selectedSeat: flightClassId })
 
     };
     const handleSelectedReturnTicket = (flightClassId: number, flightId: number, price: number) => {
@@ -64,7 +72,8 @@ const FindTicketCard = ({ flight , flightTrip}: Props) => {
 
             })
         );
-        setSelectedSeat(flightClassId)
+        onSendData({flightId: flightId, selectedSeat: flightClassId })
+
 
     };
     const handleSelectedTicket = (flightClassId: number, flightId: number, price: number) => {
@@ -111,7 +120,8 @@ const FindTicketCard = ({ flight , flightTrip}: Props) => {
                     <Text>{flight.price} €</Text>
                     <Text>{flight.economyClassSeatsAvailable} Seats Availabe </Text>
                     
-                    <Button colorScheme='teal' variant={selectedSeat==1? 'solid': 'outline'} onClick={() => handleSelectedTicket(1, flight.id, flight.price )}>Select</Button>
+                    <Button colorScheme='teal' variant={selectedTicket?.selectedSeat === 1 && selectedTicket.flightId === flight.id ? 'solid': 'outline'} onClick={() => handleSelectedTicket(1, flight.id, flight.price )}>Select</Button>
+
                     
 
                     
@@ -123,7 +133,7 @@ const FindTicketCard = ({ flight , flightTrip}: Props) => {
                     <Text fontSize='2xl'>Business</Text>
                     <Text>{flight.price + 99} €</Text>
                     <Text>{flight.businessClassSeatsAvailable} Seats Availabe </Text>
-                    <Button colorScheme='teal' variant={selectedSeat==2? 'solid': 'outline'} onClick={() => handleSelectedTicket(2, flight.id, flight.price + 99)}>Select</Button>
+                    <Button colorScheme='teal' variant={selectedTicket?.selectedSeat === 2 && selectedTicket.flightId === flight.id ? 'solid': 'outline'} onClick={() => handleSelectedTicket(2, flight.id, flight.price + 99)}>Select</Button>
                     
 
                 </VStack>
@@ -133,7 +143,7 @@ const FindTicketCard = ({ flight , flightTrip}: Props) => {
                     <Text fontSize='2xl'>First Class</Text>
                     <Text>{flight.price + 149} €</Text>
                     <Text>{flight.firstClassSeatsAvailable} Seats Availabe </Text>
-                    <Button colorScheme='teal' variant={selectedSeat==3? 'solid': 'outline'} onClick={() => handleSelectedTicket(3, flight.id, flight.price + 149)}>Select</Button>
+                    <Button colorScheme='teal' variant={selectedTicket?.selectedSeat === 3 && selectedTicket.flightId === flight.id ? 'solid': 'outline'} onClick={() => handleSelectedTicket(3, flight.id, flight.price + 149)}>Select</Button>
                     
 
                     

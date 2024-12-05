@@ -6,6 +6,7 @@ interface Props {
 
   }
 const TicketInfo = ({ticketInfo}: Props) => {
+
   return (
     <>
     <HStack  padding="10px">
