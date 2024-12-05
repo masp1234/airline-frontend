@@ -10,6 +10,8 @@ import Login from './pages/Login';
 import CreateFlight from './pages/CreateFlight';
 import FindTicket from "./pages/FindTicket.tsx";
 import BookingTickets from "./pages/BookingTickets.tsx";
+import ManageFlight from "./pages/ManageFlight.tsx";
+import ManageFlights from "./pages/ManageFlights.tsx";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +41,8 @@ function App() {
             <Route path='/find-ticket/departure' element={<FindTicket/>}/>
             <Route path='/find-ticket/return' element={<FindTicket/>}/>
             <Route path='/booking' element={<BookingTickets/>}/>
+            <Route path='/manage-flights' element={<ManageFlights/>}/>
+            <Route path='/manage-flights/:flightId' element={<ManageFlight/>}/>
             </Routes>
           </Container>
         </GridItem>
