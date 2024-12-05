@@ -31,7 +31,7 @@ const Header = () => {
   const { isOpen, onOpen, onClose} = useDisclosure()
 
   const navigate = useNavigate();
-  const setRole = useRoleStore((state) => state.setRole);
+  const setUser = useRoleStore((state) => state.setUser);
   const toast = useToast();
 
   const logo = colorMode === "dark" ? logoDark : logoLight;
@@ -83,7 +83,7 @@ const Header = () => {
                   width="100%"
                   mb="4"
                   fontWeight="normal"
-                  onClick={() => handleLogout(setRole, toast, navigate)}
+                  onClick={() => handleLogout(setUser, toast, navigate)}
                 >
                   User Logout
                 </Button>
