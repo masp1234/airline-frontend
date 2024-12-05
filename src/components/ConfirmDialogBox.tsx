@@ -27,7 +27,7 @@ const ConfirmDialogBox = ({
     closeButtonText = "Close",
     confirmIsLoading,
     isOpen,
-    onClose = () => {},
+    onClose,
     handleConfirmClick,
 }: ConfirmDialogBoxProps) => {
 

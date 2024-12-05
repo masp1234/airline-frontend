@@ -5,14 +5,13 @@ import { useDeleteMutation } from "../hooks/useDeleteMutation";
 import useFlight from "../hooks/useFlights";
 import ManageFlightForm from "../components/ManageFlightForm";
 import UpdateFlight from "../types/updateFlight";
-import { useResourceCreatedErrorToast } from "../toasts/resourceCreatedError";
+import { useResourceDeletedErrorToast } from "../toasts/resourceDeletedError";
 
 const ManageFlight = () => {
     
     const navigate = useNavigate();
-
     const queryClient = useQueryClient();
-    const { showResourceCreatedErrorToast } = useResourceCreatedErrorToast();
+    const { showResourceDeletedErrorToast } = useResourceDeletedErrorToast();
     const params = useParams();
     const { flightId } = params;
     const { flightQuery } = useFlight(flightId);
@@ -27,7 +26,8 @@ const ManageFlight = () => {
         { 
             endpoint: `flights/${flightId}` , 
             onSuccess: async() => navigate("/manage-flights"), 
-            onError: () => showResourceCreatedErrorToast("flight")
+            // Make it reusable (the error toast)
+            onError: () => showResourceDeletedErrorToast("flight")
         });
 
     if (flightQuery.isLoading) {
@@ -39,12 +39,13 @@ const ManageFlight = () => {
     }
 
     return (
-        <>
-       
-      <ManageFlightForm flight={flightQuery?.data?.data} updateMutation={updateMutation.mutate} deleteMutation={deleteMutation.mutate} deleteIsPending={deleteMutation.isPending} updateIsPending={updateMutation.isPending}>
-
+      <ManageFlightForm 
+      flight={flightQuery?.data?.data} 
+      updateMutation={updateMutation.mutate} 
+      deleteMutation={deleteMutation.mutate} 
+      deleteIsPending={deleteMutation.isPending} 
+      updateIsPending={updateMutation.isPending}>
       </ManageFlightForm>
-      </>
     );
 };
 
