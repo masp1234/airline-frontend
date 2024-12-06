@@ -1,5 +1,5 @@
 export default interface FlightSearchParameters {
-    departureAirportId: number
-    destinationAirportId: number
-    departureDate: string
+    departureAirportId: number | null
+    destinationAirportId: number | null
+    departureDate: string | null
 }
