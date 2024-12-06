@@ -12,8 +12,11 @@ const useSearchFlights = (searchParameters: FlightSearchParameters) => {
             return await fetchData(
             `/flights/search?departureAirportId=${searchParameters.departureAirportId}&destinationAirportId=${searchParameters.destinationAirportId}&departureDate=${searchParameters.departureDate}`)
         },
-        enabled: searchParameters.departureAirportId !== null &&
-                 searchParameters.destinationAirportId !== null
+        enabled: 
+            searchParameters.departureAirportId !== null && 
+            searchParameters.departureAirportId !== 0 &&
+            searchParameters.destinationAirportId !== null 
+            && searchParameters.destinationAirportId !== 0
                 });
       return { searchFlightsQuery }
 }
