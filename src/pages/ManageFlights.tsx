@@ -1,7 +1,6 @@
 import {
     Box,
     FormControl,
-    Select,
     FormLabel,
     Table,
     Thead,
@@ -13,7 +12,7 @@ import {
     TableContainer,
     VStack,
     Show,
-    Hide
+    Select,
   } from "@chakra-ui/react";
   import { useEffect, useState } from "react";
   import { useNavigate } from "react-router-dom";
@@ -120,9 +119,8 @@ import {
           boxShadow="md"
         >
           <FormControl>
-            <FormLabel>Departure</FormLabel>
+            <FormLabel>Departure Airport</FormLabel>
             <Select
-              placeholder="Select airport"
               value={selectedDepartureAirport || ""}
               onChange={handleDepartureChange}
               name="departureAirportId"
@@ -135,13 +133,11 @@ import {
             </Select>
           </FormControl>
           <FormControl>
-            <FormLabel>Arrival</FormLabel>
+            <FormLabel>Arrival Airport</FormLabel>
             <Select
-              placeholder="Select airport"
               value={selectedArrivalAirport || ""}
               onChange={handleArrivalChange}
-              name="destinationAirportId"
-            >
+              name="destinationAirportId">
               {filteredArrivalAirports?.map((airport) => (
                 <option key={airport.id} value={airport.id}>
                   {airport.name}
@@ -167,9 +163,10 @@ import {
               <Thead>
                 <Tr>
                   <Th>Flight Code</Th>
-                  <Th>Departure Airport</Th>
-                  <Th>Arrival Airport</Th>
-                  <Show above="sm">
+                  <Th>Departure</Th>
+                  
+                  <Show above="md">
+                    <Th>Arrival</Th>
                     <Th>Departure Date</Th>
                     <Th>Completion Time</Th>
                   </Show>
@@ -183,11 +180,14 @@ import {
                       onClick={() => navigate(`/manage-flights/${flight.id}`)}
                       _hover={{ bg: "blue.500", cursor: "pointer" }}
                     >
-                      <Td>{flight.flightCode}</Td>
-                      <Td>{flight.departurePortNavigation.name}</Td>
-                      <Td>{flight.arrivalPortNavigation.name}</Td>
-                      <Td>{new Date(flight.departureTime).toLocaleString()}</Td>
-                      <Td>{new Date(flight.completionTime).toLocaleString()}</Td>
+                      <Td >{flight.flightCode}</Td>
+                      <Td >{flight.departurePortNavigation.name}</Td>
+                      <Show above="md">
+                        <Td>{flight.arrivalPortNavigation.name}</Td>
+                        <Td>{new Date(flight.departureTime).toLocaleString()}</Td>
+                        <Td>{new Date(flight.completionTime).toLocaleString()}</Td>
+                      </Show>
+                      
                     </Tr>
                   )
                 )}
@@ -196,8 +196,8 @@ import {
                 <Tr>
                   <Th>Flight Code</Th>
                   <Th>Departure</Th>
-                  <Th>Arrival</Th>
                   <Show above="sm">
+                    <Th>Arrival</Th>
                     <Th>Departure Date</Th>
                     <Th>Completion Time</Th>
                   </Show>
