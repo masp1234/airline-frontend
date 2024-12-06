@@ -13,8 +13,9 @@ import {
     VStack,
     Show,
     Select,
+    Hide
   } from "@chakra-ui/react";
-  import { useEffect, useState } from "react";
+  import { useEffect, useState, Fragment } from "react";
   import { useNavigate } from "react-router-dom";
   import Airport from "../types/airport";
   import useAirports from "../hooks/useAirports";
@@ -156,7 +157,6 @@ import {
           </FormControl>
         </VStack>
   
-        {/* Flights Table */}
         <Box overflowX="auto">
           <TableContainer>
             <Table variant="simple" size={{ base: "sm", md: "md" }}>
@@ -164,40 +164,48 @@ import {
                 <Tr>
                   <Th>Flight Code</Th>
                   <Th>Departure</Th>
-                  
+                  <Th>Arrival</Th>
                   <Show above="md">
-                    <Th>Arrival</Th>
                     <Th>Departure Date</Th>
                     <Th>Completion Time</Th>
                   </Show>
                 </Tr>
               </Thead>
               <Tbody>
-                {searchFlightsQuery?.searchFlightsQuery?.data?.flights.map(
-                  (flight: Flight) => (
-                    <Tr
-                      key={flight.id}
-                      onClick={() => navigate(`/manage-flights/${flight.id}`)}
-                      _hover={{ bg: "blue.500", cursor: "pointer" }}
-                    >
-                      <Td >{flight.flightCode}</Td>
-                      <Td >{flight.departurePortNavigation.name}</Td>
-                      <Show above="md">
-                        <Td>{flight.arrivalPortNavigation.name}</Td>
-                        <Td>{new Date(flight.departureTime).toLocaleString()}</Td>
-                        <Td>{new Date(flight.completionTime).toLocaleString()}</Td>
-                      </Show>
-                      
-                    </Tr>
-                  )
-                )}
-              </Tbody>
+  {searchFlightsQuery?.searchFlightsQuery?.data?.flights.map((flight: Flight) => (
+    <Fragment key={flight.id}>
+      <Hide below="md">
+        <Tr
+          key={`above-md-${flight.id}`}
+          onClick={() => navigate(`/manage-flights/${flight.id}`)}
+          _hover={{ bg: "blue.500", cursor: "pointer" }}
+        >
+          <Td>{flight.flightCode}</Td>
+          <Td>{flight.departurePortNavigation.name}</Td>
+          <Td>{flight.arrivalPortNavigation.name}</Td>
+          <Td>{new Date(flight.departureTime).toLocaleString()}</Td>
+          <Td>{new Date(flight.completionTime).toLocaleString()}</Td>
+        </Tr>
+      </Hide>
+      <Show below="md">
+        <Tr
+          key={`below-md-${flight.id}`}
+          onClick={() => navigate(`/manage-flights/${flight.id}`)}
+        >
+          <Td>{flight.flightCode}</Td>
+          <Td>{flight.departurePortNavigation.code}</Td>
+          <Td>{flight.arrivalPortNavigation.code}</Td>
+        </Tr>
+      </Show>
+    </Fragment>
+  ))}
+</Tbody>
               <Tfoot>
                 <Tr>
                   <Th>Flight Code</Th>
                   <Th>Departure</Th>
-                  <Show above="sm">
-                    <Th>Arrival</Th>
+                  <Th>Arrival</Th>
+                  <Show above="md">
                     <Th>Departure Date</Th>
                     <Th>Completion Time</Th>
                   </Show>
