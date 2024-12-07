@@ -12,6 +12,10 @@ const NavButtons = () => {
       <RoleGuard allowedRoles={["Admin"]}>    
         <Link to="/create-flight">Create Flight</Link>
       </RoleGuard>
+
+      <RoleGuard allowedRoles={["Admin"]}>
+        <Link to="/manage-flights">Manage Flights</Link>
+      </RoleGuard>
     </>
   );
 };
