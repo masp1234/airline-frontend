@@ -11,7 +11,6 @@ import {
 import cardPicture from "../assets/flight-pic.webp";
 import { useEffect, useState } from "react";
 
-// TS doesn't like it if the json data doesn't have type-definition.
 interface FlightData {
   date: string;
   departurePort: string;
