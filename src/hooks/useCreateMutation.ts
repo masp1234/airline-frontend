@@ -1,33 +1,23 @@
 import { useMutation } from "@tanstack/react-query";
-import BASE_URL from "../util/baseUrl";
+import { Method } from "axios";
 import { useResourceCreatedToast } from "../toasts/resourceCreated";
 import { useResourceCreatedErrorToast } from "../toasts/resourceCreatedError";
+import ApiClient from "../services/api-client";
 
 interface UseCreateMutationOptions {
   endpoint: string;
-  method: string;
+  method: Method;
   onSuccess: () => void;
 }
 
 export const useCreateMutation = <T>({ endpoint, method, onSuccess }: UseCreateMutationOptions) => {
+    const apiClient = new ApiClient<T>(`/${endpoint}`);
     const { showResourceCreatedToast } = useResourceCreatedToast();
     const { showResourceCreatedErrorToast } = useResourceCreatedErrorToast();
 
   return useMutation({
     mutationFn: async (newObject: T) => {
-      const response = await fetch(`${BASE_URL}/${endpoint}`, {
-        method: method,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newObject),
-        credentials: "include",
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok.");
-      }
-      return response.json();
+      return apiClient.create(newObject, method)
     },
     onSuccess: () => {
         showResourceCreatedToast(endpoint);

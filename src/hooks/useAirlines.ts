@@ -1,30 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
-import { useFetchData } from "./useFetchData";
-import { useEffect } from "react";
-import { useGetErrorToast } from "../toasts/getError"; 
+import ApiClient from "../services/api-client";
+import Airline from "../types/airline";
 
-
+export interface AirlinesResponse {
+  airlines: Airline[] 
+}
+const apiClient = new ApiClient<Airline, AirlinesResponse>(`/airlines`);
 
 const useAirlines = () => {
-    const { fetchData } = useFetchData();
-    const { showGetErrorToast } = useGetErrorToast();
-    const airlinesQuery = useQuery({
+
+    const airlinesQuery = useQuery<AirlinesResponse, Error>({
         queryKey: ['airlines'],
-        queryFn: async () => {
-          return await fetchData("/airlines")
+        queryFn: () => {
+          return  apiClient.get()
         }
       });
-    
-      useEffect(() => {
-        if (airlinesQuery
-          .isError) {
-          showGetErrorToast("airlines");
-        }
-        }, [
-        airlinesQuery.isError,
-        showGetErrorToast,
-      ]);
-      return { airlinesQuery }
+
+      return airlinesQuery 
 }
 
 export default useAirlines;
