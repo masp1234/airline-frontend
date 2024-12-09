@@ -6,83 +6,90 @@ import {
   Heading,
   Text,
   VStack,
-  Box
+  Box,
 } from "@chakra-ui/react";
 import cardPicture from "../assets/flight-pic.webp";
-import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
+// Need Tickets and flights.
+// Ticket data can already be aquired through bookings.
+// Flight data need to be aquired through a different query (findFlightById and then set it to flightId in tickets?)
+// There is already a hook to get flight data by id, useFlight.
+// Flight and Ticket data is only necessairy on new page?
+
+/*
+interface TicketData {
+  price: number;
+  ticketNumber: string;
+}
 
 interface FlightData {
-  date: string;
-  departurePort: string;
   arrivalPort: string;
+  departurePort: string;
+  confirmationNumber: string;
+  date: string;
   travelTime: number;
+}*/
+
+interface BookingData {
+  id: number;
   confirmationNumber: string;
 }
 
-const FlightCard = () => {
-  const [flightData, setFlightData] = useState<FlightData | null>(null);
+interface FlightCardProps {
+  bookingData: BookingData;
+}
 
-  useEffect(() => {
-    fetch("example-data.json")
-      .then((response) => response.json())
-      .then((data) => setFlightData(data[0]));
-  }, []);
-
-  if (!flightData) {
-    return <div>Missing flight data.</div>
+const FlightCard = ({ bookingData }: FlightCardProps) => {
+  if (!bookingData) {
+    return <div>Missing booking data.</div>;
   }
 
   return (
-    <Card
-      direction={{ base: "column", sm: "row" }}
-      overflow="hidden"
-      variant="outline"
-    //  width="50%"
+    <Link
+      to={`/booking/${bookingData.id}`}
+      style={{ textDecoration: "none" }}
     >
-      <Image
-        objectFit="cover"
-        maxW={{ base: "100%", sm: "200px" }}
-        src={cardPicture}
-        alt={flightData.arrivalPort}
-      />
+      <Card
+        direction={{ base: "column", sm: "row" }}
+        overflow="hidden"
+        variant="outline"
+      >
+        <Image
+          objectFit="cover"
+          maxW={{ base: "100%", sm: "200px" }}
+          src={cardPicture}
+          alt={`Flight to place`}
+        />
 
-      <Stack>
-        <VStack>
-          <CardBody>
-          <Box mb={4}>
-            <Heading size="2">Destination</Heading>
-            <Text py="1">
-              {flightData.arrivalPort}
-            </Text>
-          </Box>
-          <Box mb={4}>
-            <Heading size="2">Departure</Heading>
-            <Text py="1">
-              {flightData.departurePort}
-            </Text>
-          </Box>
-          <Box mb={4}>
-            <Heading size="2">Confirmation Number</Heading>
-            <Text py="1">
-              {flightData.confirmationNumber}
-            </Text>
-          </Box>
-          <Box mb={4}>
-            <Heading size="2">Date</Heading>
-            <Text py="1">
-              {flightData.date}
-            </Text>
-          </Box>
-          <Box mb={4}>
-            <Heading size="2">Travel Time</Heading>
-            <Text py="1">
-              {flightData.travelTime} hours
-            </Text>
-          </Box>
-          </CardBody>
-        </VStack>
-      </Stack>
-    </Card>
+        <Stack>
+          <VStack>
+            <CardBody>
+              <Box mb={4}>
+                <Heading size="2">Confirmation Number</Heading>
+                <Text py="1">{bookingData.confirmationNumber}</Text>
+              </Box>
+              <Box mb={4}>
+                <Heading size="2">Departure</Heading>
+                <Text py="1">{"Departure"}</Text>
+              </Box>
+              <Box mb={4}>
+                <Heading size="2">Arrival</Heading>
+                <Text py="1">{"Arrival"}</Text>
+              </Box>
+              <Box mb={4}>
+                <Heading size="2">Date</Heading>
+                <Text py="1">{"Date"}</Text>
+              </Box>
+              <Box mb={4}>
+                <Heading size="2">Travel Time</Heading>
+                <Text py="1">{"69420"} hours</Text>
+              </Box>
+            </CardBody>
+          </VStack>
+        </Stack>
+      </Card>
+    </Link>
   );
 };
 

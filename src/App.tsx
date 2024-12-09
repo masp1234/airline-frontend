@@ -12,6 +12,7 @@ import FindTicket from "./pages/FindTicket.tsx";
 import BookingTickets from "./pages/BookingTickets.tsx";
 import ManageFlight from "./pages/ManageFlight.tsx";
 import ManageFlights from "./pages/ManageFlights.tsx";
+import BookingInfo from "./pages/BookingInfo"
 import { NoRoleProtectedRoute, RoleProtectedRoute } from "./auth/RoleGuard.tsx";
 
 const queryClient = new QueryClient();
@@ -107,6 +108,14 @@ function App() {
                     </RoleProtectedRoute>
                   }
                 />
+                <Route
+                  path="/booking/:id"
+                  element={
+                    <RoleProtectedRoute allowedRoles={["Customer", "Admin"]}>
+                      <BookingInfo />
+                    </RoleProtectedRoute>
+                  }
+                  />
               </Routes>
             </Container>
           </GridItem>
