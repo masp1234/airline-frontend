@@ -46,49 +46,55 @@ const FlightCard = ({ bookingData }: FlightCardProps) => {
   }
 
   return (
-    <Link
-      to={`/booking/${bookingData.id}`}
-      style={{ textDecoration: "none" }}
-    >
-      <Card
-        direction={{ base: "column", sm: "row" }}
-        overflow="hidden"
-        variant="outline"
+    <Link to={`/booking/${bookingData.id}`} style={{ textDecoration: "none" }}>
+      <Box
+        sx={{
+          transition: "transform 0.2s",
+          _hover: {
+            transform: "scale(1.02)",
+          },
+        }}
       >
-        <Image
-          objectFit="cover"
-          maxW={{ base: "100%", sm: "200px" }}
-          src={cardPicture}
-          alt={`Flight to place`}
-        />
+        <Card
+          direction={{ base: "column", sm: "row" }}
+          overflow="hidden"
+          variant="outline"
+        >
+          <Image
+            objectFit="cover"
+            maxW={{ base: "100%", sm: "200px" }}
+            src={cardPicture}
+            alt={`Flight to place`}
+          />
 
-        <Stack>
-          <VStack>
-            <CardBody>
-              <Box mb={4}>
-                <Heading size="2">Confirmation Number</Heading>
-                <Text py="1">{bookingData.confirmationNumber}</Text>
-              </Box>
-              <Box mb={4}>
-                <Heading size="2">Departure</Heading>
-                <Text py="1">{"Departure"}</Text>
-              </Box>
-              <Box mb={4}>
-                <Heading size="2">Arrival</Heading>
-                <Text py="1">{"Arrival"}</Text>
-              </Box>
-              <Box mb={4}>
-                <Heading size="2">Date</Heading>
-                <Text py="1">{"Date"}</Text>
-              </Box>
-              <Box mb={4}>
-                <Heading size="2">Travel Time</Heading>
-                <Text py="1">{"69420"} hours</Text>
-              </Box>
-            </CardBody>
-          </VStack>
-        </Stack>
-      </Card>
+          <Stack>
+            <VStack>
+              <CardBody>
+                <Box mb={4}>
+                  <Heading size="2">Confirmation Number</Heading>
+                  <Text py="1">{bookingData.confirmationNumber}</Text>
+                </Box>
+                <Box mb={4}>
+                  <Heading size="2">Departure</Heading>
+                  <Text py="1">{"Departure"}</Text>
+                </Box>
+                <Box mb={4}>
+                  <Heading size="2">Arrival</Heading>
+                  <Text py="1">{"Arrival"}</Text>
+                </Box>
+                <Box mb={4}>
+                  <Heading size="2">Date</Heading>
+                  <Text py="1">{"Date"}</Text>
+                </Box>
+                <Box mb={4}>
+                  <Heading size="2">Travel Time</Heading>
+                  <Text py="1">{"69420"} hours</Text>
+                </Box>
+              </CardBody>
+            </VStack>
+          </Stack>
+        </Card>
+      </Box>
     </Link>
   );
 };
