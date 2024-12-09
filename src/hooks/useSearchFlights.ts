@@ -1,16 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
-import { useFetchData } from "./useFetchData";
 import FlightSearchParameters from "../types/flightSearchParameters";
+import ApiClient from "../services/api-client";
+import { Flight, FlightsResposne } from "./useFindFlight";
 
 const useSearchFlights = (searchParameters: FlightSearchParameters) => {
-    const { fetchData } = useFetchData();
-
-    const searchFlightsQuery = useQuery({
+    //const { fetchData } = useFetchData();
+    const apiClient = new ApiClient<Flight, FlightsResposne>("/flights/search");
+    const searchFlightsQuery = useQuery<FlightsResposne, Error>({
         queryKey: ['flights', searchParameters],
-        queryFn: async () => {
+        queryFn: async () => { 
             
-            return await fetchData(
-            `/flights/search?departureAirportId=${searchParameters.departureAirportId}&destinationAirportId=${searchParameters.destinationAirportId}&departureDate=${searchParameters.departureDate}`)
+            return  apiClient.get({
+                params: {
+                departureAirportId: searchParameters.departureAirportId,
+                destinationAirportId: searchParameters.destinationAirportId,
+                departureDate: searchParameters.departureDate,
+                },
+            }
+           )
         },
         enabled: 
             searchParameters.departureAirportId !== null && 

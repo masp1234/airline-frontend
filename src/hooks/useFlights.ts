@@ -1,15 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
-import { useFetchData } from "./useFetchData";
 import { useEffect } from "react";
 import { useGetErrorToast } from "../toasts/getError";
+import ApiClient from "../services/api-client";
+import { Flight, FlightsResposne } from "./useFindFlight";
 
 const useFlight = (flightId: string | undefined) => {
-    const { fetchData } = useFetchData();
+    const apiClient = new ApiClient<Flight, FlightsResposne>(`/flights/${flightId}`);
     const { showGetErrorToast } = useGetErrorToast();
     const flightQuery = useQuery({
         queryKey: ['flight', flightId],
         queryFn: async () => {
-          return await fetchData(`/flights/${flightId}`)
+          return apiClient.get();
         }
       });
     

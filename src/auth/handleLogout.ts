@@ -1,6 +1,6 @@
-import BASE_URL from "../util/baseUrl";
 import { UseToastOptions } from "@chakra-ui/react";
 import { NavigateFunction } from "react-router-dom";
+import ApiClient from "../services/api-client";
 
 export const handleLogout = async (
   setUser: (role: null, email: null) => void,
@@ -8,12 +8,10 @@ export const handleLogout = async (
   navigate: NavigateFunction
 ): Promise<void> => {
   try {
-    const response = await fetch(`${BASE_URL}/Users/logout`, {
-      method: "POST",
-      credentials: "include",
-    });
+    const apiClient = new ApiClient(`/Users/logout`);
 
-    if (response.ok) {
+    const response = apiClient.create(null,'POST');
+    if ((await response).status === 200) {
       setUser(null, null);
       toast({
         title: "Logged out",

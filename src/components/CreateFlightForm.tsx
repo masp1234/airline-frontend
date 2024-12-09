@@ -6,10 +6,11 @@ import {
 } from '@chakra-ui/react'
 import DatePicker from "react-datepicker";
 import FormSelect from "./FormSelect";
-import useNewFlightMutation from "../hooks/useNewFlightMutation.ts";
 import Airline from "../types/airline.ts"
 import Airplane from '../types/airplane.ts';
 import Airport from '../types/airport.ts';
+import { useCreateMutation } from "../hooks/useCreateMutation.ts";
+import NewFlightInformation from "../types/newFlightInformation.ts";
 
 interface CreateFlightFormProps {
     airlines: Airline[];
@@ -31,7 +32,7 @@ const CreateFlightForm = (props: CreateFlightFormProps) => {
         setIdempotencyKey("");
     };
 
-    const { newFlightMutation } = useNewFlightMutation(resetForm);
+    const  newFlightMutation  = useCreateMutation<NewFlightInformation>({endpoint: "flights", method: "POST", onSuccess: resetForm});
 
     const [idempotencyKey, setIdempotencyKey] = useState<string>("");
     const [selectedAirline, setSelectedAirline] = useState<number | null>(null);
