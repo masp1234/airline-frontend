@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import FlightSearchParameters from "../types/flightSearchParameters";
 import ApiClient from "../services/api-client";
-import { Flight, FlightsResposne } from "./useFindFlight";
+import { FlightsResposne } from "./useFindFlight";
+import Flight from "../types/flight";
 
 const useSearchFlights = (searchParameters: FlightSearchParameters) => {
-    //const { fetchData } = useFetchData();
     const apiClient = new ApiClient<Flight, FlightsResposne>("/flights/search");
     const searchFlightsQuery = useQuery<FlightsResposne, Error>({
         queryKey: ['flights', searchParameters],

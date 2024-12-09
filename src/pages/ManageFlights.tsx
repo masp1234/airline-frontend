@@ -21,7 +21,7 @@ import ManageFlightsTableRow from "../components/ManageFlightsTableRow";
 import ManageFlightsTableHeader from "../components/ManageFlightsTableHeader";
 
 const ManageFlights = () => {
-  const { airportsQuery } = useAirports();
+  const  airportsQuery  = useAirports();
   const [selectedDepartureAirport, setSelectedDepartureAirport] = useState<
     number | null
   >(null);
@@ -35,11 +35,11 @@ const ManageFlights = () => {
   const filteredDepartureAirports: Airport[] =
     airportsQuery.data?.airports?.filter(
       (airport: Airport) => airport.id !== selectedArrivalAirport
-    );
+    ) ?? [];
   const filteredArrivalAirports: Airport[] =
     airportsQuery.data?.airports?.filter(
       (airport: Airport) => airport.id !== selectedDepartureAirport
-    );
+    ) ?? [];
 
   const [flightSearchParameters, setFlightSearchParameters] =
     useState<FlightSearchParameters>({
@@ -49,18 +49,20 @@ const ManageFlights = () => {
     });
 
   useEffect(() => {
-    if (airportsQuery.data?.airports?.length > 1) {
-      const defaultDepartureId = airportsQuery.data.airports[0].id;
-      const defaultArrivalId = airportsQuery.data.airports[1].id;
+    const airports = airportsQuery.data?.airports;
+
+    if (airports && airports.length > 1) {
+      const defaultDepartureId = airportsQuery?.data?.airports[0].id;
+      const defaultArrivalId = airportsQuery?.data?.airports[1].id;
 
       setFlightSearchParameters({
-        departureAirportId: defaultDepartureId,
-        destinationAirportId: defaultArrivalId,
+        departureAirportId: defaultDepartureId ?? null,
+        destinationAirportId: defaultArrivalId ?? null,
         departureDate: getDatePartOfDate(new Date()),
       });
 
-      setSelectedDepartureAirport(defaultDepartureId);
-      setSelectedArrivalAirport(defaultArrivalId);
+      setSelectedDepartureAirport(defaultDepartureId ?? null);
+      setSelectedArrivalAirport(defaultArrivalId ?? null);
     }
   }, [airportsQuery.data]);
 
@@ -164,6 +166,7 @@ const ManageFlights = () => {
                 )
               )}
             </Tbody>
+            
             <Tfoot>
               <ManageFlightsTableHeader />
             </Tfoot>

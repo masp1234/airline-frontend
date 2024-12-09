@@ -3,6 +3,7 @@ import ApiClient from "../services/api-client";
 
 import ms from "ms";
 import { useAppSelector } from "./useRedux";
+import Flight from "../types/flight";
 
 
 export interface FlightsAirline {
@@ -18,21 +19,7 @@ export interface PortNavigation {
   city: string;
 }
 
-export interface Flight {
-  id: number;
-  flightCode: string;
-  departureTime: string;
-  travelTime: number;
-  kilometers: string;
-  price: number;
-  economyClassSeatsAvailable: number;
-  firstClassSeatsAvailable: number;
-  businessClassSeatsAvailable: number;
-  flightsAirplane: string;
-  departurePortNavigation: PortNavigation;
-  arrivalPortNavigation: PortNavigation;
-  flightsAirline: FlightsAirline;
-}
+
 export interface FlightsResposne {
   flights: Flight[]
 }
@@ -44,7 +31,7 @@ const apiClient = new ApiClient<Flight, FlightsResposne>("/flights/search");
 
 
 
-export const useFindFlight = (flightTrip: string | null) =>{
+export const useFindFlight = (flightTrip: string | null) => {
     const findFlightQuery = useAppSelector((state) => state.searchFlightData.data);
     const isReturn = flightTrip === "/find-ticket/return";
     const departureAirportId = isReturn

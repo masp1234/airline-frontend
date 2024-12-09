@@ -32,7 +32,7 @@ import useAirports from "../hooks/useAirports.ts";
 
 const FlightSearchBox = () => {
 
-  const { airportsQuery } = useAirports();
+  const airportsQuery  = useAirports();
   const navigate = useNavigate();
   const [isRoundTrip, setIsRoundTrip] = useState<boolean>(true);
   const [selectedDepartureAirport, setSelectedDepartureAirport] = useState<number | null>(null);
@@ -49,8 +49,9 @@ const FlightSearchBox = () => {
     }
   },[airportsQuery.isError, showGetErrorToast,]);
 
-  const filteredDepartureAirports: Airport[] = airportsQuery.data?.airports?.filter((airport: Airport) => airport.id !== selectedArrivalAirport);
-  const filteredArrivalAirports: Airport[] = airportsQuery.data?.airports?.filter((airport: Airport) => airport.id !== selectedDepartureAirport);
+  const filteredDepartureAirports: Airport[] = airportsQuery.data?.airports?.filter((airport: Airport) => airport.id !== selectedArrivalAirport) ?? [];
+
+  const filteredArrivalAirports: Airport[] = airportsQuery.data?.airports?.filter((airport: Airport) => airport.id !== selectedDepartureAirport) ?? [];
 
   const handlePassengerAmount = (valueAsString: string,valueAsNumber: number) => {
     console.log(valueAsString);

@@ -5,16 +5,16 @@ import Airplane from "../types/airplane";
 interface AirplansResponse {
   airplanes: Airplane[]
 }
+const apiClient = new ApiClient<Airplane, AirplansResponse>(`/airplanes`);
 
 const useAirplanes = () => {
-    const apiClient = new ApiClient<Airplane, AirplansResponse>(`/airplanes`);
     const airplanesQuery = useQuery<AirplansResponse, Error>({
         queryKey: ['airplanes'],
         queryFn: () => {
           return  apiClient.get();
         }
       });
-      return { airplanesQuery }
+      return  airplanesQuery 
 }
 
 export default useAirplanes;

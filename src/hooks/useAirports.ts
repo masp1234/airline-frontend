@@ -5,9 +5,9 @@ import ApiClient from "../services/api-client";
 interface AirportsResponse {
   airports: Airport[]
 }
+const apiClient = new ApiClient<Airport, AirportsResponse>(`/airports`);
 
 const useAirports = () => {
-  const apiClient = new ApiClient<Airport, AirportsResponse>(`/airports`);
     const airportsQuery = useQuery<AirportsResponse, Error>({
         queryKey: ['airports'],
         queryFn: () => {
@@ -16,7 +16,7 @@ const useAirports = () => {
       });
 
 
-    return { airportsQuery }
+    return airportsQuery 
 }
 
 export default useAirports;
