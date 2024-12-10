@@ -109,7 +109,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/booking/:id"
+                  path="/my-bookings/:id"
                   element={
                     <RoleProtectedRoute allowedRoles={["Customer", "Admin"]}>
                       <BookingInfo />

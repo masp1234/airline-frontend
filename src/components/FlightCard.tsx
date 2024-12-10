@@ -42,11 +42,11 @@ interface FlightCardProps {
 
 const FlightCard = ({ bookingData }: FlightCardProps) => {
   if (!bookingData) {
-    return <div>Missing booking data.</div>;
+    return <div>There are no bookings.</div>;
   }
 
   return (
-    <Link to={`/booking/${bookingData.id}`} style={{ textDecoration: "none" }}>
+    <Link to={`/my-bookings/${bookingData.id}`} style={{ textDecoration: "none" }}>
       <Box
         sx={{
           transition: "transform 0.2s",
@@ -66,7 +66,6 @@ const FlightCard = ({ bookingData }: FlightCardProps) => {
             src={cardPicture}
             alt={`Flight to place`}
           />
-
           <Stack>
             <VStack>
               <CardBody>
