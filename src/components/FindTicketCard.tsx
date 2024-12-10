@@ -1,9 +1,8 @@
 import {Card, Divider, Grid, GridItem, HStack, VStack, Text, Button,} from '@chakra-ui/react';
-import { Flight } from "../hooks/useFindFlight";
 import { useAppSelector, useAppDispatch } from '../hooks/useRedux';
 import { clearDepartureTicket, clearReturnTicketData, setDepartureTicket, setReturnTicketData } from '../redux/ticketReduser';
-//import { useState } from 'react';
 import { SelectedTicket } from '../pages/FindTicket';
+import Flight from '../types/flight';
 
 interface Props {
     flight: Flight;

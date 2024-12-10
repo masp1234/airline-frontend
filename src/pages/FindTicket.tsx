@@ -1,10 +1,11 @@
 import { VStack, Text, Button} from '@chakra-ui/react';
-import useFindFlight, { Flight } from '../hooks/useFindFlight';
+import useFindFlight from '../hooks/useFindFlight';
 
 import FindTicketCard from '../components/FindTicketCard';
 import { useNavigate, useLocation } from 'react-router-dom';
 import  { useState, useEffect } from "react";
 import { useAppSelector } from '../hooks/useRedux';
+import Flight from '../types/flight';
 
 
 export interface SelectedTicket {
