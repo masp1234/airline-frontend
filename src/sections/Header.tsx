@@ -21,7 +21,8 @@ import { FiMenu } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import { NoRole, RoleGuard } from "../auth/RoleGuard";
 import { handleLogout } from "../auth/handleLogout";
-import useRoleStore from "../store";
+import { useAppDispatch } from "../hooks/useRedux";
+import { clearLoginUser } from "../redux/loginUserReduser";
 
 
 const Header = () => {
@@ -29,11 +30,15 @@ const Header = () => {
   const buttonColor = colorMode === "dark" ? "#EFEFF1" : "#2F343F";
   const buttonHoverColor = colorMode === "dark" ? "#EFEFF1" : "#2F343F"; // Necessairy to retain the color on hover.
   const { isOpen, onOpen, onClose} = useDisclosure()
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
-  const setUser = useRoleStore((state) => state.setUser);
   const toast = useToast();
 
+  const handleUserOnLogout = ()=> {
+    dispatch(clearLoginUser());
+  }
+  
   const logo = colorMode === "dark" ? logoDark : logoLight;
   return (
     <>
@@ -83,7 +88,7 @@ const Header = () => {
                   width="100%"
                   mb="4"
                   fontWeight="normal"
-                  onClick={() => handleLogout(setUser, toast, navigate)}
+                  onClick={() => handleLogout(handleUserOnLogout, toast, navigate)}
                 >
                   User Logout
                 </Button>

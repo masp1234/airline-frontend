@@ -13,19 +13,22 @@ import profileIconDark from "../assets/profile-dark.webp";
 import profileIconLight from "../assets/profile-bright.webp";
 import { Link, useNavigate } from "react-router-dom";
 import { NoRole, RoleGuard } from "../auth/RoleGuard";
-import useUserStore from "../store";
 import { handleLogout } from "../auth/handleLogout";
+import { useAppDispatch } from "../hooks/useRedux";
+import { clearLoginUser } from "../redux/loginUserReduser";
 
 const ProfileIcon: React.FC = () => {
   const { colorMode } = useColorMode();
   const profileIcon = colorMode === "dark" ? profileIconDark : profileIconLight;
   const dropDownColor = colorMode === "dark" ? "#1A202C" : "#F7FAFC";
   const dropDownHoverColor = colorMode === "dark" ? "#181D29" : "#EDF2F7";
+  const dispatch = useAppDispatch();
 
   const toast = useToast();
   const navigate = useNavigate();
-  const setUser = useUserStore((state) => state.setUser);
-
+  const handleUserOnLogout = ()=> {
+    dispatch(clearLoginUser());
+  }
   return (
     <Menu>
       <MenuButton
@@ -82,7 +85,7 @@ const ProfileIcon: React.FC = () => {
           <MenuItem
             backgroundColor={dropDownColor}
             _hover={{ backgroundColor: dropDownHoverColor }}
-            onClick={() => handleLogout(setUser, toast, navigate)}
+            onClick={() => handleLogout(handleUserOnLogout, toast, navigate)}
           >
             <Box>
               <p>Log out</p>
