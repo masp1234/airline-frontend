@@ -5,7 +5,6 @@ import { SimpleGrid, Box, Card,Text, VStack, Button, } from "@chakra-ui/react";
 import { useAppDispatch, useAppSelector } from "../hooks/useRedux";
 import TicketInfo from "../components/TicketInfo";
 import { Ticket } from "../types/Ticket.ts";
-import useUserStore from "../store.ts";
 import { clearSearchFlightData } from "../redux/searchFlightReduser.ts";
 import { clearTicketData } from "../redux/ticketReduser.ts";
 import { useCreateMutation } from "../hooks/useCreateMutation.ts";
@@ -16,8 +15,9 @@ const BookingTickets = () => {
     const [tickets, setTickets] = useState<Ticket[]>([]);
     const [passenger, setPassenger] = useState<Passenger>();
     const ticketInfo = useAppSelector((state) => state.ticketData.data);
+    const userEmail = useAppSelector((state) => state.loginUserData.data?.email);
     const dispatch = useAppDispatch();
-    const userEmail = useUserStore((state) => state.email);
+    //const userEmail = useUserStore((state) => state.email);
     
 
     const resetTickets = () =>{
@@ -46,7 +46,7 @@ const BookingTickets = () => {
         event.preventDefault();
         
         const newBooking = {
-            email: userEmail,
+            email: userEmail || null ,
             tickets: tickets
         }
         mutate(newBooking);

@@ -24,5 +24,5 @@ export const searchFlightDataSlice = createSlice({
   },
 })
 
-export const { setSearchFlightData, clearSearchFlightData } = searchFlightDataSlice.actions
-export default searchFlightDataSlice.reducer
+export const { setSearchFlightData, clearSearchFlightData } = searchFlightDataSlice.actions;
+export default searchFlightDataSlice.reducer;
