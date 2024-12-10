@@ -6,6 +6,7 @@ import useFlight from "../hooks/useFlights";
 import ManageFlightForm from "../components/ManageFlightForm";
 import UpdateFlight from "../types/updateFlight";
 import { useResourceDeletedErrorToast } from "../toasts/resourceDeletedError";
+import Flight from "../types/flight";
 
 const ManageFlight = () => {
     
@@ -37,10 +38,10 @@ const ManageFlight = () => {
     if (flightQuery.isError) {
         return <div>There was an error fetching the flight data.</div>;
     }
-
+    console.log(flightQuery?.data?.data)
     return (
       <ManageFlightForm 
-      flight={flightQuery?.data?.data} 
+      flight={flightQuery?.data?.data ?? {} as Flight} 
       updateMutation={updateMutation.mutate} 
       deleteMutation={deleteMutation.mutate} 
       deleteIsPending={deleteMutation.isPending} 
