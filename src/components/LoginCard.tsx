@@ -17,7 +17,7 @@ import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { handleLogin } from "../auth/handleLogin";
 import useUserStore from "../store";
-import LoginUser from "../types/LogInUser";
+import LoginUser from "../types/LoginUser";
 
 const LoginCard = () => {
   const [show, setShow] = React.useState(false);

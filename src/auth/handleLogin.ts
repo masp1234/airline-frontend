@@ -1,7 +1,6 @@
-import LoginUser from "../types/LogInUser";
-//import BASE_URL from "../util/baseUrl";
 import ApiClient from "../services/api-client";
 import  { AxiosError } from "axios";
+import LoginUser from "../types/LoginUser";
 
 export const handleLogin = async (
   user : LoginUser ,
