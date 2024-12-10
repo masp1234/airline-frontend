@@ -7,6 +7,8 @@ import {
   CardBody,
   Stack,
   StackDivider,
+  HStack,
+  Divider,
 } from "@chakra-ui/react";
 
 interface TicketData {
@@ -21,68 +23,69 @@ interface TicketData {
   passengerEmail: string;
 }
 
-interface BookingData {
-  id: number;
-  confirmationNumber: string;
-  tickets: TicketData[];
-}
-
 interface TicketProps {
-  bookingInfo: BookingData;
+  bookingInfo: TicketData;
 }
 
 const BookingTicketInfo = ({ bookingInfo }: TicketProps) => {
-  const ticket = bookingInfo.tickets[0];
+  //  const ticket = bookingInfo.tickets[0];
 
-  if (bookingInfo.tickets.length === 0) {
-    return <div>There are no tickets</div>;
+  if (bookingInfo == null) {
+    return <div>There are no tickets in this booking.</div>;
   }
 
   return (
     <Card overflow="hidden" variant="outline">
       <CardHeader>
-        <Heading size="lg">Ticket: {ticket.ticketNumber}</Heading>
+        <Heading size="lg">Ticket: {bookingInfo.ticketNumber}</Heading>
       </CardHeader>
+      <Divider orientation="horizontal" width="auto" />
       <CardBody>
-        <Stack divider={<StackDivider />} spacing="4">
+        <HStack spacing="8" align="start">
           {/* Flight Information */}
-          <Box>
-            <Heading size="sm" textTransform="uppercase">
+          <Box flex="1">
+            <Heading size="sm" textTransform="uppercase" mb="4">
               Flight Information
             </Heading>
-            <Text pt="2" fontSize="md">
-              <strong>Flight Code:</strong> {ticket.flightCode}
-            </Text>
-            <Text pt="2" fontSize="md">
-              <strong>Price:</strong> ${ticket.price}
-            </Text>
-            <Text pt="2" fontSize="md">
-              <strong>Class:</strong> {ticket.flightClassName}
-            </Text>
-            <Text pt="2" fontSize="md">
-              <strong>Departure Port:</strong> {ticket.departurePortName}
-            </Text>
-            <Text pt="2" fontSize="md">
-              <strong>Arrival Port:</strong> {ticket.arrivalPortName}
-            </Text>
+            <Stack spacing="2">
+              <Text fontSize="md">
+                <strong>Flight Code:</strong> {bookingInfo.flightCode}
+              </Text>
+              <Text fontSize="md">
+                <strong>Price:</strong> ${bookingInfo.price}
+              </Text>
+              <Text fontSize="md">
+                <strong>Class:</strong> {bookingInfo.flightClassName}
+              </Text>
+              <Text fontSize="md">
+                <strong>Departure Port:</strong> {bookingInfo.departurePortName}
+              </Text>
+              <Text fontSize="md">
+                <strong>Arrival Port:</strong> {bookingInfo.arrivalPortName}
+              </Text>
+            </Stack>
           </Box>
 
+          <Divider height="auto" alignSelf="stretch" orientation="vertical" />
+
           {/* Passenger Information */}
-          <Box>
-            <Heading size="sm" textTransform="uppercase">
+          <Box flex="1">
+            <Heading size="sm" textTransform="uppercase" mb="4">
               Passenger Information
             </Heading>
-            <Text pt="2" fontSize="md">
-              <strong>Email:</strong> {ticket.passengerEmail}
-            </Text>
-            <Text pt="2" fontSize="md">
-              <strong>First Name:</strong> {ticket.passengerFirstName}
-            </Text>
-            <Text pt="2" fontSize="md">
-              <strong>Last Name:</strong> {ticket.passengerLastName}
-            </Text>
+            <Stack spacing="2">
+              <Text fontSize="md">
+                <strong>Email:</strong> {bookingInfo.passengerEmail}
+              </Text>
+              <Text fontSize="md">
+                <strong>First Name:</strong> {bookingInfo.passengerFirstName}
+              </Text>
+              <Text fontSize="md">
+                <strong>Last Name:</strong> {bookingInfo.passengerLastName}
+              </Text>
+            </Stack>
           </Box>
-        </Stack>
+        </HStack>
       </CardBody>
     </Card>
   );
