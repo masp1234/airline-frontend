@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage';
 import { searchFlightDataSlice } from '../redux/searchFlightReduser.ts';
 import { ticketDataSlice } from '../redux/ticketReduser.ts';
 import { combineReducers } from 'redux';
+import { loginUserDataSlice } from './loginUserReduser.ts';
 
 const persistConfig = {
   key: 'root',
@@ -13,6 +14,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   searchFlightData: searchFlightDataSlice.reducer,
   ticketData: ticketDataSlice.reducer,
+  loginUserData: loginUserDataSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

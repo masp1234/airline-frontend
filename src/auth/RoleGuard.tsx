@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import React from 'react';
-import useUserStore from '../store';
+import { useAppSelector } from '../hooks/useRedux';
 
 
 interface RoleGuardProps {
@@ -13,7 +13,7 @@ interface RoleGuardProps {
   }
   
   export const RoleGuard: React.FC<RoleGuardProps> = ({ allowedRoles, children }) => {
-    const role = useUserStore((state) => state.role);
+    const role = useAppSelector((state) => state.loginUserData.data?.role);
 
     if (!role || !allowedRoles.includes(role)) {
       return null; // Role not allowed; Don't render children
@@ -23,7 +23,7 @@ interface RoleGuardProps {
   };
 
   export const RoleProtectedRoute: React.FC<RoleGuardProps> = ({ allowedRoles, children }) => {
-    const role = useUserStore((state) => state.role);
+    const role = useAppSelector((state) => state.loginUserData.data?.role);
 
     if (!role || !allowedRoles.includes(role)) {
       return <Navigate to="/" />; // Redirect back to home if role is not allowed
@@ -33,7 +33,7 @@ interface RoleGuardProps {
   };
 
   export const NoRole: React.FC<NoRoleProps> = ({ children }) => {
-    const role = useUserStore((state) => state.role);
+    const role = useAppSelector((state) => state.loginUserData.data?.role);
 
     if (role) {
       return null; // User already has a role; Don't render children
@@ -43,7 +43,7 @@ interface RoleGuardProps {
   };
 
   export const NoRoleProtectedRoute: React.FC<NoRoleProps> = ({ children }) => {
-    const role = useUserStore((state) => state.role);
+    const role = useAppSelector((state) => state.loginUserData.data?.role);
   
     if (role) {
       return <Navigate to="/" />;
