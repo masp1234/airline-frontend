@@ -38,7 +38,6 @@ const ManageFlight = () => {
     if (flightQuery.isError) {
         return <div>There was an error fetching the flight data.</div>;
     }
-    console.log(flightQuery?.data?.data)
     return (
       <ManageFlightForm 
       flight={flightQuery?.data?.data ?? {} as Flight} 
