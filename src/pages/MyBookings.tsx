@@ -16,7 +16,7 @@ const MyBookings = () => {
   return (
     <GridItem gridArea="main" bg="blackAlpha.200" padding="4" boxShadow="lg">
       <SimpleGrid minChildWidth="49%" spacing={5}>
-        {bookingsQuery.data.map((booking: any, index: number) => (
+        {bookingsQuery.data.map((booking: never, index: number) => (
           <FlightCard key={index} bookingData={booking} />
         ))}
       </SimpleGrid>

@@ -6,7 +6,6 @@ import {
   Heading,
   CardBody,
   Stack,
-  StackDivider,
   HStack,
   Divider,
 } from "@chakra-ui/react";
@@ -42,7 +41,6 @@ const BookingTicketInfo = ({ bookingInfo }: TicketProps) => {
       <Divider orientation="horizontal" width="auto" />
       <CardBody>
         <HStack spacing="8" align="start">
-          {/* Flight Information */}
           <Box flex="1">
             <Heading size="sm" textTransform="uppercase" mb="4">
               Flight Information
@@ -68,7 +66,6 @@ const BookingTicketInfo = ({ bookingInfo }: TicketProps) => {
 
           <Divider height="auto" alignSelf="stretch" orientation="vertical" />
 
-          {/* Passenger Information */}
           <Box flex="1">
             <Heading size="sm" textTransform="uppercase" mb="4">
               Passenger Information
