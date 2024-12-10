@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import PassengerCard from "../components/PassengerCard";
 import Passenger from "../types/passenger";
-import { SimpleGrid, Box, Card,Text, VStack, Button, } from "@chakra-ui/react";
+import { SimpleGrid, Box, Card,Text, VStack, Button, Show, } from "@chakra-ui/react";
 import { useAppDispatch, useAppSelector } from "../hooks/useRedux";
 import TicketInfo from "../components/TicketInfo";
 import { Ticket } from "../types/Ticket.ts";
@@ -16,9 +16,7 @@ const BookingTickets = () => {
     const [passenger, setPassenger] = useState<Passenger>();
     const ticketInfo = useAppSelector((state) => state.ticketData.data);
     const userEmail = useAppSelector((state) => state.loginUserData.data?.email);
-    const dispatch = useAppDispatch();
-    //const userEmail = useUserStore((state) => state.email);
-    
+    const dispatch = useAppDispatch();    
 
     const resetTickets = () =>{
         setTickets([]);
@@ -54,45 +52,86 @@ const BookingTickets = () => {
 
   return (
     <>
-    <SimpleGrid columns={2} spacing={10}>
-        <form onSubmit={handleSubmitBooking}>
-            <Box  >
+    <Show above='970px'>
+        <SimpleGrid columns={2} spacing={10}>
+            <form onSubmit={handleSubmitBooking}>
+                <Box  >
+                    {Array(ticketInfo?.departureTicket?.passenger).fill(null).map((_, index) => (
+                        <PassengerCard key={index} passengerNumber={index + 1}  onSendData={setPassenger} />
+                    ))}
+                    <Button mt={4} colorScheme='teal' type='submit'> Submit Booking</Button>
+                </Box>
                 
-                {Array(ticketInfo?.departureTicket?.passenger).fill(null).map((_, index) => (
-                    <PassengerCard key={index} passengerNumber={index + 1}  onSendData={setPassenger} />
-                ))}
-                <Button mt={4} colorScheme='teal' type='submit'> Submit Booking</Button>
+            </form>
+            <Box  >
+                {ticketInfo?.departureTicket && (
+                    <Card variant='outline' m='2' p='4'>
+                        <Text fontSize={{base: 'lg', md: '2xl', lg: '4xl'}}> Your Departure Ticket</Text>
+                        <VStack>
+                            <TicketInfo ticketInfo={ticketInfo?.departureTicket} />
+                            <Text> Amount: {ticketInfo?.departureTicket.price} €</Text>
+                        </VStack>
+                    </Card>
+                )}
+                {ticketInfo?.returnTicket && (
+                    <Card variant='outline' m='2' p='4'>
+                        <Text fontSize='4xl'> Your Return Ticket</Text>
+                        <VStack>
+                            <TicketInfo ticketInfo={ticketInfo?.returnTicket} />
+                            <Text mb='4'> Amount: {ticketInfo?.returnTicket.price} €</Text>
+                        </VStack>
+                    </Card>
+                )}
+                <Text mb="4" fontSize='xl'>
+                    Total Amount:  {((ticketInfo?.departureTicket?.price ?? 0) +
+                    (ticketInfo?.returnTicket?.price ?? 0)) * (ticketInfo?.departureTicket?.passenger ?? 1)} €
+
+                </Text>
                 
             </Box>
-        </form>
-        <Box  >
-            {ticketInfo?.departureTicket && (
-                <Card variant='outline' m='2' p='4'>
-                    <Text fontSize='4xl'> Your Departure Ticket</Text>
-                    <VStack>
-                        <TicketInfo ticketInfo={ticketInfo?.departureTicket} />
-                        <Text> Amount: {ticketInfo?.departureTicket.price} €</Text>
-                    </VStack>
-                </Card>
-            )}
-            {ticketInfo?.returnTicket && (
-                <Card variant='outline' m='2' p='4'>
-                    <Text fontSize='4xl'> Your Return Ticket</Text>
-                    <VStack>
-                        <TicketInfo ticketInfo={ticketInfo?.returnTicket} />
-                        <Text mb='4'> Amount: {ticketInfo?.returnTicket.price} €</Text>
-                    </VStack>
-                </Card>
-            )}
-            <Text mb="4" fontSize='xl'>
-                Total Amount:  {((ticketInfo?.departureTicket?.price ?? 0) +
-                 (ticketInfo?.returnTicket?.price ?? 0)) * (ticketInfo?.departureTicket?.passenger ?? 1)} €
-
-            </Text>
             
+        </SimpleGrid>
+    </Show>
+    <Show breakpoint='(max-width: 969px)'>
+        <Box>
+            <Box  >
+                {ticketInfo?.departureTicket && (
+                    <Card variant='outline' m='2' p='4'>
+                        <Text fontSize={{base: 'lg', md: '2xl', lg: '4xl'}}> Your Departure Ticket</Text>
+                        <VStack>
+                            <TicketInfo ticketInfo={ticketInfo?.departureTicket} />
+                            <Text> Amount: {ticketInfo?.departureTicket.price} €</Text>
+                        </VStack>
+                    </Card>
+                )}
+                {ticketInfo?.returnTicket && (
+                    <Card variant='outline' m='2' p='4'>
+                        <Text fontSize='4xl'> Your Return Ticket</Text>
+                        <VStack>
+                            <TicketInfo ticketInfo={ticketInfo?.returnTicket} />
+                            <Text mb='4'> Amount: {ticketInfo?.returnTicket.price} €</Text>
+                        </VStack>
+                    </Card>
+                )}
+                <Text mb="4" fontSize='xl'>
+                    Total Amount:  {((ticketInfo?.departureTicket?.price ?? 0) +
+                    (ticketInfo?.returnTicket?.price ?? 0)) * (ticketInfo?.departureTicket?.passenger ?? 1)} €
+
+                </Text>
+                
+            </Box>
+            <form onSubmit={handleSubmitBooking}>
+                <Box  >
+                    {Array(ticketInfo?.departureTicket?.passenger).fill(null).map((_, index) => (
+                        <PassengerCard key={index} passengerNumber={index + 1}  onSendData={setPassenger} />
+                    ))}
+                    <Button mt={4} colorScheme='teal' type='submit'> Submit Booking</Button>
+                </Box>
+                
+            </form>
         </Box>
-        
-    </SimpleGrid>
+    </Show>
+
     </> 
   )
 }
