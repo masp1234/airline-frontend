@@ -39,7 +39,33 @@ Cypress.Commands.add("logout", () => {
     cy.get("button").contains("Log out").click();
 })
 
-//
+Cypress.Commands.add("findAndSelectItem", (optionName, labelName) => {
+    cy.get('label')
+      .contains(labelName)
+      .closest('.chakra-form-control')
+      .find('select')
+      .select(optionName);
+  });
+
+Cypress.Commands.add("verifyAmountOfOptions", (amount, labelName) => {
+    cy.get('label')
+      .contains(labelName)
+      .closest('.chakra-form-control')
+      .find('select option') // Ensure this targets the correct elements
+      .should('have.length.greaterThan', amount);
+  });
+
+Cypress.Commands.add("enterPassengerInformation", (label, description, information) => {
+    cy.get('div')
+        .contains(description)
+        .closest(".chakra-stack")
+        .find(".chakra-form-control")
+        .contains(label)
+        .closest('div')
+        .find("input")
+        .type(information)
+})
+
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })

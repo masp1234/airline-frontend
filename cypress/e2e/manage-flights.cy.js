@@ -1,25 +1,25 @@
-describe('Create flight page - making sure that you can choose the right information.', () => {
+describe('Managing left - making sure that you can create, update and delete a flight.', () => {
 
   beforeEach(() => {
     cy.login("admin@example.com", "123123");
     cy.visit("http://localhost:5173/create-flight");
     });
 
-  it('Navigates to the create-flight page and verifies select options', () => {
+  it('Should be able to create, update and delete a flight.', () => {
     const labelNames = ['airline', 'airplane', 'departure', 'destination'];
 
     // checks for more than 1 option, to account for the default placeholder option
     const optionsGreaterThanAmount = 1;
-    labelNames.forEach((labelName) => verifyAmountOfOptions(optionsGreaterThanAmount, labelName));
+    labelNames.forEach((labelName) => cy.verifyAmountOfOptions(optionsGreaterThanAmount, labelName));
 
     const departureAirport = "Los Angeles International Airport"
     const arrivalAirport = "Denver International Airport";
     const airline = "Delta Airlines";
     const airplane = "Airbus A320";
-    findAndSelectItem(departureAirport, "departure")
-    findAndSelectItem(arrivalAirport, "destination")
-    findAndSelectItem(airline, "airline")
-    findAndSelectItem(airplane, "airplane")
+    cy.findAndSelectItem(departureAirport, "departure")
+    cy.findAndSelectItem(arrivalAirport, "destination")
+    cy.findAndSelectItem(airline, "airline")
+    cy.findAndSelectItem(airplane, "airplane")
     
     const date1YearFromNow = new Date(); // Get the current date
     date1YearFromNow.setFullYear(date1YearFromNow.getFullYear() + 1);
@@ -41,8 +41,8 @@ describe('Create flight page - making sure that you can choose the right informa
     // Find the flight that just got created in manage flights and click on it
     cy.visit("http://localhost:5173/manage-flights")
 
-    findAndSelectItem(departureAirport, "Departure")
-    findAndSelectItem(arrivalAirport, "Arrival")
+    cy.findAndSelectItem(departureAirport, "Departure")
+    cy.findAndSelectItem(arrivalAirport, "Arrival")
     cy.get("[type='text']")
       .clear()
       .type(date1YearFromNow.toLocaleDateString());
@@ -76,23 +76,7 @@ describe('Create flight page - making sure that you can choose the right informa
 
     // Trying to navigate to /manage-flights when not logged in should redirect you to the main page
     cy.visit("http://localhost:5173/manage-flights")
-    cy.url().should('eq', 'http://localhost:5173');
+    cy.url().should('eq', 'http://localhost:5173/');
   });
 });
 
-// Helper function for verifying options in select fields
-const verifyAmountOfOptions = (amount, labelName) => {
-  cy.get('label')
-    .contains(labelName)
-    .closest('.chakra-form-control')
-    .find('select option') // Ensure this targets the correct elements
-    .should('have.length.greaterThan', amount);
-};
-
-const findAndSelectItem = (optionName, labelName) => {
-  cy.get('label')
-    .contains(labelName)
-    .closest('.chakra-form-control')
-    .find('select')
-    .select(optionName);
-};
