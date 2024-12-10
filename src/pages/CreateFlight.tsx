@@ -7,17 +7,17 @@ import useAirports from "../hooks/useAirports.ts";
 
 const CreateFlight = () => {
 
-    const { airlinesQuery } = useAirlines();
-    const { airplanesQuery } = useAirplanes();
-    const { airportsQuery } = useAirports();
+    const  airlinesQuery  = useAirlines();
+    const  airplanesQuery  = useAirplanes();
+    const  airportsQuery  = useAirports();
 
     return (
       <>
           <Container>
             <CreateFlightForm
-            airlines={airlinesQuery?.data?.airlines}
-            airplanes={airplanesQuery?.data?.airplanes}
-            airports={airportsQuery?.data?.airports}
+            airlines={airlinesQuery?.data?.airlines ?? []}
+            airplanes={airplanesQuery?.data?.airplanes ?? []}
+            airports={airportsQuery?.data?.airports ?? []}
             />
           </Container>
       </>

@@ -16,7 +16,7 @@ const TicketInfo = ({ticketInfo}: Props) => {
             <Text fontSize='sm'>Terminal 2</Text>
         </VStack>
         <VStack>
-            <Divider orientation='horizontal' w='475px' />
+            <Divider orientation='horizontal' w={{base: '200px', md: '200px', lg: '300px'}} />
             <Text fontSize='sm'>0 Stops</Text>
         </VStack>
                     

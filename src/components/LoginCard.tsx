@@ -12,22 +12,38 @@ import {
   Stack,
   useToast,
 } from "@chakra-ui/react";
+import { useAppDispatch } from '../hooks/useRedux';
+
 import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { handleLogin } from "../auth/handleLogin";
-import useUserStore from "../store";
+import LoginUser from "../types/LoginUser";
+import { setLoginUser } from "../redux/loginUserReduser";
 
 const LoginCard = () => {
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
   const toast = useToast();
   const [redirect, setRedirect] = useState(false);
+  const dispatch = useAppDispatch();
 
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const setUser = useUserStore((state) => state.setUser);
 
+  const handleLoginBtn = async ()=> {
+    const loginUser: LoginUser = { email, password };
+    toast({
+      title: "Pending...",
+      description: "Please wait",
+      status: "loading",
+      duration: 2000,
+      isClosable: true,
+    });
+    handleLogin(loginUser, setRedirect, toast).then( (user) => dispatch( setLoginUser({role: user.role, email: user.email})));
+
+  }
   // Redirect to our home page after successful sign up.
   if (redirect) {
     return <Navigate to="/" />;
@@ -75,18 +91,7 @@ const LoginCard = () => {
             variant="solid"
             colorScheme="orange"
             width="50%"
-            onClick={() => {
-              // Will display the loading toast until the promise is either resolved
-              // or rejected.
-              toast({
-                title: "Pending...",
-                description: "Please wait",
-                status: "loading",
-                duration: 2000,
-                isClosable: true,
-              });
-              handleLogin(email, password, setRedirect, toast).then( (user) => setUser(user.role, user.email));
-            }}
+            onClick={handleLoginBtn}
           >
             Log in
           </Button>
