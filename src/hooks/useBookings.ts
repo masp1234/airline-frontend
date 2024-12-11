@@ -20,7 +20,7 @@ const useBookings = (email: string | null | undefined) => {
       return response.data || [];
     },
   });
-  
+
   useEffect(() => {
     if (bookingsQuery.isError) {
       showGetErrorToast("booking");

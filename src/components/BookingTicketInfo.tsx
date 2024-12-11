@@ -50,11 +50,11 @@ const BookingTicketInfo = ({ ticketInfo }: TicketProps) => {
                 <strong>Arrival Port:</strong> {ticketInfo.arrivalPortName}
               </Text>
               <Text fontSize="md">
-                <strong>Travel Time:</strong> {ticketInfo.flightTravelTime}{" "}
+                <strong>Travel Time:</strong> {ticketInfo.flightTravelTime}
                 minutes
               </Text>
               <Text fontSize="md">
-                <strong>Departure Time:</strong>{" "}
+                <strong>Departure Time:</strong>
                 {ticketInfo.flightDepartureTime
                   ? format(
                       new Date(ticketInfo.flightDepartureTime),
@@ -63,7 +63,7 @@ const BookingTicketInfo = ({ ticketInfo }: TicketProps) => {
                   : "N/A"}
               </Text>
               <Text fontSize="md">
-                <strong>Arrival Time:</strong>{" "}
+                <strong>Arrival Time:</strong>
                 {ticketInfo.flightCompletionTime
                   ? format(
                       new Date(ticketInfo.flightCompletionTime),

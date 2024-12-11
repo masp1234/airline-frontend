@@ -23,7 +23,10 @@ const FlightCard = ({ bookingData }: FlightCardProps) => {
   }
 
   return (
-    <Link to={`/my-bookings/${bookingData.id}`} style={{ textDecoration: "none" }}>
+    <Link
+      to={`/my-bookings/${bookingData.id}`}
+      style={{ textDecoration: "none" }}
+    >
       <Box
         sx={{
           transition: "transform 0.2s",
@@ -48,12 +51,16 @@ const FlightCard = ({ bookingData }: FlightCardProps) => {
               <CardBody>
                 <Box mb={4}>
                   <Heading size="md">Confirmation Number</Heading>
-                  <Text py="1" fontSize="lg">{bookingData.confirmationNumber}</Text>
+                  <Text py="1" fontSize="lg">
+                    {bookingData.confirmationNumber}
+                  </Text>
                 </Box>
                 <Divider orientation="horizontal" width="400px" mb="4" />
                 <Box mb={4}>
                   <Heading size="md">Number of tickets</Heading>
-                  <Text py="1" fontSize="lg">{bookingData.tickets?.length}</Text>
+                  <Text py="1" fontSize="lg">
+                    {bookingData.tickets?.length}
+                  </Text>
                 </Box>
               </CardBody>
             </VStack>
