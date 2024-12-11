@@ -1,4 +1,4 @@
-describe('Managing left - making sure that you can create, update and delete a flight.', () => {
+describe('Managing flights - making sure that you can create, update and delete a flight.', () => {
 
   beforeEach(() => {
     cy.login("admin@example.com", "123123");
