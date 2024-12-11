@@ -4,15 +4,15 @@ import Passenger from "../types/passenger";
 import { SimpleGrid, Box, Card,Text, VStack, Button, Show, } from "@chakra-ui/react";
 import { useAppDispatch, useAppSelector } from "../hooks/useRedux";
 import TicketInfo from "../components/TicketInfo";
-import { Ticket } from "../types/Ticket.ts";
+import CreateBookingTicket from '../types/createBookingTicket.ts';
 import { clearSearchFlightData } from "../redux/searchFlightReduser.ts";
 import { clearTicketData } from "../redux/ticketReduser.ts";
 import { useCreateMutation } from "../hooks/useCreateMutation.ts";
-import { Booking } from "../types/Booking.ts";
+import CreateBookingInformation from "../types/createBookingInformation.ts";
 
 
 const BookingTickets = () => {
-    const [tickets, setTickets] = useState<Ticket[]>([]);
+    const [tickets, setTickets] = useState<CreateBookingTicket[]>([]);
     const [passenger, setPassenger] = useState<Passenger>();
     const ticketInfo = useAppSelector((state) => state.ticketData.data);
     const userEmail = useAppSelector((state) => state.loginUserData.data?.email);
@@ -22,7 +22,7 @@ const BookingTickets = () => {
         setTickets([]);
         dispatch(clearSearchFlightData(), clearTicketData());
     }
-    const { mutate} = useCreateMutation<Booking>({endpoint: "bookings", method: "POST", onSuccess: resetTickets});
+    const { mutate} = useCreateMutation<CreateBookingInformation>({endpoint: "bookings", method: "POST", onSuccess: resetTickets});
     
     useEffect(() => {
         if (passenger && ticketInfo?.departureTicket) {
