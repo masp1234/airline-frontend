@@ -13,17 +13,17 @@ import cardPicture from "../assets/flight-pic.webp";
 import { Link } from "react-router-dom";
 
 interface TicketData {
-  flightTravelTime: number;
+  flightTravelTime: number | null;
 }
 
 interface BookingData {
-  id: number;
-  confirmationNumber: string;
-  tickets: TicketData[];
+  id: number | null;
+  confirmationNumber: string | null;
+  tickets: TicketData[] | null;
 }
 
 interface FlightCardProps {
-  bookingData: BookingData;
+  bookingData: BookingData | null;
 }
 
 const FlightCard = ({ bookingData }: FlightCardProps) => {
@@ -62,7 +62,7 @@ const FlightCard = ({ bookingData }: FlightCardProps) => {
                 <Divider orientation="horizontal" width="400px" mb="4" />
                 <Box mb={4}>
                   <Heading size="md">Number of tickets</Heading>
-                  <Text py="1" fontSize="lg">{bookingData.tickets.length}</Text>
+                  <Text py="1" fontSize="lg">{bookingData.tickets?.length}</Text>
                 </Box>
               </CardBody>
             </VStack>

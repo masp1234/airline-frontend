@@ -11,20 +11,20 @@ import {
 } from "@chakra-ui/react";
 
 interface TicketData {
-  ticketNumber: string;
-  price: number;
-  flightCode: string;
-  departurePortName: string;
-  arrivalPortName: string;
-  flightClassName: string;
-  passengerFirstName: string;
-  passengerLastName: string;
-  passengerEmail: string;
-  flightTravelTime: number;
+  ticketNumber: string | null;
+  price: number | null;
+  flightCode: string | null;
+  departurePortName: string | null;
+  arrivalPortName: string | null;
+  flightClassName: string | null;
+  passengerFirstName: string | null;
+  passengerLastName: string | null;
+  passengerEmail: string | null;
+  flightTravelTime: number | null;
 }
 
 interface TicketProps {
-  ticketInfo: TicketData;
+  ticketInfo: TicketData | null;
 }
 
 const BookingTicketInfo = ({ ticketInfo }: TicketProps) => {

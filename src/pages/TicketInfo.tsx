@@ -3,6 +3,8 @@ import BookingTicketInfo from "../components/BookingTicketInfo";
 import { useParams } from "react-router-dom";
 import useBookings from "../hooks/useBookings";
 import { useAppSelector } from "../hooks/useRedux";
+import { Ticket } from "../types/Ticket";
+import { Booking } from "../types/Booking";
 
 const TicketInfo = () => {
   const { bookingId } = useParams<{ bookingId: string }>();
@@ -19,7 +21,7 @@ const TicketInfo = () => {
 
   // Finds the specific booking by ID
   const booking = bookingsQuery.data?.find(
-    (b: any) => b.id.toString() === bookingId
+    (b: Booking) => b.id?.toString() === bookingId
   );
 
   if (!booking) {
@@ -33,7 +35,7 @@ const TicketInfo = () => {
       </Heading>
       <Divider orientation="horizontal" mb="4" w="100%" />
       <SimpleGrid minChildWidth="49%" spacing={5}>
-        {booking.tickets?.map((ticket: any) => (
+        {booking.tickets?.map((ticket: Ticket) => (
           <BookingTicketInfo key={ticket.ticketNumber} ticketInfo={ticket} />
         ))}
       </SimpleGrid>

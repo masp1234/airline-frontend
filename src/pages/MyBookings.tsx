@@ -2,6 +2,7 @@ import { GridItem, SimpleGrid } from "@chakra-ui/react";
 import FlightCard from "../components/FlightCard";
 import useBookings from "../hooks/useBookings";
 import { useAppSelector } from "../hooks/useRedux";
+import { Booking } from "../types/Booking";
 
 const MyBookings = () => {
   const email = useAppSelector((state) => state.loginUserData.data?.email);
@@ -21,7 +22,7 @@ const MyBookings = () => {
   return (
     <GridItem gridArea="main" bg="blackAlpha.200" padding="4" boxShadow="lg">
       <SimpleGrid minChildWidth="49%" spacing={5}>
-        {bookings.map((booking: any, index: number) => (
+        {bookings.map((booking: Booking, index: number) => (
           <FlightCard key={index} bookingData={booking} />
         ))}
       </SimpleGrid>
