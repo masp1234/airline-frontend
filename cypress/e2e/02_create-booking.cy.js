@@ -20,7 +20,7 @@ describe('Booking - a customer should be able to search for flights and create a
   
       // Set departure and arrival airports
       const departureAirport = "Los Angeles International Airport";
-      const arrivalAirport = "John F. Kennedy International Airport";
+      const arrivalAirport = "Denver International Airport";
 
       cy.findAndSelectItem(departureAirport, "Departure")
       cy.findAndSelectItem(arrivalAirport, "Arrival");
@@ -30,23 +30,19 @@ describe('Booking - a customer should be able to search for flights and create a
         .closest(".chakra-form-control")
         .find("[type='text']")
         .click();
-  
+      
+      const currentDate = new Date();
 
       cy.get(".react-datepicker__day")
-        .contains("25")
+        .contains(currentDate.getDate() + 4)
         .click();
         
       cy.contains("Return Date")
         .closest(".chakra-form-control")
         .find("[type='text']")
         .click();
-  
-        cy.get('.react-datepicker__current-month').should('not.contain', 'January 2025'); 
-        cy.get('.react-datepicker__navigation--next').click();
-        cy.get('.react-datepicker__current-month').should('contain', 'January 2025');
-        
-        // Have to match exactly 3, otherwise it will try to pick "30"
-        cy.get(".react-datepicker__day").contains(/^3$/).click();
+
+        cy.get(".react-datepicker__day").contains(currentDate.getDate() + 9).click();
 
         cy.get("button").contains("Search for Flights").click();
 
