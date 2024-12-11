@@ -49,9 +49,13 @@ describe('Booking - a customer should be able to search for flights and create a
         cy.get(".react-datepicker__day").contains(/^3$/).click();
 
         cy.get("button").contains("Search for Flights").click();
+
+        cy.url().should("eq", "http://localhost:5173/find-ticket/departure")
         
         cy.get("button.chakra-button").contains("Select").click();
         cy.get("button.chakra-button").contains("Next").click();
+
+        cy.url().should("eq", "http://localhost:5173/find-ticket/return")
 
         cy.get("button.chakra-button").contains("Select").click();
         cy.get("button.chakra-button").contains("Next").click();
