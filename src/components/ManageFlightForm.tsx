@@ -17,7 +17,7 @@ import DatePicker from "react-datepicker";
 import ConfirmDialogBox from "./ConfirmDialogBox";
 
 interface ManageFlightFormProps {
-    flight: Flight;
+    flight: Flight | undefined;
     updateMutation: (updateFlight: UpdateFlight) => void;
     deleteMutation: () => void;
     deleteIsPending: boolean;
@@ -49,9 +49,12 @@ const ManageFlightForm = (props: ManageFlightFormProps) => {
     };
 
     useEffect(() => {
+        if (props.flight) {
             const { departureTime } = props.flight;
             setSelectedDepartureDate(new Date(departureTime));
             setSelectedDepartureTime(getTimeFromDateTime(departureTime));
+        }
+            
     }, [props.flight]);
 
     const formIsValid = () => {
@@ -62,10 +65,11 @@ const ManageFlightForm = (props: ManageFlightFormProps) => {
     };
 
     const resetChanges = () => {
+        if (props.flight) {
             const { departureTime } = props.flight;
             setSelectedDepartureDate(new Date(departureTime));
             setSelectedDepartureTime(getTimeFromDateTime(departureTime));
-    
+        }
     }
 
     const combineDateAndTime = (date: Date, time: string): Date => {
@@ -85,18 +89,18 @@ const ManageFlightForm = (props: ManageFlightFormProps) => {
                 <Grid
                     templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
                     gap={6}>
-                    <Text><strong>Flight Code:</strong> {props.flight.flightCode}</Text>
-                    <Text><strong>Travel Time:</strong> {props.flight.travelTime}</Text>
-                    <Text><strong>Departure Airport:</strong> {props.flight.departurePortNavigation.name}</Text>
-                    <Text><strong>Destination Airport:</strong> {props.flight.arrivalPortNavigation.name}</Text>
-                    <Text><strong>Completion Time:</strong> {props.flight.completionTime.replace("T", " ")}</Text>
-                    <Text><strong>Distance:</strong> {props.flight.kilometers} km</Text>
-                    <Text><strong>Base Price:</strong> {props.flight.price} EUR</Text>
-                    <Text><strong>Airplane:</strong> {props.flight.flightsAirplane.name}</Text>
-                    <Text><strong>Airline:</strong> {props.flight.flightsAirline.name}</Text>
-                    <Text><strong>Economy class seats available:</strong> {props.flight.economyClassSeatsAvailable}</Text>
-                    <Text><strong>Business class seats available:</strong> {props.flight.businessClassSeatsAvailable}</Text>
-                    <Text><strong>First class seats available:</strong> {props.flight.firstClassSeatsAvailable}</Text>
+                    <Text><strong>Flight Code:</strong> {props.flight?.flightCode}</Text>
+                    <Text><strong>Travel Time:</strong> {props.flight?.travelTime}</Text>
+                    <Text><strong>Departure Airport:</strong> {props.flight?.departurePortNavigation.name}</Text>
+                    <Text><strong>Destination Airport:</strong> {props.flight?.arrivalPortNavigation.name}</Text>
+                    <Text><strong>Completion Time:</strong> {props.flight?.completionTime.replace("T", " ")}</Text>
+                    <Text><strong>Distance:</strong> {props.flight?.kilometers} km</Text>
+                    <Text><strong>Base Price:</strong> {props.flight?.price} EUR</Text>
+                    <Text><strong>Airplane:</strong> {props.flight?.flightsAirplane.name}</Text>
+                    <Text><strong>Airline:</strong> {props.flight?.flightsAirline.name}</Text>
+                    <Text><strong>Economy class seats available:</strong> {props.flight?.economyClassSeatsAvailable}</Text>
+                    <Text><strong>Business class seats available:</strong> {props.flight?.businessClassSeatsAvailable}</Text>
+                    <Text><strong>First class seats available:</strong> {props.flight?.firstClassSeatsAvailable}</Text>
                 </Grid>
 
                 <Grid

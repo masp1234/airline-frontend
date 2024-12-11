@@ -19,7 +19,26 @@
 //
 //
 // -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
+// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })´
+
+Cypress.Commands.add('login', (email, password) => {
+    cy.visit('http://localhost:5173/login');
+    cy.get("[type='email']").type(email);
+    cy.get("[type='password']").type(password);
+    cy.get('button.chakra-button.css-19n09uu')
+      .should('be.visible')
+      .and('contain', 'Log in')
+      .click();
+
+      cy.url().should('eq', 'http://localhost:5173/');
+    
+  });
+
+Cypress.Commands.add("logout", () => {
+    cy.get(".chakra-menu__menu-button").click();
+    cy.get("button").contains("Log out").click();
+})
+
 //
 //
 // -- This will overwrite an existing command --
