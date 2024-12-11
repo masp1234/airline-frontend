@@ -51,7 +51,7 @@ const FindTicket = () => {
     <VStack>
         <Text fontSize='5xl'>Please select your {flightTrip === '/find-ticket/return'? 'Return': 'Departure'}</Text>
         <Text fontSize='3xl'>
-            {flights[0].departurePortNavigation.name} to {flights[0].arrivalPortNavigation.name}
+            {flights[0]?.departurePortNavigation.name} to {flights[0]?.arrivalPortNavigation.name}
         </Text>
         {flights?.map((flight: Flight) =>(
             <FindTicketCard key={flight.id} flight={flight} flightTrip= {flightTrip} selectedTicket={selectedTicket || { flightId: null, selectedSeat: null }} onSendData={setSelectedTicket}/> 
