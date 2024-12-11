@@ -20,23 +20,23 @@ interface TicketData {
   passengerFirstName: string;
   passengerLastName: string;
   passengerEmail: string;
+  flightTravelTime: number;
 }
 
 interface TicketProps {
-  bookingInfo: TicketData;
+  ticketInfo: TicketData;
 }
 
-const BookingTicketInfo = ({ bookingInfo }: TicketProps) => {
-  //  const ticket = bookingInfo.tickets[0];
+const BookingTicketInfo = ({ ticketInfo }: TicketProps) => {
 
-  if (bookingInfo == null) {
+  if (ticketInfo == null) {
     return <div>There are no tickets in this booking.</div>;
   }
 
   return (
     <Card overflow="hidden" variant="outline">
       <CardHeader>
-        <Heading size="lg">Ticket: {bookingInfo.ticketNumber}</Heading>
+        <Heading size="lg">Ticket: {ticketInfo.ticketNumber}</Heading>
       </CardHeader>
       <Divider orientation="horizontal" width="auto" />
       <CardBody>
@@ -47,19 +47,22 @@ const BookingTicketInfo = ({ bookingInfo }: TicketProps) => {
             </Heading>
             <Stack spacing="2">
               <Text fontSize="md">
-                <strong>Flight Code:</strong> {bookingInfo.flightCode}
+                <strong>Flight Code:</strong> {ticketInfo.flightCode}
               </Text>
               <Text fontSize="md">
-                <strong>Price:</strong> ${bookingInfo.price}
+                <strong>Price:</strong> ${ticketInfo.price}
               </Text>
               <Text fontSize="md">
-                <strong>Class:</strong> {bookingInfo.flightClassName}
+                <strong>Class:</strong> {ticketInfo.flightClassName}
               </Text>
               <Text fontSize="md">
-                <strong>Departure Port:</strong> {bookingInfo.departurePortName}
+                <strong>Departure Port:</strong> {ticketInfo.departurePortName}
               </Text>
               <Text fontSize="md">
-                <strong>Arrival Port:</strong> {bookingInfo.arrivalPortName}
+                <strong>Arrival Port:</strong> {ticketInfo.arrivalPortName}
+              </Text>
+              <Text fontSize="md">
+                <strong>Travel Time:</strong> {ticketInfo.flightTravelTime} minutes
               </Text>
             </Stack>
           </Box>
@@ -72,13 +75,13 @@ const BookingTicketInfo = ({ bookingInfo }: TicketProps) => {
             </Heading>
             <Stack spacing="2">
               <Text fontSize="md">
-                <strong>Email:</strong> {bookingInfo.passengerEmail}
+                <strong>Email:</strong> {ticketInfo.passengerEmail}
               </Text>
               <Text fontSize="md">
-                <strong>First Name:</strong> {bookingInfo.passengerFirstName}
+                <strong>First Name:</strong> {ticketInfo.passengerFirstName}
               </Text>
               <Text fontSize="md">
-                <strong>Last Name:</strong> {bookingInfo.passengerLastName}
+                <strong>Last Name:</strong> {ticketInfo.passengerLastName}
               </Text>
             </Stack>
           </Box>

@@ -12,7 +12,7 @@ import FindTicket from "./pages/FindTicket.tsx";
 import BookingTickets from "./pages/BookingTickets.tsx";
 import ManageFlight from "./pages/ManageFlight.tsx";
 import ManageFlights from "./pages/ManageFlights.tsx";
-import BookingInfo from "./pages/BookingInfo"
+import BookingInfo from "./pages/TicketInfo.tsx"
 import { NoRoleProtectedRoute, RoleProtectedRoute } from "./auth/RoleGuard.tsx";
 
 const queryClient = new QueryClient();
