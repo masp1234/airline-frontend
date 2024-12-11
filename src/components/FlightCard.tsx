@@ -6,84 +6,68 @@ import {
   Heading,
   Text,
   VStack,
-  Box
+  Box,
+  Divider,
 } from "@chakra-ui/react";
 import cardPicture from "../assets/flight-pic.webp";
-import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Booking } from "../types/Booking";
 
-// TS doesn't like it if the json data doesn't have type-definition.
-interface FlightData {
-  date: string;
-  departurePort: string;
-  arrivalPort: string;
-  travelTime: number;
-  confirmationNumber: string;
+interface FlightCardProps {
+  bookingData: Booking | null;
 }
 
-const FlightCard = () => {
-  const [flightData, setFlightData] = useState<FlightData | null>(null);
-
-  useEffect(() => {
-    fetch("example-data.json")
-      .then((response) => response.json())
-      .then((data) => setFlightData(data[0]));
-  }, []);
-
-  if (!flightData) {
-    return <div>Missing flight data.</div>
+const FlightCard = ({ bookingData }: FlightCardProps) => {
+  if (!bookingData) {
+    return <div>There are no bookings.</div>;
   }
 
   return (
-    <Card
-      direction={{ base: "column", sm: "row" }}
-      overflow="hidden"
-      variant="outline"
-    //  width="50%"
+    <Link
+      to={`/my-bookings/${bookingData.id}`}
+      style={{ textDecoration: "none" }}
     >
-      <Image
-        objectFit="cover"
-        maxW={{ base: "100%", sm: "200px" }}
-        src={cardPicture}
-        alt={flightData.arrivalPort}
-      />
-
-      <Stack>
-        <VStack>
-          <CardBody>
-          <Box mb={4}>
-            <Heading size="2">Destination</Heading>
-            <Text py="1">
-              {flightData.arrivalPort}
-            </Text>
-          </Box>
-          <Box mb={4}>
-            <Heading size="2">Departure</Heading>
-            <Text py="1">
-              {flightData.departurePort}
-            </Text>
-          </Box>
-          <Box mb={4}>
-            <Heading size="2">Confirmation Number</Heading>
-            <Text py="1">
-              {flightData.confirmationNumber}
-            </Text>
-          </Box>
-          <Box mb={4}>
-            <Heading size="2">Date</Heading>
-            <Text py="1">
-              {flightData.date}
-            </Text>
-          </Box>
-          <Box mb={4}>
-            <Heading size="2">Travel Time</Heading>
-            <Text py="1">
-              {flightData.travelTime} hours
-            </Text>
-          </Box>
-          </CardBody>
-        </VStack>
-      </Stack>
-    </Card>
+      <Box
+        sx={{
+          transition: "transform 0.2s",
+          _hover: {
+            transform: "scale(1.02)",
+          },
+        }}
+      >
+        <Card
+          direction={{ base: "column", sm: "row" }}
+          overflow="hidden"
+          variant="outline"
+        >
+          <Image
+            objectFit="cover"
+            maxW={{ base: "100%", sm: "200px" }}
+            src={cardPicture}
+            alt={`Flight to place`}
+          />
+          <Stack>
+            <VStack>
+              <CardBody>
+                <Box mb={4}>
+                  <Heading size="md">Confirmation Number</Heading>
+                  <Text py="1" fontSize="lg">
+                    {bookingData.confirmationNumber}
+                  </Text>
+                </Box>
+                <Divider orientation="horizontal" width="400px" mb="4" />
+                <Box mb={4}>
+                  <Heading size="md">Number of tickets</Heading>
+                  <Text py="1" fontSize="lg">
+                    {bookingData.tickets?.length}
+                  </Text>
+                </Box>
+              </CardBody>
+            </VStack>
+          </Stack>
+        </Card>
+      </Box>
+    </Link>
   );
 };
 
