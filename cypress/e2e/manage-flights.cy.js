@@ -46,7 +46,6 @@ describe('Managing left - making sure that you can create, update and delete a f
     cy.get("[type='text']")
       .clear()
       .type(date1YearFromNow.toLocaleDateString());
-
       cy.get("td")
       .should("contain", departureAirport)
       .and("contain", arrivalAirport)

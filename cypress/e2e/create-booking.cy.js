@@ -59,6 +59,16 @@ describe('Booking - a customer should be able to search for flights and create a
         cy.enterPassengerInformation("First Name", "1. Passenger", "Test")
         cy.enterPassengerInformation("Last Name", "1. Passenger", " Passenger")
         cy.enterPassengerInformation("Email", "1. Passenger", "test@example.com")
+        cy.enterPassengerInformation("First Name", "2. Passenger", "Test")
+        cy.enterPassengerInformation("Last Name", "2. Passenger", " Passenger")
+        cy.enterPassengerInformation("Email", "2. Passenger", "anothertest@example.com")
+
+        cy.get("button").contains("Submit Booking").click();
+
+        cy.get("div").contains("Success").should("be.visible");
+
+        cy.logout();
+        cy.url().should('eq', 'http://localhost:5173/');
       });
 
   });
