@@ -9,7 +9,7 @@ import {
   HStack,
   Divider,
 } from "@chakra-ui/react";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 import { Ticket } from "../types/Ticket";
 
 interface TicketProps {
@@ -17,7 +17,6 @@ interface TicketProps {
 }
 
 const BookingTicketInfo = ({ ticketInfo }: TicketProps) => {
-
   if (ticketInfo == null) {
     return <div>There are no tickets in this booking.</div>;
   }
@@ -51,13 +50,26 @@ const BookingTicketInfo = ({ ticketInfo }: TicketProps) => {
                 <strong>Arrival Port:</strong> {ticketInfo.arrivalPortName}
               </Text>
               <Text fontSize="md">
-                <strong>Travel Time:</strong> {ticketInfo.flightTravelTime} minutes
+                <strong>Travel Time:</strong> {ticketInfo.flightTravelTime}{" "}
+                minutes
               </Text>
               <Text fontSize="md">
-              <strong>Departure Time:</strong> {ticketInfo.flightDepartureTime ? format(new Date(ticketInfo.flightDepartureTime), 'MMMM do, yyyy h:mm a') : 'N/A'}
+                <strong>Departure Time:</strong>{" "}
+                {ticketInfo.flightDepartureTime
+                  ? format(
+                      new Date(ticketInfo.flightDepartureTime),
+                      "MMMM do, yyyy h:mm a"
+                    )
+                  : "N/A"}
               </Text>
               <Text fontSize="md">
-              <strong>Arrival Time:</strong> {ticketInfo.flightCompletionTime ? format(new Date(ticketInfo.flightCompletionTime), 'MMMM do, yyyy h:mm a') : 'N/A'}
+                <strong>Arrival Time:</strong>{" "}
+                {ticketInfo.flightCompletionTime
+                  ? format(
+                      new Date(ticketInfo.flightCompletionTime),
+                      "MMMM do, yyyy h:mm a"
+                    )
+                  : "N/A"}
               </Text>
             </Stack>
           </Box>
