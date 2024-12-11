@@ -34,7 +34,7 @@ describe('Booking - a customer should be able to search for flights and create a
       const currentDate = new Date();
 
       cy.get(".react-datepicker__day")
-        .contains(currentDate.getDate() + 4)
+        .contains(currentDate.getDate() + 3)
         .click();
         
       cy.contains("Return Date")
@@ -42,7 +42,7 @@ describe('Booking - a customer should be able to search for flights and create a
         .find("[type='text']")
         .click();
 
-        cy.get(".react-datepicker__day").contains(currentDate.getDate() + 9).click();
+        cy.get(".react-datepicker__day").contains(currentDate.getDate() + 8).click();
 
         cy.get("button").contains("Search for Flights").click();
 
