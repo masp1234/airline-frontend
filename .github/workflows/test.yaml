@@ -35,11 +35,11 @@ jobs:
         
       - name: Create database and tables
         run: |
-          mysql -h 127.0.0.1 -u ${{ secrets.MYSQL_USER }} -p${{ secrets.MYSQL_PASSWORD }} ${{ secrets.MYSQL_DATABASE }} < ./airline-backend/backend/Database/Scripts/airline_system.sql
+          mysql -h 127.0.0.1 -u ${{ secrets.MYSQL_USER }} -p${{ secrets.MYSQL_PASSWORD }} ${{ secrets.MYSQL_DATABASE }} < ./airline-backend/backend/Database/SQL/airline_system.sql
 
       - name: Seed database
         run: |
-          mysql -h 127.0.0.1 -u ${{ secrets.MYSQL_USER }} -p${{ secrets.MYSQL_PASSWORD }} ${{ secrets.MYSQL_DATABASE }} < ./airline-backend/backend/Database/Scripts/sample_data.sql
+          mysql -h 127.0.0.1 -u ${{ secrets.MYSQL_USER }} -p${{ secrets.MYSQL_PASSWORD }} ${{ secrets.MYSQL_DATABASE }} < ./airline-backend/backend/Database/SQL/sample_data.sql
 
       - name: Setup Node
         uses: actions/setup-node@v4
