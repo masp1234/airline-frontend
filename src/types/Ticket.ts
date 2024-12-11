@@ -14,4 +14,6 @@ export interface Ticket{
     passengerLastName: string | null,
     passengerEmail: string | null,
     flightTravelTime: number | null,
+    flightDepartureTime: Date | null,
+    flightCompletionTime: Date | null
 }

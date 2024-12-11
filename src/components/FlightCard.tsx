@@ -11,19 +11,10 @@ import {
 } from "@chakra-ui/react";
 import cardPicture from "../assets/flight-pic.webp";
 import { Link } from "react-router-dom";
-
-interface TicketData {
-  flightTravelTime: number | null;
-}
-
-interface BookingData {
-  id: number | null;
-  confirmationNumber: string | null;
-  tickets: TicketData[] | null;
-}
+import { Booking } from "../types/Booking";
 
 interface FlightCardProps {
-  bookingData: BookingData | null;
+  bookingData: Booking | null;
 }
 
 const FlightCard = ({ bookingData }: FlightCardProps) => {

@@ -9,22 +9,11 @@ import {
   HStack,
   Divider,
 } from "@chakra-ui/react";
-
-interface TicketData {
-  ticketNumber: string | null;
-  price: number | null;
-  flightCode: string | null;
-  departurePortName: string | null;
-  arrivalPortName: string | null;
-  flightClassName: string | null;
-  passengerFirstName: string | null;
-  passengerLastName: string | null;
-  passengerEmail: string | null;
-  flightTravelTime: number | null;
-}
+import { format } from 'date-fns';
+import { Ticket } from "../types/Ticket";
 
 interface TicketProps {
-  ticketInfo: TicketData | null;
+  ticketInfo: Ticket | null;
 }
 
 const BookingTicketInfo = ({ ticketInfo }: TicketProps) => {
@@ -64,6 +53,12 @@ const BookingTicketInfo = ({ ticketInfo }: TicketProps) => {
               <Text fontSize="md">
                 <strong>Travel Time:</strong> {ticketInfo.flightTravelTime} minutes
               </Text>
+              <Text fontSize="md">
+              <strong>Departure Time:</strong> {ticketInfo.flightDepartureTime ? format(new Date(ticketInfo.flightDepartureTime), 'MMMM do, yyyy h:mm a') : 'N/A'}
+              </Text>
+              <Text fontSize="md">
+              <strong>Arrival Time:</strong> {ticketInfo.flightCompletionTime ? format(new Date(ticketInfo.flightCompletionTime), 'MMMM do, yyyy h:mm a') : 'N/A'}
+              </Text>
             </Stack>
           </Box>
 
@@ -92,38 +87,3 @@ const BookingTicketInfo = ({ ticketInfo }: TicketProps) => {
 };
 
 export default BookingTicketInfo;
-
-/*<Card>
-  <CardHeader>
-    <Heading size='md'>Client Report</Heading>
-  </CardHeader>
-
-  <CardBody>
-    <Stack divider={<StackDivider />} spacing='4'>
-      <Box>
-        <Heading size='xs' textTransform='uppercase'>
-          Summary
-        </Heading>
-        <Text pt='2' fontSize='sm'>
-          View a summary of all your clients over the last month.
-        </Text>
-      </Box>
-      <Box>
-        <Heading size='xs' textTransform='uppercase'>
-          Overview
-        </Heading>
-        <Text pt='2' fontSize='sm'>
-          Check out the overview of your clients.
-        </Text>
-      </Box>
-      <Box>
-        <Heading size='xs' textTransform='uppercase'>
-          Analysis
-        </Heading>
-        <Text pt='2' fontSize='sm'>
-          See a detailed analysis of all your business clients.
-        </Text>
-      </Box>
-    </Stack>
-  </CardBody>
-</Card> */
