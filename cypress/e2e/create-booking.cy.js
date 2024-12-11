@@ -50,11 +50,11 @@ describe('Booking - a customer should be able to search for flights and create a
 
         cy.get("button").contains("Search for Flights").click();
         
-        cy.get("button").contains("Select").click();
-        cy.get("button").contains("Next").click();
+        cy.get("button.chakra-button").contains("Select").click();
+        cy.get("button.chakra-button").contains("Next").click();
 
-        cy.get("button").contains("Select").click();
-        cy.get("button").contains("Next").click();
+        cy.get("button.chakra-button").contains("Select").click();
+        cy.get("button.chakra-button").contains("Next").click();
 
         cy.enterPassengerInformation("First Name", "1. Passenger", "Test")
         cy.enterPassengerInformation("Last Name", "1. Passenger", " Passenger")
