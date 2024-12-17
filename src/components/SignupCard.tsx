@@ -71,7 +71,6 @@ const SignupCard = () => {
       });
 
       if (response.ok) {
-        console.log("Account created: " + email);
         toast({
           title: "Account created",
           description: "Your account has been successfully created",

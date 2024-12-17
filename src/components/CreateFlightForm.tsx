@@ -4,6 +4,8 @@ import {
     FormLabel,
     Button,
 } from '@chakra-ui/react'
+import { useResourceCreatedToast } from "../toasts/resourceCreated.ts";
+import { useResourceCreatedErrorToast } from "../toasts/resourceCreatedError.ts";
 import DatePicker from "react-datepicker";
 import FormSelect from "./FormSelect";
 import Airline from "../types/airline.ts"
@@ -22,6 +24,9 @@ const CreateFlightForm = (props: CreateFlightFormProps) => {
 
     const marginTop = 4;
 
+    const { showResourceCreatedToast } = useResourceCreatedToast();
+    const { showResourceCreatedErrorToast } = useResourceCreatedErrorToast();
+
     const resetForm = () => {
         setSelectedAirline(null);
         setSelectedAirplane(null);
@@ -32,7 +37,17 @@ const CreateFlightForm = (props: CreateFlightFormProps) => {
         setIdempotencyKey("");
     };
 
-    const  newFlightMutation  = useCreateMutation<NewFlightInformation>({endpoint: "flights", method: "POST", onSuccess: resetForm});
+    const  newFlightMutation  = useCreateMutation<NewFlightInformation>({
+        endpoint: "flights", 
+        method: "POST", 
+        onSuccess: () => {
+            resetForm();
+            showResourceCreatedToast("flight");
+    },
+        onError: () => {
+            showResourceCreatedErrorToast("flight");
+        }
+ });
 
     const [idempotencyKey, setIdempotencyKey] = useState<string>("");
     const [selectedAirline, setSelectedAirline] = useState<number | null>(null);
