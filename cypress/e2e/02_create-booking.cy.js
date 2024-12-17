@@ -2,6 +2,7 @@ describe('Booking - a customer should be able to search for flights and create a
 
     beforeEach(() => {
       cy.login("customer@example.com", "123123");
+      cy.url().should('eq', 'http://localhost:5173/');
     });
   
     it('Should create a booking.', () => {
@@ -65,7 +66,7 @@ describe('Booking - a customer should be able to search for flights and create a
 
         cy.get("button").contains("Submit Booking").click();
 
-        cy.get("div").contains("Success").should("be.visible");
+        cy.url().should('eq', 'http://localhost:5173/my-bookings');
 
         cy.logout();
         cy.url().should('eq', 'http://localhost:5173/');
