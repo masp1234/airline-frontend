@@ -4,16 +4,13 @@ import { RoleGuard } from "../auth/RoleGuard";
 const NavButtons = () => {
   return (
     <>
-      <Link to="/">Flights</Link>
       <RoleGuard allowedRoles={["Customer"]}>
         <Link to="/my-bookings">My Bookings</Link>
+        <Link to="/">Flights</Link>
       </RoleGuard>
       
       <RoleGuard allowedRoles={["Admin"]}>    
         <Link to="/create-flight">Create Flight</Link>
-      </RoleGuard>
-
-      <RoleGuard allowedRoles={["Admin"]}>
         <Link to="/manage-flights">Manage Flights</Link>
       </RoleGuard>
     </>

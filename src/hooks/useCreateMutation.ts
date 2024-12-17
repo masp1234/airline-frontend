@@ -1,30 +1,22 @@
 import { useMutation } from "@tanstack/react-query";
 import { Method } from "axios";
-import { useResourceCreatedToast } from "../toasts/resourceCreated";
-import { useResourceCreatedErrorToast } from "../toasts/resourceCreatedError";
 import ApiClient from "../services/api-client";
 
 interface UseCreateMutationOptions {
   endpoint: string;
   method: Method;
-  onSuccess: () => void;
+  onSuccess?: () => void;
+  onError?: () => void
 }
 
-export const useCreateMutation = <T>({ endpoint, method, onSuccess }: UseCreateMutationOptions) => {
-    const apiClient = new ApiClient<T>(`/${endpoint}`);
-    const { showResourceCreatedToast } = useResourceCreatedToast();
-    const { showResourceCreatedErrorToast } = useResourceCreatedErrorToast();
+export const useCreateMutation = <T>({ endpoint, method, onSuccess, onError }: UseCreateMutationOptions) => {
+  const apiClient = new ApiClient<T>(`/${endpoint}`);
 
   return useMutation({
     mutationFn: async (newObject: T) => {
       return apiClient.create(newObject, method)
     },
-    onSuccess: () => {
-        showResourceCreatedToast(endpoint);
-        onSuccess();
-    },
-    onError: () => {
-        showResourceCreatedErrorToast(endpoint);
-    },
+    onSuccess: onSuccess,
+    onError: () => onError
   });
 };

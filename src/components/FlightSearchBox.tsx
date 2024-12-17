@@ -53,8 +53,7 @@ const FlightSearchBox = () => {
 
   const filteredArrivalAirports: Airport[] = airportsQuery.data?.airports?.filter((airport: Airport) => airport.id !== selectedDepartureAirport) ?? [];
 
-  const handlePassengerAmount = (valueAsString: string,valueAsNumber: number) => {
-    console.log(valueAsString);
+  const handlePassengerAmount = (_: string,valueAsNumber: number) => {
     setInputedPassengerAmount(valueAsNumber);
   };
   const handleDepartureChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

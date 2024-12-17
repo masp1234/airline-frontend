@@ -39,7 +39,7 @@ function App() {
                 <Route
                   path="/my-bookings"
                   element={
-                    <RoleProtectedRoute allowedRoles={["Customer", "Admin"]}>
+                    <RoleProtectedRoute allowedRoles={["Customer"]}>
                       <MyBookings />
                     </RoleProtectedRoute>
                   }
@@ -71,7 +71,7 @@ function App() {
                 <Route
                   path="/find-ticket/departure"
                   element={
-                    <RoleProtectedRoute allowedRoles={["Customer", "Admin"]}>
+                    <RoleProtectedRoute allowedRoles={["Customer"]}>
                       <FindTicket />
                     </RoleProtectedRoute>
                   }
@@ -79,7 +79,7 @@ function App() {
                 <Route
                   path="/find-ticket/return"
                   element={
-                    <RoleProtectedRoute allowedRoles={["Customer", "Admin"]}>
+                    <RoleProtectedRoute allowedRoles={["Customer"]}>
                       <FindTicket />
                     </RoleProtectedRoute>
                   }
@@ -87,7 +87,7 @@ function App() {
                 <Route
                   path="/booking"
                   element={
-                    <RoleProtectedRoute allowedRoles={["Customer", "Admin"]}>
+                    <RoleProtectedRoute allowedRoles={["Customer"]}>
                       <BookingTickets />
                     </RoleProtectedRoute>
                   }
@@ -111,7 +111,7 @@ function App() {
                 <Route
                   path="/my-bookings/:bookingId"
                   element={
-                    <RoleProtectedRoute allowedRoles={["Customer", "Admin"]}>
+                    <RoleProtectedRoute allowedRoles={["Customer"]}>
                       <BookingInfo />
                     </RoleProtectedRoute>
                   }
