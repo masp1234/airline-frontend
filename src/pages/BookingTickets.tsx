@@ -9,6 +9,8 @@ import { clearSearchFlightData } from "../redux/searchFlightReduser.ts";
 import { clearTicketData } from "../redux/ticketReduser.ts";
 import { useCreateMutation } from "../hooks/useCreateMutation.ts";
 import CreateBookingInformation from "../types/createBookingInformation.ts";
+import { useResourceCreatedErrorToast } from "../toasts/resourceCreatedError.ts";
+import { useNavigate } from "react-router-dom";
 
 
 const BookingTickets = () => {
@@ -16,13 +18,22 @@ const BookingTickets = () => {
     const [passenger, setPassenger] = useState<Passenger>();
     const ticketInfo = useAppSelector((state) => state.ticketData.data);
     const userEmail = useAppSelector((state) => state.loginUserData.data?.email);
-    const dispatch = useAppDispatch();    
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const { showResourceCreatedErrorToast } = useResourceCreatedErrorToast();
 
     const resetTickets = () =>{
         setTickets([]);
         dispatch(clearSearchFlightData(), clearTicketData());
     }
-    const { mutate} = useCreateMutation<CreateBookingInformation>({endpoint: "bookings", method: "POST", onSuccess: resetTickets});
+    const { mutate} = useCreateMutation<CreateBookingInformation>({endpoint: "bookings", method: "POST", onSuccess: () => {
+        resetTickets()
+        navigate("/my-bookings");
+        
+    },
+    onError: () => {
+        showResourceCreatedErrorToast("booking");
+    }});
     
     useEffect(() => {
         if (passenger && ticketInfo?.departureTicket) {

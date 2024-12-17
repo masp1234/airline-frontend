@@ -26,7 +26,10 @@ interface RoleGuardProps {
     const role = useAppSelector((state) => state.loginUserData.data?.role);
 
     if (!role || !allowedRoles.includes(role)) {
-      return <Navigate to="/" />; // Redirect back to home if role is not allowed
+      if (role === "Admin") {
+        return <Navigate to="/manage-flights" />
+      }
+      return <Navigate to="/" /> // Redirect back to home if role is not allowed
     }
   
     return <>{children}</>;
@@ -46,6 +49,9 @@ interface RoleGuardProps {
     const role = useAppSelector((state) => state.loginUserData.data?.role);
   
     if (role) {
+      if (role === "Admin") {
+        return <Navigate to="/manage-flights" />
+      }
       return <Navigate to="/" />;
     }
   

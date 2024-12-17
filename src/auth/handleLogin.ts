@@ -4,7 +4,6 @@ import LoginUser from "../types/LoginUser";
 
 export const handleLogin = async (
   user : LoginUser ,
-  setRedirect: (value: boolean) => void,
   toast: (options: { title: string; description: string; status: "success" | "error" | "loading"; duration: number; isClosable: boolean }) => void
 ) => {
   const apiClient = new ApiClient<LoginUser>(`/Users/login`);
@@ -19,7 +18,6 @@ export const handleLogin = async (
         duration: 4000,
         isClosable: true,
       });
-      setRedirect(true);
       return  (await response).data;
     }
 
