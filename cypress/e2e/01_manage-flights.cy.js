@@ -2,6 +2,7 @@ describe('Managing flights - making sure that you can create, update and delete 
 
   beforeEach(() => {
     cy.login("admin@example.com", "123123");
+    cy.url().should('eq', 'http://localhost:5173/manage-flights');
     cy.visit("http://localhost:5173/create-flight");
     });
 

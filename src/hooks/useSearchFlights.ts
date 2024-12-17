@@ -22,9 +22,8 @@ const useSearchFlights = (searchParameters: FlightSearchParameters) => {
         enabled: 
             searchParameters.departureAirportId !== null && 
             searchParameters.departureAirportId !== 0 &&
-            searchParameters.destinationAirportId !== null 
-            && searchParameters.destinationAirportId !== 0,
-            staleTime: (2000)
+            searchParameters.destinationAirportId !== null &&
+            searchParameters.destinationAirportId !== 0
                 });
       return { searchFlightsQuery }
 }
