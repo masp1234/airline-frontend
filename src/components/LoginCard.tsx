@@ -12,9 +12,8 @@ import {
   Stack,
   useToast,
 } from "@chakra-ui/react";
-import { useAppDispatch, useAppSelector } from '../hooks/useRedux';
+import { useAppDispatch } from '../hooks/useRedux';
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { handleLogin } from "../auth/handleLogin";
 import LoginUser from "../types/LoginUser";
 import { setLoginUser } from "../redux/loginUserReduser";
@@ -22,10 +21,7 @@ const LoginCard = () => {
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
   const toast = useToast();
-  const [redirect, setRedirect] = useState(false);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,8 +36,7 @@ const LoginCard = () => {
       duration: 2000,
       isClosable: true,
     });
-    handleLogin(loginUser, setRedirect, toast).then( (user) => dispatch( setLoginUser({role: user.role, email: user.email})));
-
+    handleLogin(loginUser, toast).then((user) => dispatch(setLoginUser({role: user.role, email: user.email})));
   }
 
   return (

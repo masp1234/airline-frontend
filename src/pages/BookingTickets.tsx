@@ -9,7 +9,6 @@ import { clearSearchFlightData } from "../redux/searchFlightReduser.ts";
 import { clearTicketData } from "../redux/ticketReduser.ts";
 import { useCreateMutation } from "../hooks/useCreateMutation.ts";
 import CreateBookingInformation from "../types/createBookingInformation.ts";
-import { useResourceCreatedToast } from "../toasts/resourceCreated.ts";
 import { useResourceCreatedErrorToast } from "../toasts/resourceCreatedError.ts";
 import { useNavigate } from "react-router-dom";
 
