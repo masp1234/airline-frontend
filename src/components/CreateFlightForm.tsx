@@ -37,7 +37,7 @@ const CreateFlightForm = (props: CreateFlightFormProps) => {
         setIdempotencyKey("");
     };
 
-    const  newFlightMutation  = useCreateMutation<NewFlightInformation>({
+    const newFlightMutation = useCreateMutation<NewFlightInformation>({
         endpoint: "flights", 
         method: "POST", 
         onSuccess: () => {
