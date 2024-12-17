@@ -3,6 +3,7 @@ import { Booking } from "../types/Booking";
 import { useEffect } from "react";
 import ApiClient from "../services/api-client";
 import { useGetErrorToast } from "../toasts/getError";
+import ms from "ms";
 
 interface BookingsResponse {
   data: Booking[];
@@ -19,6 +20,8 @@ const useBookings = (email: string | null | undefined) => {
       const response = await apiClient.get();
       return response.data || [];
     },
+    staleTime: ms("10m"),
+    gcTime: ms("20")
   });
 
   useEffect(() => {

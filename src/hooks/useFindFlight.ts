@@ -1,9 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import ApiClient from "../services/api-client";
-
-import ms from "ms";
 import { useAppSelector } from "./useRedux";
 import Flight from "../types/flight";
+import ms from "ms";
 
 
 export interface FlightsAirline {
@@ -58,7 +57,8 @@ export const useFindFlight = (flightTrip: string | null) => {
 
             },
         }),
-        staleTime: ms("1h"),
+        staleTime: ms("10m"),
+    gcTime: ms("20")
     });
 }
 
