@@ -37,6 +37,7 @@ const FindTicket = () => {
 
     const flights = data?.flights || [];
 
+    if (flights.length === 0) return <Text>No flights found.</Text>;
 
     const handleNextOnClick = () => {
         const nextPath = searchFlight?.isRoundTrip 
@@ -57,7 +58,6 @@ const FindTicket = () => {
             <FindTicketCard key={flight.id} flight={flight} flightTrip= {flightTrip} selectedTicket={selectedTicket || { flightId: null, selectedSeat: null }} onSendData={setSelectedTicket}/> 
         ))}
         <Button colorScheme='teal' m='5px' w={40} onClick={handleNextOnClick}>Next</Button>
-
     </VStack>
   )
 }
