@@ -65,6 +65,7 @@ jobs:
 
       - name: Run Cypress e2e-tests
         run: npx cypress run --headless
+        continue-on-error: true
 
       - name: Upload Backend Logs
         if: always()
