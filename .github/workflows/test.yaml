@@ -41,7 +41,7 @@ jobs:
       - name: Create database and tables
         run: |
           mysql -h 127.0.0.1 -u ${{ secrets.MYSQL_USER }} -p${{ secrets.MYSQL_PASSWORD }} ${{ secrets.MYSQL_DATABASE }} < ./airline-backend/backend/Database/SQL/airline_system.sql
-  
+
       - name: Seed database
         run: |
           mysql -h 127.0.0.1 -u ${{ secrets.MYSQL_USER }} -p${{ secrets.MYSQL_PASSWORD }} ${{ secrets.MYSQL_DATABASE }} < ./airline-backend/backend/Database/SQL/sample_data.sql
@@ -65,7 +65,6 @@ jobs:
 
       - name: Run Cypress e2e-tests
         run: npx cypress run --headless
-        continue-on-error: true
 
       - name: Upload Backend Logs
         if: always()
