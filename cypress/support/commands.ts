@@ -58,6 +58,11 @@ Cypress.Commands.add("enterPassengerInformation", (label, description, informati
         .closest('div')
         .find("input")
         .type(information)
+    
+    // Ticket is created when email has been put in and the on-blur is triggered. This to ensure that it happens for the last passenger as well.
+    cy.get('div')
+      .contains(description)
+      .click();
 })
 
 //

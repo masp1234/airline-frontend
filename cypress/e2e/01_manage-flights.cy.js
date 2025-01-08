@@ -22,6 +22,8 @@ describe('Managing flights - making sure that you can create, update and delete 
     createFlight(3, departureAirport, arrivalAirport)
     createFlight(8, arrivalAirport, departureAirport)
 
+
+
     // Find the first flight that just got created in manage flights and click on it
     cy.visit("http://localhost:5173/manage-flights")
 
@@ -79,8 +81,9 @@ describe('Managing flights - making sure that you can create, update and delete 
       .and('contain', 'Submit')
       .click();
     
-    // Verify that the "Success" toast is shown
+    // Verify that the "Success" toast is shown and then close the popup
     cy.get("div").contains("Success").should("be.visible");
+    cy.get('button[type="button"][aria-label="Close"]').click();
     return flightDepartureDate;
   }
 });
