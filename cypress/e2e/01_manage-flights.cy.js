@@ -72,7 +72,7 @@ describe('Managing flights - making sure that you can create, update and delete 
     flightDepartureDate.setDate(flightDepartureDate.getDate() + daysFromNow)
     cy.get("[type='text']")
       .clear()
-      .type(flightDepartureDate.toLocaleDateString());
+      .type(flightDepartureDate.toLocaleDateString('en-US'));
     cy.get("[type='time']")
       .clear()
       .type('12:00:00');
