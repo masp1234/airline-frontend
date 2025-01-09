@@ -31,7 +31,7 @@ describe('Managing flights - making sure that you can create, update and delete 
     cy.findAndSelectItem(arrivalAirport, "Arrival")
     cy.get("[type='text']")
       .clear()
-      .type(firstFlightDepartureDate.toLocaleDateString());
+      .type(firstFlightDepartureDate.toLocaleDateString("en-US"));
       cy.get("td")
       .should("contain", departureAirport)
       .and("contain", arrivalAirport)
