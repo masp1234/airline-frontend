@@ -1,4 +1,4 @@
-describe('Sign Up E2E Test', () => {
+describe('Sign up as customer', () => {
     it('should navigate to the signup page and complete the signup form', () => {
       // Visit the home page
       cy.visit("http://localhost:5173");
