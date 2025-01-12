@@ -32,6 +32,7 @@ const ProfileIcon: React.FC = () => {
   return (
     <Menu>
       <MenuButton
+        data-testid = "cyp-profile-img-menu-button"
         as={Box}
         cursor="pointer"
         _hover={{ backgroundColor: "blackAlpha.200" }}
