@@ -1,5 +1,7 @@
 describe('Sign up as customer', () => {
     it('should navigate to the signup page and complete the signup form', () => {
+      const email = 'test100@example.com';
+      const password = 'Password123';
       // Visit the home page
       cy.visit("http://localhost:5173");
   
@@ -15,9 +17,9 @@ describe('Sign up as customer', () => {
       cy.url().should('eq', 'http://localhost:5173/signup');
   
       // Fill out the form
-      cy.get('input[placeholder="Enter e-mail"]').type('test71@example.com');
-      cy.get('input[placeholder="Enter password"]').type('Password123');
-      cy.get('input[placeholder="Repeat password"]').type('Password123');
+      cy.get('input[placeholder="Enter e-mail"]').type(email);
+      cy.get('input[placeholder="Enter password"]').type(password);
+      cy.get('input[placeholder="Repeat password"]').type(password);
   
       // Submit the form
       cy.get('button').contains('Sign Up').click();
@@ -33,5 +35,17 @@ describe('Sign up as customer', () => {
 
       // Verify the URL
       cy.url().should('eq', 'http://localhost:5173/');
+
+      // Login to verify the customer is created successfully
+      cy.login(email, password);
+      cy.url().should('eq', 'http://localhost:5173/');
+      cy.contains('You have successfully logged in').should('be.visible');
+
+      cy.logout();
+
+      // Check that the logout was a success
+      cy.url().should('eq', 'http://localhost:5173/');
+      cy.contains('You have successfully logged out').should('be.visible');
+
     });
   });
