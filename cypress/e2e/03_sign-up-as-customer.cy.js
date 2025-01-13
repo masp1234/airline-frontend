@@ -36,12 +36,16 @@ describe('Sign up as customer', () => {
       // Verify the URL
       cy.url().should('eq', 'http://localhost:5173/');
 
-      //Login to verify the customer is created successfully
+      // Login to verify the customer is created successfully
       cy.login(email, password);
+      cy.url().should('eq', 'http://localhost:5173/');
+      cy.contains('You have successfully logged in').should('be.visible');
 
       cy.logout();
-      cy.url().should('eq', 'http://localhost:5173/');
 
+      // Check that the logout was a success
+      cy.url().should('eq', 'http://localhost:5173/');
+      cy.contains('You have successfully logged out').should('be.visible');
 
     });
   });
